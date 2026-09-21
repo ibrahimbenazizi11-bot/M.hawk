@@ -3,141 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk Platform</title>
+    <title>M.hawk Platform - Ultimate Entertainment</title>
     <style>
-        body {
-            font-family: Tahoma, sans-serif;
-            background-color: #0d1117;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 27, 34, 0.75);
+            --card-hover: rgba(30, 41, 59, 0.9);
+            --accent-color: #e50914;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
         }
-        .header {
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg-color) 70%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل العلوي */
+        header {
+            width: 100%;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background: #161b22;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+        }
+
         .lang-select {
-            padding: 8px 12px;
-            background: #21262d;
-            color: #fff;
-            border: 1px solid #30363d;
-            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
         }
-        h1 {
-            color: #ff4757;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+
+        .lang-select:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
         }
-        p {
-            color: #8b949e;
-            font-size: 1.1em;
-        }
-        .cards-container {
+
+        /* المحتوى الرئيسي */
+        main {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px 20px;
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 40px;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            flex: 1;
         }
-        .card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 10px;
-            padding: 25px;
-            width: 280px;
-            transition: 0.3s;
+
+        .hero-section {
+            text-align: center;
+            max-width: 800px;
+            animation: fadeIn 1s ease-in-out;
         }
-        .card:hover {
-            border-color: #ff4757;
-            transform: translateY(-5px);
-        }
-        .card h3 {
-            color: #58a6ff;
+
+        .hero-section h1 {
+            font-size: 42px;
+            font-weight: 800;
             margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* شبكة الأقسام السينمائية */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(229, 9, 20, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 9, 20, 0.15);
+            background: var(--card-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 32px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* التذييل */
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 25px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h2>M.hawk</h2>
-        <!-- قائمة الـ 14 لغة -->
-        <select id="langSwitch" class="lang-select" onchange="changeLanguage()">
+    <header>
+        <div class="logo">M.hawk</div>
+        <select id="langSelect" class="lang-select" onchange="changeLanguage()">
             <option value="ar">العربية (Arabic)</option>
-            <option value="en">English (إنجليزي)</option>
-            <option value="fr">Français (فرنسي)</option>
-            <option value="de">Deutsch (ألماني)</option>
-            <option value="es">Español (إسباني)</option>
-            <option value="it">Italiano (إيطالي)</option>
-            <option value="tr">Türkçe (تركي)</option>
-            <option value="ru">Русский (روسي)</option>
-            <option value="ja">日本語 (ياباني)</option>
-            <option value="zh">中文 (صيني)</option>
-            <option value="nl">Nederlands (هولندي)</option>
-            <option value="pl">Polski (بولندي)</option>
-            <option value="pt">Português (برتغالي)</option>
-            <option value="hi">हिन्दी (هندي)</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="es">Español</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="ja">日本語 (Japanese)</option>
+            <option value="ko">한국어 (Korean)</option>
+            <option value="zh">中文 (Chinese)</option>
+            <option value="ru">Русский (Russian)</option>
+            <option value="tr">Türkçe</option>
+            <option value="pt">Português</option>
+            <option value="nl">Nederlands</option>
+            <option value="pl">Polski</option>
         </select>
-    </div>
+    </header>
 
-    <h1 id="site-title">M.hawk Platform</h1>
-    <p id="site-desc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى.</p>
+    <main>
+        <section class="hero-section">
+            <h1 id="heroTitle">منصة M.hawk السينمائية</h1>
+            <p id="heroDesc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى بجودة سينمائية مذهلة.</p>
+        </section>
 
-    <div class="cards-container">
-        <div class="card">
-            <h3 id="card1-title">⚽ بث حي رياضي</h3>
-            <p id="card1-desc">دوري أبطال أوروبا، الدوري الإنجليزي، و UFC.</p>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-icon">⚽</div>
+                <h3 id="card1Title">بث حي رياضي</h3>
+                <p id="card1Desc">دوري أبطال أوروبا، الدوري الإنجليزي الممتاز، ونزالات UFC المباشرة بأعلى جودة وبدون تقطيع.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎬</div>
+                <h3 id="card2Title">أفلام ومسلسلات 4K</h3>
+                <p id="card2Desc">مكتبة ضخمة ومتجددة باستمرار لأحدث إصدارات هوليوود والإنتاجات العالمية الحصرية.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⛩️</div>
+                <h3 id="card3Title">أنمي ودراما عالمية</h3>
+                <p id="card3Desc">تابع أحدث الحلقات الحصرية للأنمي مترجمة فورياً بأعلى دقة، بالإضافة إلى الدراما الآسيوية.</p>
+            </div>
         </div>
-        <div class="card">
-            <h3 id="card2-title">🎬 أفلام ومسلسلات</h3>
-            <p id="card2-desc">مكتبة ضخمة بجودة 4K وبدون أدمجة مزعجة.</p>
-        </div>
-        <div class="card">
-            <h3 id="card3-title">🌸 أنمي ودراما</h3>
-            <p id="card3-desc">أحدث الحلقات التركية واليابانية.</p>
-        </div>
-    </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 M.hawk Entertainment Hub. All rights reserved.</p>
+    </footer>
 
     <script>
         async function changeLanguage() {
-            const lang = document.getElementById('langSwitch').value;
-            
-            // ضبط اتجاه الصفحة تلقائياً (من اليمين لليسار للعربية، والعكس لبقية اللغات)
-            if (lang === 'ar') {
-                document.documentElement.setAttribute('dir', 'rtl');
-            } else {
-                document.documentElement.setAttribute('dir', 'ltr');
-            }
-
+            const lang = document.getElementById('langSelect').value;
             try {
-                // جلب ملف الـ JSON الخاص باللغة المختارة (يجب أن تكون الملفات مرفوعة بنفس المجلد)
                 const response = await fetch(`${lang}.json`);
                 if (!response.ok) return;
                 const data = await response.json();
-
-                // تحديث النصوص ديناميكياً بناءً على محتوى ملف الـ JSON
-                if(data.title) document.getElementById('site-title').innerText = data.title;
-                if(data.description) document.getElementById('site-desc').innerText = data.description;
-                if(data.card1_title) document.getElementById('card1-title').innerText = data.card1_title;
-                if(data.card1_desc) document.getElementById('card1-desc').innerText = data.card1_desc;
-                if(data.card2_title) document.getElementById('card2-title').innerText = data.card2_title;
-                if(data.card2_desc) document.getElementById('card2-desc').innerText = data.card2_desc;
-                if(data.card3_title) document.getElementById('card3-title').innerText = data.card3_title;
-                if(data.card3_desc) document.getElementById('card3-desc').innerText = data.card3_desc;
-
+                
+                if(data.app) {
+                    if(document.getElementById('heroTitle')) document.getElementById('heroTitle').innerText = data.app.heroTitle || "";
+                    if(document.getElementById('heroDesc')) document.getElementById('heroDesc').innerText = data.app.heroDesc || "";
+                    if(document.getElementById('card1Title')) document.getElementById('card1Title').innerText = data.app.card1Title || "";
+                    if(document.getElementById('card1Desc')) document.getElementById('card1Desc').innerText = data.app.card1Desc || "";
+                    if(document.getElementById('card2Title')) document.getElementById('card2Title').innerText = data.app.card2Title || "";
+                    if(document.getElementById('card2Desc')) document.getElementById('card2Desc').innerText = data.app.card2Desc || "";
+                    if(document.getElementById('card3Title')) document.getElementById('card3Title').innerText = data.app.card3Title || "";
+                    if(document.getElementById('card3Desc')) document.getElementById('card3Desc').innerText = data.app.card3Desc || "";
+                }
             } catch (error) {
-                console.error("خطأ في تحميل ملف الترجمة:", error);
+                console.log("Language file loading skipped locally.");
             }
         }
     </script>
-
 </body>
 </html>
