@@ -3,34 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk - منصة البث الشاملة</title>
+    <title>M.hawk Platform</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #0f1016;
+            font-family: Tahoma, sans-serif;
+            background-color: #0d1117;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
             text-align: center;
         }
-        header {
-            padding: 50px 20px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #161b22;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .lang-select {
+            padding: 8px 12px;
+            background: #21262d;
+            color: #fff;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
         }
         h1 {
-            font-size: 2.5rem;
-            color: #e50914;
+            color: #ff4757;
+            font-size: 2.5em;
             margin-bottom: 10px;
         }
         p {
-            color: #b3b3b3;
-            font-size: 1.1rem;
+            color: #8b949e;
+            font-size: 1.1em;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .features {
+        .cards-container {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -38,56 +48,96 @@
             margin-top: 40px;
         }
         .card {
-            background: #1a1c29;
-            padding: 20px;
+            background: #161b22;
+            border: 1px solid #30363d;
             border-radius: 10px;
-            width: 220px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .card h3 {
-            color: #ffcc00;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 12px 30px;
-            background-color: #e50914;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
+            padding: 25px;
+            width: 280px;
             transition: 0.3s;
         }
-        .btn:hover {
-            background-color: #b20710;
+        .card:hover {
+            border-color: #ff4757;
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>M.hawk Platform</h1>
-        <p>وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى.</p>
-    </header>
-
-    <div class="container">
-        <div class="features">
-            <div class="card">
-                <h3>🎬 أفلام ومسلسلات</h3>
-                <p>مكتبة ضخمة بجودة 4K وبدون أدمجة مزعجة.</p>
-            </div>
-            <div class="card">
-                <h3>⚽ بث حي رياضي</h3>
-                <p>دوري أبطال أوروبا، الدوري الإنجليزي، و UFC.</p>
-            </div>
-            <div class="card">
-                <h3>🌸 أنمي ودراما</h3>
-                <p>أحدث الحلقات التركية واليابانية أولاً بأول.</p>
-            </div>
-        </div>
-
-        <a href="https://t.me/M_hawk_stream_bot" class="btn">انضم إلينا عبر التيليجرام</a>
+    <div class="header">
+        <h2>M.hawk</h2>
+        <!-- قائمة الـ 14 لغة -->
+        <select id="langSwitch" class="lang-select" onchange="changeLanguage()">
+            <option value="ar">العربية (Arabic)</option>
+            <option value="en">English (إنجليزي)</option>
+            <option value="fr">Français (فرنسي)</option>
+            <option value="de">Deutsch (ألماني)</option>
+            <option value="es">Español (إسباني)</option>
+            <option value="it">Italiano (إيطالي)</option>
+            <option value="tr">Türkçe (تركي)</option>
+            <option value="ru">Русский (روسي)</option>
+            <option value="ja">日本語 (ياباني)</option>
+            <option value="zh">中文 (صيني)</option>
+            <option value="nl">Nederlands (هولندي)</option>
+            <option value="pl">Polski (بولندي)</option>
+            <option value="pt">Português (برتغالي)</option>
+            <option value="hi">हिन्दी (هندي)</option>
+        </select>
     </div>
+
+    <h1 id="site-title">M.hawk Platform</h1>
+    <p id="site-desc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى.</p>
+
+    <div class="cards-container">
+        <div class="card">
+            <h3 id="card1-title">⚽ بث حي رياضي</h3>
+            <p id="card1-desc">دوري أبطال أوروبا، الدوري الإنجليزي، و UFC.</p>
+        </div>
+        <div class="card">
+            <h3 id="card2-title">🎬 أفلام ومسلسلات</h3>
+            <p id="card2-desc">مكتبة ضخمة بجودة 4K وبدون أدمجة مزعجة.</p>
+        </div>
+        <div class="card">
+            <h3 id="card3-title">🌸 أنمي ودراما</h3>
+            <p id="card3-desc">أحدث الحلقات التركية واليابانية.</p>
+        </div>
+    </div>
+
+    <script>
+        async function changeLanguage() {
+            const lang = document.getElementById('langSwitch').value;
+            
+            // ضبط اتجاه الصفحة تلقائياً (من اليمين لليسار للعربية، والعكس لبقية اللغات)
+            if (lang === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+            }
+
+            try {
+                // جلب ملف الـ JSON الخاص باللغة المختارة (يجب أن تكون الملفات مرفوعة بنفس المجلد)
+                const response = await fetch(`${lang}.json`);
+                if (!response.ok) return;
+                const data = await response.json();
+
+                // تحديث النصوص ديناميكياً بناءً على محتوى ملف الـ JSON
+                if(data.title) document.getElementById('site-title').innerText = data.title;
+                if(data.description) document.getElementById('site-desc').innerText = data.description;
+                if(data.card1_title) document.getElementById('card1-title').innerText = data.card1_title;
+                if(data.card1_desc) document.getElementById('card1-desc').innerText = data.card1_desc;
+                if(data.card2_title) document.getElementById('card2-title').innerText = data.card2_title;
+                if(data.card2_desc) document.getElementById('card2-desc').innerText = data.card2_desc;
+                if(data.card3_title) document.getElementById('card3-title').innerText = data.card3_title;
+                if(data.card3_desc) document.getElementById('card3-desc').innerText = data.card3_desc;
+
+            } catch (error) {
+                console.error("خطأ في تحميل ملف الترجمة:", error);
+            }
+        }
+    </script>
 
 </body>
 </html>
