@@ -169,6 +169,95 @@
             line-height: 1.5;
         }
 
+        /* نافذة العرض المنبثقة (Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #131b2e;
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+
+        .modal-btn:hover {
+            background: #f40612;
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
+        }
+
         /* التذييل */
         footer {
             width: 100%;
@@ -215,19 +304,19 @@
         </section>
 
         <div class="grid-container">
-            <div class="card">
+            <div class="card" onclick="openModal('بث حي رياضي', 'دوري أبطال أوروبا، الدوري الإنجليزي الممتاز، ونزالات UFC المباشرة بأعلى جودة وبدون تقطيع.')">
                 <div class="card-icon">⚽</div>
                 <h3 id="card1Title">بث حي رياضي</h3>
                 <p id="card1Desc">دوري أبطال أوروبا، الدوري الإنجليزي الممتاز، ونزالات UFC المباشرة بأعلى جودة وبدون تقطيع.</p>
             </div>
 
-            <div class="card">
+            <div class="card" onclick="openModal('أفلام ومسلسلات 4K', 'مكتبة ضخمة ومتجددة باستمرار لأحدث إصدارات هوليوود والإنتاجات العالمية الحصرية.')">
                 <div class="card-icon">🎬</div>
                 <h3 id="card2Title">أفلام ومسلسلات 4K</h3>
                 <p id="card2Desc">مكتبة ضخمة ومتجددة باستمرار لأحدث إصدارات هوليوود والإنتاجات العالمية الحصرية.</p>
             </div>
 
-            <div class="card">
+            <div class="card" onclick="openModal('أنمي ودراما عالمية', 'تابع أحدث الحلقات الحصرية للأنمي مترجمة فورياً بأعلى دقة، بالإضافة إلى الدراما الآسيوية.')">
                 <div class="card-icon">⛩️</div>
                 <h3 id="card3Title">أنمي ودراما عالمية</h3>
                 <p id="card3Desc">تابع أحدث الحلقات الحصرية للأنمي مترجمة فورياً بأعلى دقة، بالإضافة إلى الدراما الآسيوية.</p>
@@ -235,11 +324,37 @@
         </div>
     </main>
 
+    <!-- النافذة المنبثقة التفاعلية -->
+    <div id="mediaModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 id="modalTitle" class="modal-title">عنوان المحتوى</h2>
+            <p id="modalDesc" class="modal-desc">وصف المحتوى وتفاصيل العرض ستظهر هنا...</p>
+            <button class="modal-btn" onclick="alert('جاري بدء التشغيل بجودة 4K...')">تشغيل المحتوى الآن</button>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 M.hawk Entertainment Hub. All rights reserved.</p>
     </footer>
 
     <script>
+        function openModal(title, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('mediaModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('mediaModal').classList.remove('active');
+        }
+
+        function closeModalOutside(event) {
+            if (event.target.id === 'mediaModal') {
+                closeModal();
+            }
+        }
+
         async function changeLanguage() {
             const lang = document.getElementById('langSelect').value;
             try {
