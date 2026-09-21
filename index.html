@@ -1,265 +1,93 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk - Ultimate Entertainment Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0b0f19',
-                        cardBg: '#161e2e',
-                        accentRed: '#e50914'
-                    }
-                }
-            }
+    <title>M.hawk - منصة البث الشاملة</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f1016;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
         }
-    </script>
+        header {
+            padding: 50px 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #b3b3b3;
+            font-size: 1.1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .card {
+            background: #1a1c29;
+            padding: 20px;
+            border-radius: 10px;
+            width: 220px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .card h3 {
+            color: #ffcc00;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background-color: #e50914;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #b20710;
+        }
+    </style>
 </head>
-<body class="bg-darkBg text-white font-sans min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-cardBg border-b border-gray-800 p-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center space-x-3">
-            <span class="text-2xl font-black text-accentRed tracking-wider">M.HAWK</span>
-            <span class="text-xs bg-accentRed text-white px-2 py-0.5 rounded font-bold">4K HUB</span>
-        </div>
-        
-        <!-- Controls: Language Selector & Telegram CTAs -->
-        <div class="flex items-center space-x-3">
-            <select id="langSelector" onchange="changeLanguage(this.value)" class="bg-gray-800 text-gray-200 text-xs px-2 py-1.5 rounded-lg border border-gray-700 focus:outline-none">
-                <option value="en">🌐 English</option>
-                <option value="ar">🇲🇦 العربية</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="pt">🇧🇷 Português</option>
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="tr">🇹🇷 Türkçe</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="ja">🇯🇵 Japanese (日本語)</option>
-                <option value="zh">🇨🇳 Chinese (中文)</option>
-                <option value="hi">🇮🇳 Hindi (हिन्दी)</option>
-                <option value="ko">🇰🇷 Korean (한국어)</option>
-                <option value="id">🇮🇩 Indonesian</option>
-            </select>
+<body>
 
-            <a href="https://t.me/Moviehawk_4k" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-black font-bold px-3 py-1.5 rounded-lg text-xs transition shadow-lg hidden sm:flex items-center">
-                ⭐ 4K VIP ($2/mo)
-            </a>
-            <a href="https://t.me/Moviehawk_4k" target="_blank" class="bg-accentRed hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition">
-                Telegram
-            </a>
-        </div>
+    <header>
+        <h1>M.hawk Platform</h1>
+        <p>وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى.</p>
     </header>
 
-    <!-- Navigation & Search Bar Section -->
-    <div class="bg-cardBg/50 border-b border-gray-800 px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
-        <!-- Categories Filter Bar -->
-        <nav class="flex space-x-3 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-            <button onclick="filterCategory('all', this)" class="category-btn bg-accentRed text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">الكل / All</button>
-            <button onclick="filterCategory('movies', this)" class="category-btn bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">🎬 Movies</button>
-            <button onclick="filterCategory('series', this)" class="category-btn bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">📺 Series</button>
-            <button onclick="filterCategory('anime', this)" class="category-btn bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">⛩️ Anime</button>
-            <button onclick="filterCategory('football', this)" class="category-btn bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">⚽ Football 4K</button>
-            <button onclick="filterCategory('ufc', this)" class="category-btn bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition">🥊 UFC Live</button>
-        </nav>
-
-        <!-- Search Bar -->
-        <div class="w-full md:w-72 relative">
-            <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="Search movies, series, anime..." class="w-full bg-gray-900 text-gray-200 text-xs px-3 py-2 pl-8 rounded-lg border border-gray-700 focus:outline-none focus:border-accentRed transition">
-            <span class="absolute left-2.5 top-2.5 text-gray-400 text-xs">🔍</span>
+    <div class="container">
+        <div class="features">
+            <div class="card">
+                <h3>🎬 أفلام ومسلسلات</h3>
+                <p>مكتبة ضخمة بجودة 4K وبدون أدمجة مزعجة.</p>
+            </div>
+            <div class="card">
+                <h3>⚽ بث حي رياضي</h3>
+                <p>دوري أبطال أوروبا، الدوري الإنجليزي، و UFC.</p>
+            </div>
+            <div class="card">
+                <h3>🌸 أنمي ودراما</h3>
+                <p>أحدث الحلقات التركية واليابانية أولاً بأول.</p>
+            </div>
         </div>
+
+        <a href="https://t.me/M_hawk_stream_bot" class="btn">انضم إلينا عبر التيليجرام</a>
     </div>
 
-    <!-- Main Content Grid -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
-        <h2 id="sectionTitle" class="text-xl font-bold mb-4 text-gray-100">Trending 4K Content, Series & Live Sports</h2>
-        
-        <div id="contentGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            
-            <!-- Series Card -->
-            <div class="content-card bg-cardBg rounded-xl overflow-hidden shadow-md border border-gray-800 flex flex-col" data-category="series" data-title="breaking bad 4k remastered series">
-                <div class="h-48 bg-gray-900 flex items-center justify-center relative">
-                    <span class="text-blue-400 font-bold text-lg">SERIES 4K</span>
-                    <span class="absolute top-2 right-2 bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded">FULL SEASONS</span>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                        <span class="bg-accentRed text-white px-3 py-1 rounded-full text-xs font-bold shadow">Watch Series</span>
-                    </a>
-                </div>
-                <div class="p-3 flex flex-col flex-grow">
-                    <h3 class="font-bold text-sm mb-1 truncate">Breaking Bad 4K Remastered</h3>
-                    <p class="text-xs text-gray-400 mb-3">SERIES • All Seasons</p>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="mt-auto bg-blue-600 hover:bg-blue-700 text-center text-xs py-2 rounded transition font-bold text-white">Stream Series</a>
-                </div>
-            </div>
-
-            <!-- Football Match -->
-            <div class="content-card bg-cardBg rounded-xl overflow-hidden shadow-md border border-gray-800 flex flex-col" data-category="football" data-title="champions league 4k stream football match live">
-                <div class="h-48 bg-gray-900 flex items-center justify-center relative">
-                    <span class="text-green-500 font-bold text-lg">LIVE 4K</span>
-                    <span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded">MATCH</span>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                        <span class="bg-accentRed text-white px-3 py-1 rounded-full text-xs font-bold shadow">Watch Live</span>
-                    </a>
-                </div>
-                <div class="p-3 flex flex-col flex-grow">
-                    <h3 class="font-bold text-sm mb-1 truncate">Champions League 4K Stream</h3>
-                    <p class="text-xs text-gray-400 mb-3">FOOTBALL • Live Now</p>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="mt-auto bg-green-600 hover:bg-green-700 text-center text-xs py-2 rounded transition font-bold text-white">Stream Match</a>
-                </div>
-            </div>
-
-            <!-- UFC Event -->
-            <div class="content-card bg-cardBg rounded-xl overflow-hidden shadow-md border border-gray-800 flex flex-col" data-category="ufc" data-title="ufc championship main event ppv 4k octagon">
-                <div class="h-48 bg-gray-900 flex items-center justify-center relative">
-                    <span class="text-amber-500 font-bold text-lg">UFC PPV 4K</span>
-                    <span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-1.5 py-0.5 rounded">VIP ARENA</span>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                        <span class="bg-accentRed text-white px-3 py-1 rounded-full text-xs font-bold shadow">Watch Fight</span>
-                    </a>
-                </div>
-                <div class="p-3 flex flex-col flex-grow">
-                    <h3 class="font-bold text-sm mb-1 truncate">UFC Championship Main Event</h3>
-                    <p class="text-xs text-gray-400 mb-3">UFC • 4K Octagon</p>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="mt-auto bg-gray-800 hover:bg-accentRed text-center text-xs py-2 rounded transition font-bold">Stream Fight</a>
-                </div>
-            </div>
-
-            <!-- Movie 1 -->
-            <div class="content-card bg-cardBg rounded-xl overflow-hidden shadow-md border border-gray-800 flex flex-col" data-category="movies" data-title="interstellar space odyssey movies epic fantasy vip">
-                <div class="h-48 bg-gray-900 flex items-center justify-center relative">
-                    <span class="text-accentRed font-bold text-lg">EPIC FANTASY</span>
-                    <span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-1.5 py-0.5 rounded">4K VIP</span>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                        <span class="bg-accentRed text-white px-3 py-1 rounded-full text-xs font-bold shadow">Watch VIP</span>
-                    </a>
-                </div>
-                <div class="p-3 flex flex-col flex-grow">
-                    <h3 class="font-bold text-sm mb-1 truncate">Interstellar Space Odyssey</h3>
-                    <p class="text-xs text-gray-400 mb-3">MOVIES</p>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="mt-auto bg-gray-800 hover:bg-accentRed text-center text-xs py-2 rounded transition font-bold">Stream Now</a>
-                </div>
-            </div>
-
-            <!-- Anime 1 -->
-            <div class="content-card bg-cardBg rounded-xl overflow-hidden shadow-md border border-gray-800 flex flex-col" data-category="anime" data-title="attack on titan final season anime 4k">
-                <div class="h-48 bg-gray-900 flex items-center justify-center relative">
-                    <span class="text-accentRed font-bold text-lg">ANIME 4K</span>
-                    <span class="absolute top-2 right-2 bg-purple-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded">NEW</span>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                        <span class="bg-accentRed text-white px-3 py-1 rounded-full text-xs font-bold shadow">Watch Anime</span>
-                    </a>
-                </div>
-                <div class="p-3 flex flex-col flex-grow">
-                    <h3 class="font-bold text-sm mb-1 truncate">Attack on Titan Final Season</h3>
-                    <p class="text-xs text-gray-400 mb-3">ANIME</p>
-                    <a href="https://t.me/Moviehawk_4k" target="_blank" class="mt-auto bg-gray-800 hover:bg-accentRed text-center text-xs py-2 rounded transition font-bold">Stream Now</a>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-cardBg border-t border-gray-800 text-center py-4 text-xs text-gray-500">
-        &copy; 2026 M.HAWK Entertainment Hub. All rights reserved.
-    </footer>
-
-    <!-- JavaScript -->
-    <script>
-        let currentCategory = 'all';
-
-        function filterCategory(category, button) {
-            currentCategory = category;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-accentRed', 'text-white');
-                btn.classList.add('bg-gray-800', 'text-gray-300');
-            });
-            button.classList.remove('bg-gray-800', 'text-gray-300');
-            button.classList.add('bg-accentRed', 'text-white');
-
-            searchContent();
-        }
-
-        function searchContent() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.content-card');
-
-            cards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                const titleText = card.getAttribute('data-title');
-                
-                const matchesCategory = (currentCategory === 'all' || category === currentCategory);
-                const matchesSearch = titleText.includes(query);
-
-                if (matchesCategory && matchesSearch) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        function changeLanguage(lang) {
-            const titleElem = document.getElementById('sectionTitle');
-            const searchInput = document.getElementById('searchInput');
-            
-            if (lang === 'ar') {
-                document.documentElement.dir = 'rtl';
-                searchInput.placeholder = 'ابحث عن فيلم، مسلسل، أنمي...';
-            } else {
-                document.documentElement.dir = 'ltr';
-                searchInput.placeholder = 'Search movies, series, anime...';
-            }
-
-            switch(lang) {
-                case 'ar':
-                    titleElem.innerText = 'أحدث محتويات الـ 4K، المسلسلات والبث المباشر للرياضة';
-                    break;
-                case 'fr':
-                    titleElem.innerText = 'Contenu 4K, Séries et Sports en Direct';
-                    break;
-                case 'es':
-                    titleElem.innerText = 'Tendencias 4K, Series y Deportes en Vivo';
-                    break;
-                case 'de':
-                    titleElem.innerText = 'Trending 4K Inhalte, Serien & Live-Sport';
-                    break;
-                case 'pt':
-                    titleElem.innerText = 'Conteúdo 4K, Séries e Esportes ao Vivo';
-                    break;
-                case 'it':
-                    titleElem.innerText = 'Contenuti 4K, Serie TV e Sport dal Vivo';
-                    break;
-                case 'tr':
-                    titleElem.innerText = 'Popüler 4K İçerikler, Diziler ve Canlı Spor';
-                    break;
-                case 'ru':
-                    titleElem.innerText = 'Трендовый 4K контент, сериалы и спорт';
-                    break;
-                case 'ja':
-                    titleElem.innerText = 'トレンドの4Kコンテンツ、ドラマ、ライブスポーツ';
-                    break;
-                case 'zh':
-                    titleElem.innerText = '热门 4K 内容、电视剧与现场体育直播';
-                    break;
-                case 'hi':
-                    titleElem.innerText = 'ट्रेंडिंग 4K सामग्री, श्रृंखला और लाइव स्पोर्ट्स';
-                    break;
-                case 'ko':
-                    titleElem.innerText = '트렌디한 4K 콘텐츠, 시리즈 및 라이브 스포츠';
-                    break;
-                case 'id':
-                    titleElem.innerText = 'Konten 4K, Serial & Olahraga Langsung';
-                    break;
-                default:
-                    titleElem.innerText = 'Trending 4K Content, Series & Live Sports';
-            }
-        }
-    </script>
 </body>
 </html>
