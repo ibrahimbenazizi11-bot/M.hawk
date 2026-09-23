@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -307,7 +307,7 @@
         .modal-close {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: none;
             border: none;
             color: var(--text-secondary);
@@ -369,19 +369,19 @@
 
     <!-- شريط الاشتراك العائم VIP 4K -->
     <div class="vip-banner">
-        <span id="vipText">⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!</span>
-        <button class="vip-btn" id="vipBtn" onclick="alert('ميزة الدفع والاشتراك قيد التفعيل قريبًا!')">اشترك الآن</button>
+        <span id="vipText">⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!</span>
+        <button class="vip-btn" id="vipBtn" onclick="alert('Subscription feature coming soon!')">Subscribe Now</button>
     </div>
 
     <header>
         <div class="logo">M.hawk</div>
         <!-- شريط البحث الحقيقي -->
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن فيلم، مسلسل، أنمي..." onkeyup="searchCards()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search movies, series, anime..." onkeyup="searchCards()">
         </div>
         <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
+            <option value="en" selected>English</option>
             <option value="ar">العربية (Arabic)</option>
-            <option value="en">English</option>
             <option value="fr">Français</option>
             <option value="es">Español</option>
             <option value="de">Deutsch</option>
@@ -400,19 +400,19 @@
 
     <main>
         <section class="hero-section">
-            <h1 id="heroTitle">منصة M.hawk السينمائية</h1>
-            <p id="heroDesc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.</p>
+            <h1 id="heroTitle">M.hawk Cinematic Platform</h1>
+            <p id="heroDesc">Your premier destination for the latest movies, series, anime, exclusive sports matches, and UFC fights in supreme cinematic quality.</p>
         </section>
 
         <!-- شريط التصفية والفلتر السريع -->
         <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterCards('all', this)" id="filterAll">الكل</button>
-            <button class="filter-btn" onclick="filterCards('movies', this)" id="filterMovies">أفلام</button>
-            <button class="filter-btn" onclick="filterCards('series', this)" id="filterSeries">مسلسلات</button>
-            <button class="filter-btn" onclick="filterCards('animation', this)" id="filterAnimation">رسوم متحركة</button>
-            <button class="filter-btn" onclick="filterCards('anime', this)" id="filterAnime">أنمي</button>
-            <button class="filter-btn" onclick="filterCards('documentaries', this)" id="filterDocs">وثائقية</button>
-            <button class="filter-btn" onclick="filterCards('football', this)" id="filterFootball">كرة القدم</button>
+            <button class="filter-btn active" onclick="filterCards('all', this)" id="filterAll">All</button>
+            <button class="filter-btn" onclick="filterCards('movies', this)" id="filterMovies">Movies</button>
+            <button class="filter-btn" onclick="filterCards('series', this)" id="filterSeries">Series</button>
+            <button class="filter-btn" onclick="filterCards('animation', this)" id="filterAnimation">Animation</button>
+            <button class="filter-btn" onclick="filterCards('anime', this)" id="filterAnime">Anime</button>
+            <button class="filter-btn" onclick="filterCards('documentaries', this)" id="filterDocs">Documentaries</button>
+            <button class="filter-btn" onclick="filterCards('football', this)" id="filterFootball">Football</button>
             <button class="filter-btn" onclick="filterCards('ufc', this)" id="filterUfc">UFC</button>
         </div>
 
@@ -421,50 +421,50 @@
             <!-- قائمة الأفلام -->
             <div class="card" data-category="movies" onclick="openModal('movies')">
                 <div class="card-icon">🎬</div>
-                <h3 id="card1Title">قائمة الأفلام</h3>
-                <p id="card1Desc">أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.</p>
+                <h3 id="card1Title">Movies</h3>
+                <p id="card1Desc">Latest global blockbuster releases, drama, and thrillers in 4K quality.</p>
             </div>
 
             <!-- قائمة المسلسلات -->
             <div class="card" data-category="series" onclick="openModal('series')">
                 <div class="card-icon">📺</div>
-                <h3 id="card2Title">قائمة المسلسلات</h3>
-                <p id="card2Desc">مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.</p>
+                <h3 id="card2Title">Series</h3>
+                <p id="card2Desc">Complete seasons and exclusive first-run series in highest definition.</p>
             </div>
 
             <!-- قائمة الرسوم المتحركة -->
             <div class="card" data-category="animation" onclick="openModal('animation')">
                 <div class="card-icon">🎨</div>
-                <h3 id="card3Title">قائمة الرسوم المتحركة</h3>
-                <p id="card3Desc">عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.</p>
+                <h3 id="card3Title">Animation</h3>
+                <p id="card3Desc">A magical world of family-friendly cartoons and animation masterpieces.</p>
             </div>
 
             <!-- قائمة الأنمي -->
             <div class="card" data-category="anime" onclick="openModal('anime')">
                 <div class="card-icon">⛩️</div>
-                <h3 id="card4Title">قائمة الأنمي</h3>
-                <p id="card4Desc">تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.</p>
+                <h3 id="card4Title">Anime</h3>
+                <p id="card4Desc">Catch exclusive episodes of top legendary and action-packed anime series.</p>
             </div>
 
             <!-- قائمة الأفلام الوثائقية -->
             <div class="card" data-category="documentaries" onclick="openModal('documentaries')">
                 <div class="card-icon">🌍</div>
-                <h3 id="card5Title">قائمة الأفلام الوثائقية</h3>
-                <p id="card5Desc">اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.</p>
+                <h3 id="card5Title">Documentaries</h3>
+                <p id="card5Desc">Explore the mysteries of nature, universe, and history through breathtaking docs.</p>
             </div>
 
             <!-- قائمة بث مباشر لمباريات كرة القدم -->
             <div class="card" data-category="football" onclick="openModal('football')">
                 <div class="card-icon">⚽</div>
-                <h3 id="card6Title">بث مباشر - كرة القدم</h3>
-                <p id="card6Desc">لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.</p>
+                <h3 id="card6Title">Live - Football</h3>
+                <p id="card6Desc">Don't miss any moment of Champions League and major European football matches.</p>
             </div>
 
             <!-- قائمة خاصة ب بث مباشر UFC -->
             <div class="card" data-category="ufc" onclick="openModal('ufc')">
                 <div class="card-icon">🥊</div>
-                <h3 id="card7Title">بث مباشر - UFC</h3>
-                <p id="card7Desc">أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.</p>
+                <h3 id="card7Title">Live - UFC</h3>
+                <p id="card7Desc">The fiercest mixed martial arts showdowns and live broadcasts of major UFC events.</p>
             </div>
         </div>
     </main>
@@ -476,11 +476,11 @@
             <div class="video-container">
                 <video id="modalVideo" controls autoplay>
                     <source id="videoSource" src="" type="video/mp4">
-                    متصفحك لا يدعم تشغيل الفيديو.
+                    Your browser does not support the video tag.
                 </video>
             </div>
-            <h2 id="modalTitle" class="modal-title">عنوان المحتوى</h2>
-            <p id="modalDesc" class="modal-desc">وصف المحتوى وتفاصيل العرض ستظهر هنا...</p>
+            <h2 id="modalTitle" class="modal-title">Content Title</h2>
+            <p id="modalDesc" class="modal-desc">Content description and details will appear here...</p>
         </div>
     </div>
 
@@ -490,22 +490,6 @@
 
     <script>
         const translations = {
-            ar: {
-                searchPlaceholder: "ابحث عن فيلم، مسلسل، أنمي...",
-                vipText: "⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!",
-                vipBtn: "اشترك الآن",
-                heroTitle: "منصة M.hawk السينمائية",
-                heroDesc: "وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.",
-                filterAll: "الكل", filterMovies: "أفلام", filterSeries: "مسلسلات", filterAnimation: "رسوم متحركة", filterAnime: "أنمي", filterDocs: "وثائقية", filterFootball: "كرة القدم", filterUfc: "UFC",
-                card1Title: "قائمة الأفلام", card1Desc: "أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.",
-                card2Title: "قائمة المسلسلات", card2Desc: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.",
-                card3Title: "قائمة الرسوم المتحركة", card3Desc: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.",
-                card4Title: "قائمة الأنمي", card4Desc: "تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.",
-                card5Title: "قائمة الأفلام الوثائقية", card5Desc: "اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.",
-                card6Title: "بث مباشر - كرة القدم", card6Desc: "لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.",
-                card7Title: "بث مباشر - UFC", card7Desc: "أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.",
-                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
-            },
             en: {
                 searchPlaceholder: "Search movies, series, anime...",
                 vipText: "⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!",
@@ -520,6 +504,22 @@
                 card5Title: "Documentaries", card5Desc: "Explore the mysteries of nature, universe, and history through breathtaking docs.",
                 card6Title: "Live - Football", card6Desc: "Don't miss any moment of Champions League and major European football matches.",
                 card7Title: "Live - UFC", card7Desc: "The fiercest mixed martial arts showdowns and live broadcasts of major UFC events.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            ar: {
+                searchPlaceholder: "ابحث عن فيلم، مسلسل، أنمي...",
+                vipText: "⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!",
+                vipBtn: "اشترك الآن",
+                heroTitle: "منصة M.hawk السينمائية",
+                heroDesc: "وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.",
+                filterAll: "الكل", filterMovies: "أفلام", filterSeries: "مسلسلات", filterAnimation: "رسوم متحركة", filterAnime: "أنمي", filterDocs: "وثائقية", filterFootball: "كرة القدم", filterUfc: "UFC",
+                card1Title: "قائمة الأفلام", card1Desc: "أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.",
+                card2Title: "قائمة المسلسلات", card2Desc: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.",
+                card3Title: "قائمة الرسوم المتحركة", card3Desc: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.",
+                card4Title: "قائمة الأنمي", card4Desc: "تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.",
+                card5Title: "قائمة الأفلام الوثائقية", card5Desc: "اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.",
+                card6Title: "بث مباشر - كرة القدم", card6Desc: "لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.",
+                card7Title: "بث مباشر - UFC", card7Desc: "أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.",
                 footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
             },
             fr: {
@@ -734,47 +734,47 @@
 
         const mediaData = {
             movies: {
-                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films", es: "Lista de Películas", de: "Filmliste", it: "Lista Film", ja: "映画リスト", ko: "영화 목록", zh: "电影列表", id: "Daftar Film", ru: "Список фильмов", tr: "Film Listesi", pt: "Lista de Filmes", nl: "Movielijst", pl: "Lista filmów" },
-                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens.", es: "Biblioteca renovada de las últimas películas de Hollywood.", de: "Erneuerte Bibliothek der neuesten Hollywood-Filme.", it: "Libreria aggiornata degli ultimi film.", ja: "最新のハリウッド映画や世界の名作ライブラリ。", ko: "최신 할리우드 영화 라이브러리.", zh: "最新好莱坞及世界电影库。", id: "Perustakaan film Hollywood dan dunia terbaru.", ru: "Обновляемая библиотека голливудских фильмов.", tr: "En son Hollywood ve dünya filmleri kütüphanesi.", pt: "Biblioteca atualizada de filmes.", nl: "Bijgewerkte bibliotheek van films.", pl: "Zaktualizowana biblioteka filmów." },
+                title: { en: "Movies List", ar: "قائمة الأفلام", fr: "Liste des Films", es: "Lista de Películas", de: "Filmliste", it: "Lista Film", ja: "映画リスト", ko: "영화 목록", zh: "电影列表", id: "Daftar Film", ru: "Список фильмов", tr: "Film Listesi", pt: "Lista de Filmes", nl: "Movielijst", pl: "Lista filmów" },
+                desc: { en: "Renewed library of latest Hollywood and world movies in high quality.", ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens.", es: "Biblioteca renovada de las últimas películas de Hollywood.", de: "Erneuerte Bibliothek der neuesten Hollywood-Filme.", it: "Libreria aggiornata degli ultimi film.", ja: "最新のハリウッド映画や世界の名作ライブラリ。", ko: "최신 할리우드 영화 라이브러리.", zh: "最新好莱坞及世界电影库。", id: "Perustakaan film Hollywood dan dunia terbaru.", ru: "Обновляемая библиотека голливудских фильмов.", tr: "En son Hollywood ve dünya filmleri kütüphanesi.", pt: "Biblioteca atualizada de filmes.", nl: "Bijgewerkte bibliotheek van films.", pl: "Zaktualizowana biblioteka filmów." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
             },
             series: {
-                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries", es: "Lista de Series", de: "Serienliste", it: "Lista Serie", ja: "シリーズリスト", ko: "시리즈 목록", zh: "剧集列表", id: "Daftar Serial", ru: "Список сериалов", tr: "Dizi Listesi", pt: "Lista de Séries", nl: "Serieslijst", pl: "Lista seriali" },
-                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives.", es: "Temporadas completas y series exclusivas.", de: "Komplette Staffeln und exklusive Serien.", it: "Stagioni complete e serie esclusive.", ja: "最高画質の完全版シーズンと独占シリーズ。", ko: "완전한 시즌과 독점 시리즈.", zh: "完整季和独家首播剧集。", id: "Musim lengkap dan serial eksklusif.", ru: "Полные сезоны и эксклюзивные сериалы.", tr: "Eksiksiz sezonlar ve özel diziler.", pt: "Temporadas completas e séries exclusivas.", nl: "Volledige seizoenen en exclusieve series.", pl: "Kompletne sezony i ekskluzywne seriale." },
+                title: { en: "Series List", ar: "قائمة المسلسلات", fr: "Liste des Séries", es: "Lista de Series", de: "Serienliste", it: "Lista Serie", ja: "シリーズリスト", ko: "시리즈 목록", zh: "剧集列表", id: "Daftar Serial", ru: "Список сериалов", tr: "Dizi Listesi", pt: "Lista de Séries", nl: "Serieslijst", pl: "Lista seriali" },
+                desc: { en: "Complete seasons and exclusive first-run series in highest definition.", ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", fr: "Saisons complètes et séries exclusives.", es: "Temporadas completas y series exclusivas.", de: "Komplette Staffeln und exklusive Serien.", it: "Stagioni complete e serie esclusive.", ja: "最高画質の完全版シーズンと独占シリーズ。", ko: "완전한 시즌과 독점 시리즈.", zh: "完整季和独家首播剧集。", id: "Musim lengkap dan serial eksklusif.", ru: "Полные сезоны и эксклюзивные сериалы.", tr: "Eksiksiz sezonlar ve özel diziler.", pt: "Temporadas completas e séries exclusivas.", nl: "Volledige seizoenen en exclusieve series.", pl: "Kompletne sezony i ekskluzywne seriale." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
             },
             animation: {
-                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation", es: "Lista de Animación", de: "Animationsliste", it: "Lista Animazione", ja: "アニメーションリスト", ko: "애니메이션 목록", zh: "动画列表", id: "Daftar Animasi", ru: "Список анимации", tr: "Animasyon Listesi", pt: "Lista de Animação", nl: "Animatielijst", pl: "Lista animacji" },
-                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux.", es: "Un mundo mágico de dibujos animados familiares.", de: "Eine magische Welt familienfreundlicher Cartoons.", it: "Un mondo magico di cartoni animati.", ja: "家族みんなで楽しめる魔法の世界。", ko: "온 가족이 함께 즐기는 마법 같은 카툰.", zh: "合家欢卡通世界。", id: "Dunia ajaib kartun ramah keluarga.", ru: "Волшебный мир семейных мультфильмов.", tr: "Çizgi filmlerin sihirli dünyası.", pt: "Mundo mágico de desenhos animados.", nl: "Magische wereld van tekenfilms.", pl: "Magiczny świat bajek." },
+                title: { en: "Animation List", ar: "قائمة الرسوم المتحركة", fr: "Liste d'Animation", es: "Lista de Animación", de: "Animationsliste", it: "Lista Animazione", ja: "アニメーションリスト", ko: "애니메이션 목록", zh: "动画列表", id: "Daftar Animasi", ru: "Список анимации", tr: "Animasyon Listesi", pt: "Lista de Animação", nl: "Animatielijst", pl: "Lista animacji" },
+                desc: { en: "A magical world of family-friendly cartoons.", ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", fr: "Un monde magique de dessins animés familiaux.", es: "Un mundo mágico de dibujos animados familiares.", de: "Eine magische Welt familienfreundlicher Cartoons.", it: "Un mondo magico di cartoni animati.", ja: "家族みんなで楽しめる魔法の世界。", ko: "온 가족이 함께 즐기는 마법 같은 카툰.", zh: "合家欢卡通世界。", id: "Dunia ajaib kartun ramah keluarga.", ru: "Волшебный мир семейных мультфильмов.", tr: "Çizgi filmlerin sihirli dünyası.", pt: "Mundo mágico de desenhos animados.", nl: "Magische wereld van tekenfilms.", pl: "Magiczny świat bajek." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             },
             anime: {
-                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés", es: "Lista de Anime", de: "Anime-Liste", it: "Lista Anime", ja: "アニメリスト", ko: "애니 목록", zh: "动漫列表", id: "Daftar Anime", ru: "Список аниме", tr: "Anime Listesi", pt: "Lista de Anime", nl: "Animelijst", pl: "Lista anime" },
-                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires.", es: "Últimos episodios de anime legendarios.", de: "Neueste legendäre Anime-Episoden.", it: "Episodi esclusivi delle migliori serie anime.", ja: "大人気アニメのエピソード。", ko: "최신 애니메이션 에피소드.", zh: "热门动漫系列剧集。", id: "Episode anime legendaris terbaru.", ru: "Лучшие аниме-сериалы.", tr: "Popüler anime serileri.", pt: "Episódios de anime.", nl: "Populaire animeseries.", pl: "Najlepsze serie anime." },
+                title: { en: "Anime List", ar: "قائمة الأنمي", fr: "Liste d'Animés", es: "Lista de Anime", de: "Anime-Liste", it: "Lista Anime", ja: "アニメリスト", ko: "애니 목록", zh: "动漫列表", id: "Daftar Anime", ru: "Список аниме", tr: "Anime Listesi", pt: "Lista de Anime", nl: "Animelijst", pl: "Lista anime" },
+                desc: { en: "Latest legendary anime episodes with instant subtitles.", ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", fr: "Derniers épisodes d'animés légendaires.", es: "Últimos episodios de anime legendarios.", de: "Neueste legendäre Anime-Episoden.", it: "Episodi esclusivi delle migliori serie anime.", ja: "大人気アニメのエピソード。", ko: "최신 애니메이션 에피소드.", zh: "热门动漫系列剧集。", id: "Episode anime legendaris terbaru.", ru: "Лучшие аниме-сериалы.", tr: "Popüler anime serileri.", pt: "Episódios de anime.", nl: "Populaire animeseries.", pl: "Najlepsze serie anime." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
             },
             documentaries: {
-                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires", es: "Lista de Documentales", de: "Dokumentarfilmliste", it: "Lista Documentari", ja: "ドキュメンタリーリスト", ko: "다큐멘터리 목록", zh: "纪录片列表", id: "Daftar Dokumenter", ru: "Список документальных", tr: "Belgesel Listesi", pt: "Lista de Documentários", nl: "Documentairelijst", pl: "Lista dokumentów" },
-                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques.", es: "Viajes de exploración y documentales de historia.", de: "Erforschungsreisen und Dokumentationen.", it: "Esplora i misteri della natura e della storia.", ja: "自然、宇宙、歴史の謎を解き明かす。", ko: "자연, 우주, 역사의 신비 탐험.", zh: "探索自然、宇宙与历史。", id: "Perjalanan eksplorasi dan dokumenter sejarah alam.", ru: "Исследуйте тайны природы и космоса.", tr: "Doğanın ve tarihin gizemlerini keşfedin.", pt: "Explore os mistérios da natureza.", nl: "Ontdek mysteries van de natuur.", pl: "Odkryj tajemnice natury." },
+                title: { en: "Documentaries List", ar: "قائمة الأفلام الوثائقية", fr: "Liste des Documentaires", es: "Lista de Documentales", de: "Dokumentarfilmliste", it: "Lista Documentari", ja: "ドキュメンタリーリスト", ko: "다큐멘터리 목록", zh: "纪录片列表", id: "Daftar Dokumenter", ru: "Список документальных", tr: "Belgesel Listesi", pt: "Lista de Documentários", nl: "Documentairelijst", pl: "Lista dokumentów" },
+                desc: { en: "Exploration journeys, natural history, space, and mystery documentaries.", ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", fr: "Voyages d'exploration et documentaires historiques.", es: "Viajes de exploración y documentales de historia.", de: "Erforschungsreisen und Dokumentationen.", it: "Esplora i misteri della natura e della storia.", ja: "自然、宇宙、歴史の謎を解き明かす。", ko: "자연, 우주, 역사의 신비 탐험.", zh: "探索自然、宇宙与历史。", id: "Perjalanan eksplorasi dan dokumenter sejarah alam.", ru: "Исследуйте тайны природы и космоса.", tr: "Doğanın ve tarihin gizemlerini keşfedin.", pt: "Explore os mistérios da natureza.", nl: "Ontdek mysteries van de natuur.", pl: "Odkryj tajemnice natury." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4"
             },
             football: {
-                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct", es: "Fútbol en Vivo", de: "Fußball Live", it: "Calcio Live", ja: "サッカー ライブ", ko: "축구 라이브", zh: "足球直播", id: "Sepak Bola Langsung", ru: "Футбол прямой эфир", tr: "Futbol Canlı", pt: "Futebol Ao Vivo", nl: "Voetbal Live", pl: "Piłka nożna na żywo" },
-                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats.", es: "Liga de Campeones y grandes ligas.", de: "Champions League und Top-Ligen.", it: "Champions League e campionati maggiori.", ja: "チャンピオンズリーグや欧州主要リーグ。", ko: "챔피언스 리그 및 유럽 주요 리그.", zh: "欧冠及欧洲各大联赛直播。", id: "Liga Champions, liga utama, dan komentar langsung.", ru: "Лига чемпионов и топ-лиги.", tr: "Şampiyonlar Ligi ve büyük ligler.", pt: "Liga dos Campeones e grandes ligas.", nl: "Champions League en topcompetities.", pl: "Liga Mistrzów i wielkie ligi." },
+                title: { en: "Football Live", ar: "بث مباشر - كرة القدم", fr: "Football en Direct", es: "Fútbol en Vivo", de: "Fußball Live", it: "Calcio Live", ja: "サッカー ライブ", ko: "축구 라이브", zh: "足球直播", id: "Sepak Bola Langsung", ru: "Футбол прямой эфир", tr: "Futbol Canlı", pt: "Futebol Ao Vivo", nl: "Voetbal Live", pl: "Piłka nożna na żywo" },
+                desc: { en: "Champions League, major leagues, and passionate live commentary.", ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", fr: "Ligue des champions et grands championnats.", es: "Liga de Campeones y grandes ligas.", de: "Champions League und Top-Ligen.", it: "Champions League e campionati maggiori.", ja: "チャンピオンズリーグや欧州主要リーグ。", ko: "챔피언스 리그 및 유럽 주요 리그.", zh: "欧冠及欧洲各大联赛直播。", id: "Liga Champions, liga utama, dan komentar langsung.", ru: "Лига чемпионов и топ-лиги.", tr: "Şampiyonlar Ligi ve büyük ligler.", pt: "Liga dos Campeones e grandes ligas.", nl: "Champions League en topcompetities.", pl: "Liga Mistrzów i wielkie ligi." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
             },
             ufc: {
-                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct", es: "UFC en Vivo", de: "UFC Live", it: "UFC Live", ja: "UFC ライブ", ko: "UFC 라이브", zh: "UFC直播", id: "UFC Langsung", ru: "UFC прямой эфир", tr: "UFC Canlı", pt: "UFC Ao Vivo", nl: "UFC Live", pl: "UFC na żywo" },
-                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct.", es: "Los combates mundiales más feroces en directo.", de: "Die härtesten globalen Kämpfe und Live-Streams.", it: "I più feroci combattimenti in diretta.", ja: "迫力の総合格闘技マッチ。", ko: "가장 치열한 종합격투기 대결.", zh: "最激烈的综合格斗对决。", id: "Pertarungan global paling sengit dan siaran langsung eksklusif.", ru: "Самые жаркие бои ММА.", tr: "En şiddetli dövüşler ve canlı yayınlar.", pt: "Confrontos ferozes de artes marciais.", nl: "De felste gevechten live.", pl: "Najbardziej zacięte pojedynki." },
+                title: { en: "UFC Live", ar: "بث مباشر - UFC", fr: "UFC en Direct", es: "UFC en Vivo", de: "UFC Live", it: "UFC Live", ja: "UFC ライブ", ko: "UFC 라이브", zh: "UFC直播", id: "UFC Langsung", ru: "UFC прямой эфир", tr: "UFC Canlı", pt: "UFC Ao Vivo", nl: "UFC Live", pl: "UFC na żywo" },
+                desc: { en: "The fiercest global bouts, main cards, and exclusive live streaming.", ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", fr: "Les combats mondiaux les plus féroces en direct.", es: "Los combates mundiales más feroces en directo.", de: "Die härtesten globalen Kämpfe und Live-Streams.", it: "I più feroci combattimenti in diretta.", ja: "迫力の総合格闘技マッチ。", ko: "가장 치열한 종합격투기 대결.", zh: "最激烈的综合格斗对决。", id: "Pertarungan global paling sengit dan siaran langsung eksklusif.", ru: "Самые жаркие бои ММА.", tr: "En şiddetli dövüşler ve canlı yayınlar.", pt: "Confrontos ferozes de artes marciais.", nl: "De felste gevechten live.", pl: "Najbardziej zacięte pojedynki." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
             }
         };
 
-        let currentLang = 'ar';
+        let currentLang = 'en';
 
         function changeLanguage(lang) {
-            currentLang = translations[lang] ? lang : 'ar';
-            const t = translations[currentLang] || translations['ar'];
+            currentLang = translations[lang] ? lang : 'en';
+            const t = translations[currentLang] || translations['en'];
 
             document.documentElement.lang = currentLang;
             document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
@@ -847,8 +847,8 @@
             if (!item) return;
 
             const lang = currentLang;
-            const title = item.title[lang] || item.title['ar'];
-            const desc = item.desc[lang] || item.desc['ar'];
+            const title = item.title[lang] || item.title['en'];
+            const desc = item.desc[lang] || item.desc['en'];
 
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
