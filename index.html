@@ -427,7 +427,7 @@
     <header>
         <div class="logo">M.hawk</div>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search across all categories..." onkeyup="searchMedia()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search across over 50+ titles..." onkeyup="searchMedia()">
         </div>
         <div class="header-actions">
             <button class="watchlist-nav-btn" onclick="showWatchlist()">⭐ Watchlist (<span id="watchlistCount">0</span>)</button>
@@ -454,10 +454,10 @@
     <main>
         <section class="hero-section">
             <h1 id="heroTitle">M.hawk Cinematic Platform</h1>
-            <p id="heroDesc">Choose your favorite category: Movies, Series, Anime, Animation, Documentaries, Football, or UFC.</p>
+            <p id="heroDesc">Streaming over 50+ movies, series, and live events fully optimized across 14 global languages.</p>
         </section>
 
-        <!-- شريط الأقسام السبعة المنظمة -->
+        <!-- شريط الأقسام السبعة -->
         <div class="filter-bar">
             <button class="filter-btn active" onclick="switchCategory('movies', this)" id="btnMovies">🎬 Movies</button>
             <button class="filter-btn" onclick="switchCategory('series', this)" id="btnSeries">📺 Series</button>
@@ -470,11 +470,11 @@
 
         <!-- شبكة العرض -->
         <div class="grid-container" id="mediaGrid">
-            <!-- يظهر المحتوى بناءً على القسم المختار -->
+            <!-- سيتم جلب أكثر من 50+ فيلم وعرض هنا تلقائياً -->
         </div>
     </main>
 
-    <!-- نافذة التفاصيل والمشغل -->
+    <!-- نافذة التفاصيل ومشغل الفيديو -->
     <div id="mediaModal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -505,13 +505,15 @@
         let currentCategoryData = [];
         let selectedItem = null;
         let watchlist = JSON.parse(localStorage.getItem('m_hawk_watchlist')) || [];
+        let currentLangCode = 'en';
 
-        function updateWatchlistCount() {
-            document.getElementById('watchlistCount').innerText = watchlist.length;
-        }
-        updateWatchlistCount();
+        // ربط رموز اللغات الـ 14 مع نظام TMDB لترجمة المحتوى تلقائياً
+        const tmdbLangMap = {
+            en: 'en-US', ar: 'ar-SA', fr: 'fr-FR', es: 'es-ES', de: 'de-DE',
+            it: 'it-IT', ja: 'ja-JP', ko: 'ko-KR', zh: 'zh-CN', id: 'id-ID',
+            ru: 'ru-RU', tr: 'tr-TR', pt: 'pt-BR', nl: 'nl-NL', pl: 'pl-PL'
+        };
 
-        // فيديوهات البث الافتراضية للأقسام الحية أو الأفلام
         const sampleVideos = {
             movies: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
             series: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
@@ -523,6 +525,11 @@
         };
 
         let activeCategory = 'movies';
+
+        function updateWatchlistCount() {
+            document.getElementById('watchlistCount').innerText = watchlist.length;
+        }
+        updateWatchlistCount();
 
         async function switchCategory(category, btnElement) {
             activeCategory = category;
@@ -536,29 +543,59 @@
                 return;
             }
 
-            let url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
-            if(category === 'series') url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`;
-            if(category === 'anime') url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16`;
-            if(category === 'animation') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16`;
-            if(category === 'documentaries') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99`;
+            const langParam = tmdbLangMap[currentLangCode] || 'en-US';
+            
+            // جلب صفحات متعددة لضمان عرض أكثر من 50+ فيلم وعرض بضغطة واحدة
+            let urls = [];
+            if(category === 'movies') {
+                urls = [
+                    `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${langParam}&page=1`,
+                    `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${langParam}&page=2`
+                ];
+            } else if(category === 'series') {
+                urls = [
+                    `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${langParam}&page=1`,
+                    `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${langParam}&page=2`
+                ];
+            } else if(category === 'anime') {
+                urls = [
+                    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=1`,
+                    `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=2`
+                ];
+            } else if(category === 'animation') {
+                urls = [
+                    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=1`,
+                    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=2`
+                ];
+            } else if(category === 'documentaries') {
+                urls = [
+                    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99&language=${langParam}&page=1`,
+                    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99&language=${langParam}&page=2`
+                ];
+            }
 
             try {
-                const res = await fetch(url);
-                const data = await res.json();
-                currentCategoryData = data.results.map(item => ({...item, category: category}));
+                let combinedResults = [];
+                for(let u of urls) {
+                    const res = await fetch(u);
+                    const data = await res.json();
+                    if(data.results) combinedResults = combinedResults.concat(data.results);
+                }
+                currentCategoryData = combinedResults.map(item => ({...item, category: category}));
                 displayMedia(currentCategoryData);
             } catch (err) {
-                console.error("Error fetching data:", err);
+                console.error("Error fetching 50+ media:", err);
             }
         }
 
         function loadLiveSports(sport) {
             const liveItems = sport === 'football' ? [
-                { id: 'f1', title: 'UEFA Champions League: Final Live', overview: 'Watch the ultimate showdown of European clubs in 4K HD live streaming.', poster_path: null, vote_average: 9.9, category: 'football', videoUrl: sampleVideos.football },
-                { id: 'f2', title: 'Premier League: Top Matchday Broadcast', overview: 'Live coverage of the fiercest English Premier League matches.', poster_path: null, vote_average: 9.5, category: 'football', videoUrl: sampleVideos.football }
+                { id: 'f1', title: 'UEFA Champions League: Final Broadcast', overview: 'Live 4K global coverage of European football championship.', vote_average: 9.9, category: 'football', videoUrl: sampleVideos.football },
+                { id: 'f2', title: 'Premier League: Super Sunday Matchday', overview: 'Intense live action from top English clubs.', vote_average: 9.5, category: 'football', videoUrl: sampleVideos.football },
+                { id: 'f3', title: 'El Clásico: Live Spanish Derby', overview: 'The greatest rivalry in world football streamed live in HD.', vote_average: 9.8, category: 'football', videoUrl: sampleVideos.football }
             ] : [
-                { id: 'u1', title: 'UFC Pay-Per-View Main Event Live', overview: 'The biggest mixed martial arts championship fights broadcasted live.', poster_path: null, vote_average: 9.8, category: 'ufc', videoUrl: sampleVideos.ufc },
-                { id: 'u2', title: 'UFC Fight Night: Championship Bouts', overview: 'Live explosive knockouts and title contenders showdown.', poster_path: null, vote_average: 9.6, category: 'ufc', videoUrl: sampleVideos.ufc }
+                { id: 'u1', title: 'UFC Pay-Per-View Heavyweight Championship', overview: 'Explosive mixed martial arts title defenses live.', vote_average: 9.8, category: 'ufc', videoUrl: sampleVideos.ufc },
+                { id: 'u2', title: 'UFC Fight Night: Main Card Showdown', overview: 'Top contenders battle for supremacy inside the octagon.', vote_average: 9.6, category: 'ufc', videoUrl: sampleVideos.ufc }
             ];
 
             currentCategoryData = liveItems;
@@ -595,7 +632,7 @@
         function openDetails(item) {
             selectedItem = item;
             document.getElementById('modalTitle').innerText = item.title || item.name;
-            document.getElementById('modalDesc').innerText = item.overview || 'Exclusive broadcast in high definition.';
+            document.getElementById('modalDesc').innerText = item.overview || 'Exclusive full feature content.';
             document.getElementById('videoContainer').style.display = 'none';
             document.getElementById('modalVideo').pause();
 
@@ -659,11 +696,17 @@
         }
 
         function changeLanguage(lang) {
+            currentLangCode = lang;
             document.documentElement.lang = lang;
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            
+            // إعادة تحميل الأقسام باللغة الجديدة المترجمة فورياً
+            if(activeCategory !== 'football' && activeCategory !== 'ufc') {
+                switchCategory(activeCategory);
+            }
         }
 
-        // تشغيل القسم الافتراضي (Movies) عند فتح الموقع
+        // تشغيل القسم الافتراضي عند فتح المنصة
         switchCategory('movies');
     </script>
 </body>
