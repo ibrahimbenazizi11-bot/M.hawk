@@ -82,6 +82,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -91,6 +93,30 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             text-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+        }
+
+        /* شريط البحث الحقيقي الجديد */
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.3);
         }
 
         .lang-select {
@@ -143,7 +169,7 @@
             line-height: 1.6;
         }
 
-        /* شريط التصفية والفلترة السريع (Quick Filter Bar) */
+        /* شريط التصفية والفلترة السريع */
         .filter-bar {
             display: flex;
             justify-content: center;
@@ -353,6 +379,10 @@
 
     <header>
         <div class="logo">M.hawk</div>
+        <!-- شريط البحث الحقيقي -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن فيلم، مسلسل، أنمي..." onkeyup="searchCards()">
+        </div>
         <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
             <option value="ar">العربية (Arabic)</option>
             <option value="en">English</option>
@@ -377,7 +407,7 @@
             <p id="heroDesc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.</p>
         </section>
 
-        <!-- شريط الاختيار والفلتر السريع (Quick Filter Bar) -->
+        <!-- شريط التصفية والفلتر السريع -->
         <div class="filter-bar">
             <button class="filter-btn active" onclick="filterCards('all', this)" id="filterAll">الكل</button>
             <button class="filter-btn" onclick="filterCards('movies', this)" id="filterMovies">أفلام</button>
@@ -390,7 +420,7 @@
         </div>
 
         <!-- شبكة القوائم والأقسام الكاملة -->
-        <div class="grid-container">
+        <div class="grid-container" id="cardsGrid">
             <!-- قائمة الأفلام -->
             <div class="card" data-category="movies" onclick="openModal('movies')">
                 <div class="card-icon">🎬</div>
@@ -464,6 +494,7 @@
     <script>
         const translations = {
             ar: {
+                searchPlaceholder: "ابحث عن فيلم، مسلسل، أنمي...",
                 vipText: "⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!",
                 vipBtn: "اشترك الآن",
                 heroTitle: "منصة M.hawk السينمائية",
@@ -479,6 +510,7 @@
                 footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
             },
             en: {
+                searchPlaceholder: "Search movies, series, anime...",
                 vipText: "⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!",
                 vipBtn: "Subscribe Now",
                 heroTitle: "M.hawk Cinematic Platform",
@@ -494,6 +526,7 @@
                 footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
             },
             fr: {
+                searchPlaceholder: "Rechercher films, séries, animés...",
                 vipText: "⭐ Améliorez votre expérience : qualité 4K exclusive et sans publicité pour seulement 5$/mois !",
                 vipBtn: "S'abonner",
                 heroTitle: "Plateforme Cinématographique M.hawk",
@@ -507,43 +540,219 @@
                 card6Title: "En direct - Football", card6Desc: "Ne manquez aucun moment des grands matchs de football européens.",
                 card7Title: "En direct - UFC", card7Desc: "Les combats d'arts martiaux mixtes les plus féroces en direct.",
                 footerText: "&copy; 2026 M.hawk Entertainment Hub. Tous droits réservés."
+            },
+            es: {
+                searchPlaceholder: "Buscar películas, series, anime...",
+                vipText: "⭐ Mejora tu experiencia: ¡Calidad 4K sin anuncios por solo $5/mes!",
+                vipBtn: "Suscríbete",
+                heroTitle: "Plataforma Cinematográfica M.hawk",
+                heroDesc: "Tu destino principal para películas, series, anime y combates de UFC.",
+                filterAll: "Todo", filterMovies: "Películas", filterSeries: "Series", filterAnimation: "Animación", filterAnime: "Anime", filterDocs: "Documentales", filterFootball: "Fútbol", filterUfc: "UFC",
+                card1Title: "Películas", card1Desc: "Últimos estrenos mundiales, drama y suspenso en calidad 4K.",
+                card2Title: "Series", card2Desc: "Temporadas completas y series exclusivas en alta definición.",
+                card3Title: "Animación", card3Desc: "Un mundo mágico de dibujos animados para toda la familia.",
+                card4Title: "Anime", card4Desc: "Disfruta de los episodios exclusivos de tus series de anime favoritas.",
+                card5Title: "Documentales", card5Desc: "Explora los misterios de la naturaleza, el universo y la historia.",
+                card6Title: "En vivo - Fútbol", card6Desc: "No te pierdas ningún momento de los grandes partidos de fútbol.",
+                card7Title: "En vivo - UFC", card7Desc: "Los combates de artes marciales mixtas más feroces en directo.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Todos los derechos reservados."
+            },
+            de: {
+                searchPlaceholder: "Filme, Serien, Anime suchen...",
+                vipText: "⭐ Exklusive 4K-Qualität & werbefrei für nur 5 $/Monat!",
+                vipBtn: "Abonnieren",
+                heroTitle: "M.hawk Kino-Plattform",
+                heroDesc: "Ihre erstklassige Adresse für Filme, Serien, Anime und UFC-Kämpfe.",
+                filterAll: "Alle", filterMovies: "Filme", filterSeries: "Serien", filterAnimation: "Animation", filterAnime: "Anime", filterDocs: "Dokumentationen", filterFootball: "Fußball", filterUfc: "UFC",
+                card1Title: "Filme", card1Desc: "Neueste globale Blockbuster, Dramen und Thriller in 4K-Qualität.",
+                card2Title: "Serien", card2Desc: "Komplette Staffeln und exklusive Serien in höchster Auflösung.",
+                card3Title: "Animation", card3Desc: "Eine magische Welt voller familienfreundlicher Cartoons.",
+                card4Title: "Anime", card4Desc: "Exklusive Folgen der besten Action-Anime-Serien.",
+                card5Title: "Dokumentationen", card5Desc: "Entdecken Sie die Geheimnisse der Natur, des Universums und der Geschichte.",
+                card6Title: "Live - Fußball", card6Desc: "Verpassen Sie kein Moment der Champions League und Top-Spiele.",
+                card7Title: "Live - UFC", card7Desc: "Die härtesten Mixed-Martial-Arts-Duelle und Live-Übertragungen.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Alle Rechte vorbehalten."
+            },
+            it: {
+                searchPlaceholder: "Cerca film, serie, anime...",
+                vipText: "⭐ Streaming 4K esclusivo e senza pubblicità a soli 5$/mese!",
+                vipBtn: "Abbonati",
+                heroTitle: "Piattaforma Cinematografica M.hawk",
+                heroDesc: "La tua destinazione principale per film, serie, anime e incontri UFC.",
+                filterAll: "Tutti", filterMovies: "Film", filterSeries: "Serie", filterAnimation: "Animazione", filterAnime: "Anime", filterDocs: "Documentari", filterFootball: "Calcio", filterUfc: "UFC",
+                card1Title: "Film", card1Desc: "Ultime uscite cinematografiche mondiali in qualità 4K.",
+                card2Title: "Serie", card2Desc: "Stagioni complete e serie esclusive in alta definizione.",
+                card3Title: "Animazione", card3Desc: "Un mondo magico di cartoni animati per tutta la famiglia.",
+                card4Title: "Anime", card4Desc: "Episodi esclusivi delle migliori serie anime.",
+                card5Title: "Documentari", card5Desc: "Esplora i misteri della natura, dell'universo e della storia.",
+                card6Title: "Live - Calcio", card6Desc: "Non perdere nessun momento delle grandi partite di calcio.",
+                card7Title: "Live - UFC", card7Desc: "I più feroci combattimenti di arti marziali miste in diretta.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Tutti i diritti riservati."
+            },
+            ja: {
+                searchPlaceholder: "映画、アニメ、シリーズを検索...",
+                vipText: "⭐ 独占4K画質・広告なしストリーミングが月額わずか5ドル！",
+                vipBtn: "今すぐ登録",
+                heroTitle: "M.hawk シネマティック・プラットフォーム",
+                heroDesc: "最新の映画、アニメ、スポーツ中継、UFCファイトを楽しめる最高峰のエンターテインメント。",
+                filterAll: "すべて", filterMovies: "映画", filterSeries: "シリーズ", filterAnimation: "アニメーション", filterAnime: "アニメ", filterDocs: "ドキュメンタリー", filterFootball: "サッカー", filterUfc: "UFC",
+                card1Title: "映画", card1Desc: "最新のハリウッド映画や世界の名作を4K画質で。",
+                card2Title: "シリーズ", card2Desc: "最高画質で楽しむ完全版シーズンと独占シリーズ。",
+                card3Title: "アニメーション", card3Desc: "家族みんなで楽しめる魔法の世界。",
+                card4Title: "アニメ", card4Desc: "大人気アクションアニメの独占エピソードを配信。",
+                card5Title: "ドキュメンタリー", card5Desc: "自然、宇宙、歴史の謎を解き明かす。",
+                card6Title: "ライブ - サッカー", card6Desc: "チャンピオンズリーグや欧州主要リーグの試合を見逃さない。",
+                card7Title: "ライブ - UFC", card7Desc: "迫力の総合格闘技マッチとUFC大興奮のライブ中継。",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            ko: {
+                searchPlaceholder: "영화, 시리즈, 애니메이션 검색...",
+                vipText: "⭐ 단 $5/월로 즐기는 독점 4K 화질 및 광고 없는 스트리밍!",
+                vipBtn: "지금 구독",
+                heroTitle: "M.hawk 시네마틱 플랫폼",
+                heroDesc: "최신 영화, 시리즈, 애니메이션, 스포츠 경기 및 UFC 경기를 감상할 수 있는 최고의 장소.",
+                filterAll: "전체", filterMovies: "영화", filterSeries: "시리즈", filterAnimation: "애니메이션", filterAnime: "애니", filterDocs: "다큐멘터리", filterFootball: "축구", filterUfc: "UFC",
+                card1Title: "영화", card1Desc: "4K 화질로 즐기는 최신 글로벌 블록버스터 및 드라마.",
+                card2Title: "시리즈", card2Desc: "최고 화질의 전편 및 독점 공개 시리즈.",
+                card3Title: "애니메이션", card3Desc: "온 가족이 함께 즐기는 마법 같은 카툰의 세계.",
+                card4Title: "애니", card4Desc: "최고의 인기 액션 애니메이션 독점 에피소드.",
+                card5Title: "다큐멘터리", card5Desc: "자연, 우주, 역사의 신비를 탐험하세요.",
+                card6Title: "라이브 - 축구", card6Desc: "챔피언스 리그와 유럽 주요 축구 경기를 놓치지 마세요.",
+                card7Title: "라이브 - UFC", card7Desc: "가장 치열한 종합격투기 대결과 UFC 생중계.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            zh: {
+                searchPlaceholder: "搜索电影、剧集、动漫...",
+                vipText: "⭐ 升级您的体验：仅需 $5/月即可享受独家 4K 画质与无广告流媒体！",
+                vipBtn: "立即订阅",
+                heroTitle: "M.hawk 影视平台",
+                heroDesc: "您观看最新电影、剧集、动漫、独家体育赛事和UFC格斗的首选目的地。",
+                filterAll: "全部", filterMovies: "电影", filterSeries: "剧集", filterAnimation: "动画", filterAnime: "动漫", filterDocs: "纪录片", filterFootball: "足球", filterUfc: "UFC",
+                card1Title: "电影", card1Desc: "以4K高清画质观看最新全球大片与剧情片。",
+                card2Title: "剧集", card2Desc: "以最高清晰度观看完整季和独家首播剧集。",
+                card3Title: "动画", card3Desc: "充满魔法与欢乐的合家欢卡通世界。",
+                card4Title: "动漫", card4Desc: "观看顶级热门动漫系列的独家剧集。",
+                card5Title: "纪录片", card5Desc: "通过震撼的纪录片探索自然、宇宙与历史的奥秘。",
+                card6Title: "直播 - 足球", card6Desc: "不错过欧冠及欧洲各大联赛的每一个精彩瞬间。",
+                card7Title: "直播 - UFC", card7Desc: "最激烈的综合格斗对决与UFC重大赛事现场直播。",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            ru: {
+                searchPlaceholder: "Поиск фильмов, сериалов, аниме...",
+                vipText: "⭐ Эксклюзивное качество 4K и без рекламы всего за 5$ в месяц!",
+                vipBtn: "Подписаться",
+                heroTitle: "Кинематографическая платформа M.hawk",
+                heroDesc: "Ваше главное направление для просмотра фильмов, сериалов, аниме, спорта и боев UFC.",
+                filterAll: "Все", filterMovies: "Фильмы", filterSeries: "Сериалы", filterAnimation: "Анимация", filterAnime: "Аниме", filterDocs: "Документальные", filterFootball: "Футбол", filterUfc: "UFC",
+                card1Title: "Фильмы", card1Desc: "Новейшие мировые блокбастеры и драмы в качестве 4K.",
+                card2Title: "Сериалы", card2Desc: "Полные сезоны и эксклюзивные сериалы в высоком разрешении.",
+                card3Title: "Анимация", card3Desc: "Волшебный мир семейных мультфильмов.",
+                card4Title: "Аниме", card4Desc: "Эксклюзивные серии лучших аниме-сериалов.",
+                card5Title: "Документальные", card5Desc: "Исследуйте тайны природы, вселенной и истории.",
+                card6Title: "Прямой эфир - Футбол", card6Desc: "Не пропустите матчи Лиги чемпионов и топ-лиг Европы.",
+                card7Title: "Прямой эфир - UFC", card7Desc: "Самые жаркие бои ММА и прямые трансляции турниров UFC.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Все права защищены."
+            },
+            tr: {
+                searchPlaceholder: "Film, dizi, anime ara...",
+                vipText: "⭐ Deneyiminizi yükseltin: Sadece 5$/ay karşılığında 4K kalite ve reklamsız yayın!",
+                vipBtn: "Abone Ol",
+                heroTitle: "M.hawk Sinematik Platformu",
+                heroDesc: "En son filmler, diziler, anime, özel spor maçları ve UFC dövüşleri için ilk adresiniz.",
+                filterAll: "Tümü", filterMovies: "Filmler", filterSeries: "Diziler", filterAnimation: "Animasyon", filterAnime: "Anime", filterDocs: "Belgeseller", filterFootball: "Futbol", filterUfc: "UFC",
+                card1Title: "Filmler", card1Desc: "4K kalitesinde en yeni küresel gişe rekorları kıran filmler ve dramalar.",
+                card2Title: "Diziler", card2Desc: "En yüksek çözünürlükte eksiksiz sezonlar ve özel ilk gösterim dizileri.",
+                card3Title: "Animasyon", card3Desc: "Tüm aileye uygun çizgi filmlerin sihirli dünyası.",
+                card4Title: "Anime", card4Desc: "En popüler efsanevi anime serilerinin özel bölümlerini takip edin.",
+                card5Title: "Belgeseller", card5Desc: "Doğanın, evrenin ve tarihin gizemlerini nefes kesici yapımlarla keşfedin.",
+                card6Title: "Canlı - Futbol", card6Desc: "Şampiyonlar Ligi ve büyük Avrupa futbol maçlarının hiçbir anını kaçırmayın.",
+                card7Title: "Canlı - UFC", card7Desc: "En şiddetli karma dövüş sanatları kapışmaları ve UFC canlı yayınları.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Tüm hakları saklıdır."
+            },
+            pt: {
+                searchPlaceholder: "Pesquisar filmes, séries, anime...",
+                vipText: "⭐ Atualize sua experiência: qualidade 4K exclusiva e sem anúncios por apenas $5/mês!",
+                vipBtn: "Inscreva-se",
+                heroTitle: "Plataforma Cinematográfica M.hawk",
+                heroDesc: "Seu destino principal para os últimos filmes, séries, animes, partidas esportivas e lutas do UFC.",
+                filterAll: "Todos", filterMovies: "Filmes", filterSeries: "Séries", filterAnimation: "Animação", filterAnime: "Anime", filterDocs: "Documentários", filterFootball: "Futebol", filterUfc: "UFC",
+                card1Title: "Filmes", card1Desc: "Últimos lançamentos globais, dramas e thrillers em qualidade 4K.",
+                card2Title: "Séries", card2Desc: "Temporadas completas e séries exclusivas em alta definição.",
+                card3Title: "Animação", card3Desc: "Um mundo mágico de desenhos animados para toda a família.",
+                card4Title: "Anime", card4Desc: "Acompanhe episódios exclusivos de séries de anime lendárias.",
+                card5Title: "Documentários", card5Desc: "Explore os mistérios da natureza, do universo e da história.",
+                card6Title: "Ao Vivo - Futebol", card6Desc: "Não perca nenhum momento da Liga dos Campeões e grandes ligas.",
+                card7Title: "Ao Vivo - UFC", card7Desc: "Os confrontos mais ferozes de artes marciais mistas ao vivo.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Todos os direitos reservados."
+            },
+            nl: {
+                searchPlaceholder: "Zoek films, series, anime...",
+                vipText: "⭐ Upgrade je ervaring: Exclusieve 4K-kwaliteit & ad-vrij voor slechts $5/maand!",
+                vipBtn: "Nu Abonneren",
+                heroTitle: "M.hawk Cinemating Platform",
+                heroDesc: "Jouw eerste bestemming voor de nieuwste films, series, anime, exclusieve sportwedstrijden en UFC.",
+                filterAll: "Alles", filterMovies: "Films", filterSeries: "Series", filterAnimation: "Animatie", filterAnime: "Anime", filterDocs: "Documentaires", filterFootball: "Voetbal", filterUfc: "UFC",
+                card1Title: "Films", card1Desc: "Nieuwste wereldwijde bioscoopreleases, drama en thrillers in 4K.",
+                card2Title: "Series", card2Desc: "Volledige seizoenen en exclusieve series in de hoogste definitie.",
+                card3Title: "Animatie", card3Desc: "Een magische wereld van gezinsvriendelijke tekenfilms.",
+                card4Title: "Anime", card4Desc: "Bekijk exclusieve afleveringen van legendarische animeseries.",
+                card5Title: "Documentaires", card5Desc: "Ontdek de mysteries van de natuur, het universum en de geschiedenis.",
+                card6Title: "Live - Voetbal", card6Desc: "Mis geen enkel moment van de Champions League en Europese topwedstrijden.",
+                card7Title: "Live - UFC", card7Desc: "De felste mixed martial arts duels en live uitzendingen van UFC.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Alle rechten voorbehouden."
+            },
+            pl: {
+                searchPlaceholder: "Szukaj filmów, seriali, anime...",
+                vipText: "⭐ Ulepsz swoje wrażenia: Ekskluzywna jakość 4K i bez reklam za jedyne 5$/miesiąc!",
+                vipBtn: "Subskrybuj",
+                heroTitle: "Platforma Kinowa M.hawk",
+                heroDesc: "Twoje główne źródło najnowszych filmów, seriali, anime, meczów i gal UFC.",
+                filterAll: "Wszystko", filterMovies: "Filmy", filterSeries: "Seriale", filterAnimation: "Animacje", filterAnime: "Anime", filterDocs: "Dokumentalne", filterFootball: "Piłka nożna", filterUfc: "UFC",
+                card1Title: "Filmy", card1Desc: "Najnowsze światowe hity kinowe, dramaty i thrillery w jakości 4K.",
+                card2Title: "Seriale", card2Desc: "Kompletne sezony i ekskluzywne seriale w najwyższej rozdzielczości.",
+                card3Title: "Animacje", card3Desc: "Magiczny świat bajek i animacji przyjaznych rodzinie.",
+                card4Title: "Anime", card4Desc: "Oglądaj ekskluzywne odcinki najlepszych seriali anime.",
+                card5Title: "Dokumentalne", card5Desc: "Odkryj tajemnice przyrody, wszechświata i historii.",
+                card6Title: "Na żywo - Piłka nożna", card6Desc: "Nie przegap żadnego momentu Ligi Mistrzów i wielkich meczów.",
+                card7Title: "Na żywo - UFC", card7Desc: "Najbardziej zacięte pojedynki mieszanych sztuk walki na żywo.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Wszelkie prawa zastrzeżone."
             }
         };
 
         const mediaData = {
             movies: {
-                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films" },
-                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens." },
+                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films", es: "Lista de Películas", de: "Filmliste", it: "Lista Film", ja: "映画リスト", ko: "영화 목록", zh: "电影列表", ru: "Список фильмов", tr: "Film Listesi", pt: "Lista de Filmes", nl: "Movielijst", pl: "Lista filmów" },
+                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens.", es: "Biblioteca renovada de las últimas películas de Hollywood.", de: "Erneuerte Bibliothek der neuesten Hollywood-Filme.", it: "Libreria aggiornata degli ultimi film.", ja: "最新のハリウッド映画や世界の名作ライブラリ。", ko: "최신 할리우드 영화 라이브러리.", zh: "最新好莱坞及世界电影库。", ru: "Обновляемая библиотека голливудских фильмов.", tr: "En son Hollywood ve dünya filmleri kütüphanesi.", pt: "Biblioteca atualizada de filmes.", nl: "Bijgewerkte bibliotheek van films.", pl: "Zaktualizowana biblioteka filmów." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
             },
             series: {
-                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries" },
-                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives." },
+                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries", es: "Lista de Series", de: "Serienliste", it: "Lista Serie", ja: "シリーズリスト", ko: "시리즈 목록", zh: "剧集列表", ru: "Список сериалов", tr: "Dizi Listesi", pt: "Lista de Séries", nl: "Serieslijst", pl: "Lista seriali" },
+                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives.", es: "Temporadas completas y series exclusivas.", de: "Komplette Staffeln und exklusive Serien.", it: "Stagioni complete e serie esclusive.", ja: "最高画質の完全版シーズンと独占シリーズ。", ko: "완전한 시즌과 독점 시리즈.", zh: "完整季和独家首播剧集。", ru: "Полные сезоны и эксклюзивные сериалы.", tr: "Eksiksiz sezonlar ve özel diziler.", pt: "Temporadas completas e séries exclusivas.", nl: "Volledige seizoenen en exclusieve series.", pl: "Kompletne sezony i ekskluzywne seriale." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
             },
             animation: {
-                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation" },
-                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux." },
+                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation", es: "Lista de Animación", de: "Animationsliste", it: "Lista Animazione", ja: "アニメーションリスト", ko: "애니메이션 목록", zh: "动画列表", ru: "Список анимации", tr: "Animasyon Listesi", pt: "Lista de Animação", nl: "Animatielijst", pl: "Lista animacji" },
+                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux.", es: "Un mundo mágico de dibujos animados familiares.", de: "Eine magische Welt familienfreundlicher Cartoons.", it: "Un mondo magico di cartoni animati.", ja: "家族みんなで楽しめる魔法の世界。", ko: "온 가족이 함께 즐기는 마법 같은 카툰.", zh: "合家欢卡通世界。", ru: "Волшебный мир семейных мультфильмов.", tr: "Çizgi filmlerin sihirli dünyası.", pt: "Mundo mágico de desenhos animados.", nl: "Magische wereld van tekenfilms.", pl: "Magiczny świat bajek." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             },
             anime: {
-                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés" },
-                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires." },
+                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés", es: "Lista de Anime", de: "Anime-Liste", it: "Lista Anime", ja: "アニメリスト", ko: "애니 목록", zh: "动漫列表", ru: "Список аниме", tr: "Anime Listesi", pt: "Lista de Anime", nl: "Animelijst", pl: "Lista anime" },
+                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires.", es: "Últimos episodios de anime legendarios.", de: "Neueste legendäre Anime-Episoden.", it: "Episodi esclusivi delle migliori serie anime.", ja: "大人気アニメのエピソード。", ko: "최신 애니메이션 에피소드.", zh: "热门动漫系列剧集。", ru: "Лучшие аниме-сериалы.", tr: "Popüler anime serileri.", pt: "Episódios de anime.", nl: "Populaire animeseries.", pl: "Najlepsze serie anime." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
             },
             documentaries: {
-                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires" },
-                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques." },
+                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires", es: "Lista de Documentales", de: "Dokumentarfilmliste", it: "Lista Documentari", ja: "ドキュメンタリーリスト", ko: "다큐멘터리 목록", zh: "纪录片列表", ru: "Список документальных", tr: "Belgesel Listesi", pt: "Lista de Documentários", nl: "Documentairelijst", pl: "Lista dokumentów" },
+                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques.", es: "Viajes de exploración y documentales de historia.", de: "Erforschungsreisen und Dokumentationen.", it: "Esplora i misteri della natura e della storia.", ja: "自然、宇宙、歴史の謎を解き明かす。", ko: "자연, 우주, 역사의 신비 탐험.", zh: "探索自然、宇宙与历史。", ru: "Исследуйте тайны природы и космоса.", tr: "Doğanın ve tarihin gizemlerini keşfedin.", pt: "Explore os mistérios da natureza.", nl: "Ontdek mysteries van de natuur.", pl: "Odkryj tajemnice natury." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4"
             },
             football: {
-                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct" },
-                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats." },
+                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct", es: "Fútbol en Vivo", de: "Fußball Live", it: "Calcio Live", ja: "サッカー ライブ", ko: "축구 라이브", zh: "足球直播", ru: "Футбол прямой эфир", tr: "Futbol Canlı", pt: "Futebol Ao Vivo", nl: "Voetbal Live", pl: "Piłka nożna na żywo" },
+                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats.", es: "Liga de Campeones y grandes ligas.", de: "Champions League und Top-Ligen.", it: "Champions League e campionati maggiori.", ja: "チャンピオンズリーグや欧州主要リーグ。", ko: "챔피언스 리그 및 유럽 주요 리그.", zh: "欧冠及欧洲各大联赛直播。", ru: "Лига чемпионов и топ-лиги.", tr: "Şampiyonlar Ligi ve büyük ligler.", pt: "Liga dos Campeones e grandes ligas.", nl: "Champions League en topcompetities.", pl: "Liga Mistrzów i wielkie ligi." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
             },
             ufc: {
-                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct" },
-                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct." },
+                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct", es: "UFC en Vivo", de: "UFC Live", it: "UFC Live", ja: "UFC ライブ", ko: "UFC 라이브", zh: "UFC直播", ru: "UFC прямой эфир", tr: "UFC Canlı", pt: "UFC Ao Vivo", nl: "UFC Live", pl: "UFC na żywo" },
+                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct.", es: "Los combates mundiales más feroces en directo.", de: "Die härtesten globalen Kämpfe und Live-Streams.", it: "I più feroci combattimenti in diretta.", ja: "迫力の総合格闘技マッチ。", ko: "가장 치열한 종합격투기 대결.", zh: "最激烈的综合格斗对决。", ru: "Самые жаркие бои ММА.", tr: "En şiddetli dövüşler ve canlı yayınlar.", pt: "Confrontos ferozes de artes marciais.", nl: "De felste gevechten live.", pl: "Najbardziej zacięte pojedynki." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
             }
         };
@@ -557,6 +766,7 @@
             document.documentElement.lang = currentLang;
             document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
 
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             document.getElementById('vipText').innerHTML = t.vipText;
             document.getElementById('vipBtn').innerText = t.vipBtn;
             document.getElementById('heroTitle').innerText = t.heroTitle;
@@ -577,7 +787,6 @@
             document.getElementById('card2Desc').innerText = t.card2Desc;
             document.getElementById('card3Title').innerText = t.card3Title;
             document.getElementById('card3Desc').innerText = t.card3Desc;
-            document.getElementById('card4Title').innerText.t = t.card4Title; // handled below
             document.getElementById('card4Title').innerText = t.card4Title;
             document.getElementById('card4Desc').innerText = t.card4Desc;
             document.getElementById('card5Title').innerText = t.card5Title;
@@ -590,18 +799,32 @@
         }
 
         function filterCards(category, btnElement) {
-            // إزالة الأنشطة عن كل الأزرار وإضافتها للزر الحالي
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            if(btnElement) btnElement.classList.add('active');
 
-            // إظهار أو إخفاء البطاقات حسب التصنيف المختار
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.classList.remove('hidden');
+                    card.style.display = 'flex';
                 } else {
-                    card.classList.add('hidden');
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const titleText = card.querySelector('h3').innerText.toLowerCase();
+                const descText = card.querySelector('p').innerText.toLowerCase();
+
+                if (titleText.includes(query) || descText.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
                 }
             });
         }
