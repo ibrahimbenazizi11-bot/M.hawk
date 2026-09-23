@@ -350,14 +350,14 @@
             const sourceElement = document.getElementById('videoSource');
             
             sourceElement.src = videoUrl;
-            videoElement.load(); // إعادة تحميل المشغل بالرابط الجديد
+            videoElement.load();
             
             document.getElementById('mediaModal').classList.add('active');
         }
 
         function closeModal() {
             const videoElement = document.getElementById('modalVideo');
-            videoElement.pause(); // إيقاف الفيديو عند إغلاق النافذة
+            videoElement.pause();
             document.getElementById('mediaModal').classList.remove('active');
         }
 
@@ -379,7 +379,7 @@
                     if(document.getElementById('heroDesc')) document.getElementById('heroDesc').innerText = data.app.heroDesc || "";
                     if(document.getElementById('card1Title')) document.getElementById('card1Title').innerText = data.app.card1Title || "";
                     if(document.getElementById('card1Desc')) document.getElementById('card1Desc').innerText = data.app.card1Desc || "";
-                    if(document.getElementById('card2Title')) document.getElementById('card2Title').innerText = data.app.card2Title || "",
+                    if(document.getElementById('card2Title')) document.getElementById('card2Title').innerText = data.app.card2Title || "";
                     if(document.getElementById('card2Desc')) document.getElementById('card2Desc').innerText = data.app.card2Desc || "";
                     if(document.getElementById('card3Title')) document.getElementById('card3Title').innerText = data.app.card3Title || "";
                     if(document.getElementById('card3Desc')) document.getElementById('card3Desc').innerText = data.app.card3Desc || "";
