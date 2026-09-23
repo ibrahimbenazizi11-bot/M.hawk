@@ -188,11 +188,11 @@
             line-height: 1.6;
         }
 
-        /* شريط التصفية السريع */
+        /* شريط التصفية بالأقسام الـ 7 المنظمة */
         .filter-bar {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             width: 100%;
             margin-bottom: 10px;
@@ -202,10 +202,10 @@
             background: rgba(22, 27, 34, 0.8);
             color: var(--text-secondary);
             border: 1px solid var(--border-color);
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -218,7 +218,7 @@
             transform: translateY(-2px);
         }
 
-        /* شبكة الأفلام الحقيقية (Grid) */
+        /* شبكة عرض المحتوى */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -226,7 +226,7 @@
             width: 100%;
         }
 
-        .movie-card {
+        .media-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -238,20 +238,20 @@
             position: relative;
         }
 
-        .movie-card:hover {
+        .media-card:hover {
             transform: translateY(-8px);
             border-color: rgba(229, 9, 20, 0.5);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
-        .movie-poster {
+        .media-poster {
             width: 100%;
             aspect-ratio: 2/3;
             object-fit: cover;
             background: #1e293b;
         }
 
-        .movie-info {
+        .media-info {
             padding: 15px;
             display: flex;
             flex-direction: column;
@@ -259,7 +259,7 @@
             flex: 1;
         }
 
-        .movie-title {
+        .media-title {
             font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
@@ -268,19 +268,19 @@
             text-overflow: ellipsis;
         }
 
-        .movie-meta {
+        .media-meta {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .movie-rating {
+        .media-rating {
             color: var(--gold-color);
             font-weight: 700;
         }
 
-        /* نافذة تفاصيل الفيلم المنبثقة ومشغل الفيديو */
+        /* نافذة التفاصيل ومشغل الفيديو */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -427,7 +427,7 @@
     <header>
         <div class="logo">M.hawk</div>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search movies, series..." onkeyup="searchMovies()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search across all categories..." onkeyup="searchMedia()">
         </div>
         <div class="header-actions">
             <button class="watchlist-nav-btn" onclick="showWatchlist()">⭐ Watchlist (<span id="watchlistCount">0</span>)</button>
@@ -454,20 +454,23 @@
     <main>
         <section class="hero-section">
             <h1 id="heroTitle">M.hawk Cinematic Platform</h1>
-            <p id="heroDesc">Explore trending movies and series fetched live via TMDB API in supreme cinematic quality.</p>
+            <p id="heroDesc">Choose your favorite category: Movies, Series, Anime, Animation, Documentaries, Football, or UFC.</p>
         </section>
 
-        <!-- شريط الفلترة السريع -->
+        <!-- شريط الأقسام السبعة المنظمة -->
         <div class="filter-bar">
-            <button class="filter-btn active" onclick="fetchMedia('trending', this)" id="filterTrending">Trending</button>
-            <button class="filter-btn" onclick="fetchMedia('movies', this)" id="filterMovies">Movies</button>
-            <button class="filter-btn" onclick="fetchMedia('series', this)" id="filterSeries">Series</button>
-            <button class="filter-btn" onclick="fetchMedia('animation', this)" id="filterAnimation">Animation</button>
+            <button class="filter-btn active" onclick="switchCategory('movies', this)" id="btnMovies">🎬 Movies</button>
+            <button class="filter-btn" onclick="switchCategory('series', this)" id="btnSeries">📺 Series</button>
+            <button class="filter-btn" onclick="switchCategory('anime', this)" id="btnAnime">⛩️ Anime</button>
+            <button class="filter-btn" onclick="switchCategory('animation', this)" id="btnAnimation">🎨 Animation</button>
+            <button class="filter-btn" onclick="switchCategory('documentaries', this)" id="btnDocs">🌍 Documentaries</button>
+            <button class="filter-btn" onclick="switchCategory('football', this)" id="btnFootball">⚽ Football Live</button>
+            <button class="filter-btn" onclick="switchCategory('ufc', this)" id="btnUfc">🥊 UFC Live</button>
         </div>
 
-        <!-- شبكة عرض الأفلام الحقيقية -->
-        <div class="grid-container" id="moviesGrid">
-            <!-- يتم جلب الأفلام هنا ديناميكياً عبر JavaScript -->
+        <!-- شبكة العرض -->
+        <div class="grid-container" id="mediaGrid">
+            <!-- يظهر المحتوى بناءً على القسم المختار -->
         </div>
     </main>
 
@@ -478,7 +481,7 @@
             
             <div id="videoContainer" class="video-container">
                 <video id="modalVideo" controls>
-                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+                    <source id="videoSource" src="" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -498,9 +501,9 @@
     </footer>
 
     <script>
-        const API_KEY = 'c44336c1e57c6b5478ebbc61d3106d88'; // مفتاح تجريبي عام لـ TMDB API
-        let currentMovies = [];
-        let selectedMovie = null;
+        const API_KEY = 'c44336c1e57c6b5478ebbc61d3106d88';
+        let currentCategoryData = [];
+        let selectedItem = null;
         let watchlist = JSON.parse(localStorage.getItem('m_hawk_watchlist')) || [];
 
         function updateWatchlistCount() {
@@ -508,47 +511,80 @@
         }
         updateWatchlistCount();
 
-        async function fetchMedia(type, btnElement) {
+        // فيديوهات البث الافتراضية للأقسام الحية أو الأفلام
+        const sampleVideos = {
+            movies: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            series: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            anime: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+            animation: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            documentaries: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4",
+            football: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            ufc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        };
+
+        let activeCategory = 'movies';
+
+        async function switchCategory(category, btnElement) {
+            activeCategory = category;
             if(btnElement) {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 btnElement.classList.add('active');
             }
 
-            let url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`;
-            if(type === 'movies') url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
-            if(type === 'series') url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`;
-            if(type === 'animation') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_animation=16`;
+            if(category === 'football' || category === 'ufc') {
+                loadLiveSports(category);
+                return;
+            }
+
+            let url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
+            if(category === 'series') url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`;
+            if(category === 'anime') url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16`;
+            if(category === 'animation') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16`;
+            if(category === 'documentaries') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99`;
 
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                currentMovies = data.results;
-                displayMovies(currentMovies);
+                currentCategoryData = data.results.map(item => ({...item, category: category}));
+                displayMedia(currentCategoryData);
             } catch (err) {
-                console.error("Error fetching media:", err);
+                console.error("Error fetching data:", err);
             }
         }
 
-        function displayMovies(movies) {
-            const grid = document.getElementById('moviesGrid');
+        function loadLiveSports(sport) {
+            const liveItems = sport === 'football' ? [
+                { id: 'f1', title: 'UEFA Champions League: Final Live', overview: 'Watch the ultimate showdown of European clubs in 4K HD live streaming.', poster_path: null, vote_average: 9.9, category: 'football', videoUrl: sampleVideos.football },
+                { id: 'f2', title: 'Premier League: Top Matchday Broadcast', overview: 'Live coverage of the fiercest English Premier League matches.', poster_path: null, vote_average: 9.5, category: 'football', videoUrl: sampleVideos.football }
+            ] : [
+                { id: 'u1', title: 'UFC Pay-Per-View Main Event Live', overview: 'The biggest mixed martial arts championship fights broadcasted live.', poster_path: null, vote_average: 9.8, category: 'ufc', videoUrl: sampleVideos.ufc },
+                { id: 'u2', title: 'UFC Fight Night: Championship Bouts', overview: 'Live explosive knockouts and title contenders showdown.', poster_path: null, vote_average: 9.6, category: 'ufc', videoUrl: sampleVideos.ufc }
+            ];
+
+            currentCategoryData = liveItems;
+            displayMedia(currentCategoryData);
+        }
+
+        function displayMedia(items) {
+            const grid = document.getElementById('mediaGrid');
             grid.innerHTML = '';
 
-            movies.forEach(movie => {
-                const title = movie.title || movie.name || 'Unknown Title';
-                const date = movie.release_date || movie.first_air_date || '2026';
-                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-                const poster = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Image';
+            items.forEach(item => {
+                const title = item.title || item.name || 'Title';
+                const date = item.release_date || item.first_air_date || '2026';
+                const rating = item.vote_average ? item.vote_average.toFixed(1) : '9.0';
+                const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60';
 
                 const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.onclick = () => openDetails(movie);
+                card.className = 'media-card';
+                card.onclick = () => openDetails(item);
                 card.innerHTML = `
-                    <img class="movie-poster" src="${poster}" alt="${title}">
-                    <div class="movie-info">
-                        <div class="movie-title">${title}</div>
-                        <div class="movie-meta">
+                    <img class="media-poster" src="${poster}" alt="${title}">
+                    <div class="media-info">
+                        <div class="media-title">${title}</div>
+                        <div class="media-meta">
                             <span>${date.substring(0,4)}</span>
-                            <span class="movie-rating">⭐ ${rating}</span>
+                            <span class="media-rating">⭐ ${rating}</span>
                         </div>
                     </div>
                 `;
@@ -556,10 +592,10 @@
             });
         }
 
-        function openDetails(movie) {
-            selectedMovie = movie;
-            document.getElementById('modalTitle').innerText = movie.title || movie.name;
-            document.getElementById('modalDesc').innerText = movie.overview || 'No description available.';
+        function openDetails(item) {
+            selectedItem = item;
+            document.getElementById('modalTitle').innerText = item.title || item.name;
+            document.getElementById('modalDesc').innerText = item.overview || 'Exclusive broadcast in high definition.';
             document.getElementById('videoContainer').style.display = 'none';
             document.getElementById('modalVideo').pause();
 
@@ -568,19 +604,25 @@
         }
 
         function playVideo() {
-            document.getElementById('videoContainer').style.display = 'block';
-            document.getElementById('modalVideo').play();
+            const videoContainer = document.getElementById('videoContainer');
+            const videoElement = document.getElementById('modalVideo');
+            const sourceElement = document.getElementById('videoSource');
+
+            sourceElement.src = selectedItem.videoUrl || sampleVideos[activeCategory] || sampleVideos.movies;
+            videoContainer.style.display = 'block';
+            videoElement.load();
+            videoElement.play();
         }
 
         function toggleWatchlist() {
-            if(!selectedMovie) return;
-            const id = selectedMovie.id;
+            if(!selectedItem) return;
+            const id = selectedItem.id;
             const index = watchlist.findIndex(m => m.id === id);
             
             if(index > -1) {
                 watchlist.splice(index, 1);
             } else {
-                watchlist.push(selectedMovie);
+                watchlist.push(selectedItem);
             }
             localStorage.setItem('m_hawk_watchlist', JSON.stringify(watchlist));
             updateWatchlistCount();
@@ -588,23 +630,23 @@
         }
 
         function updateModalWatchlistButton() {
-            if(!selectedMovie) return;
+            if(!selectedItem) return;
             const btn = document.getElementById('modalWatchlistBtn');
-            const exists = watchlist.some(m => m.id === selectedMovie.id);
+            const exists = watchlist.some(m => m.id === selectedItem.id);
             btn.innerText = exists ? "❌ Remove from Watchlist" : "⭐ Add to Watchlist";
         }
 
         function showWatchlist() {
-            displayMovies(watchlist);
+            displayMedia(watchlist);
         }
 
-        function searchMovies() {
+        function searchMedia() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = currentMovies.filter(m => {
+            const filtered = currentCategoryData.filter(m => {
                 const title = (m.title || m.name || '').toLowerCase();
                 return title.includes(query);
             });
-            displayMovies(filtered);
+            displayMedia(filtered);
         }
 
         function closeModal() {
@@ -621,8 +663,8 @@
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         }
 
-        // جلب الأفلام تلقائياً عند فتح الموقع
-        fetchMedia('trending');
+        // تشغيل القسم الافتراضي (Movies) عند فتح الموقع
+        switchCategory('movies');
     </script>
 </body>
 </html>
