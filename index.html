@@ -266,7 +266,7 @@
                 </div>
                 <div id="modalOverview" class="modal-overview"></div>
                 <!-- Telegram Full Movie Button -->
-                <a id="telegramBtn" href="https://t.me/YOUR_TELEGRAM_CHANNEL" target="_blank" class="watch-btn">
+                <a id="telegramBtn" href="#" target="_blank" class="watch-btn">
                     شاهد الفيلم الكامل على تليجرام
                 </a>
             </div>
@@ -296,7 +296,6 @@
             const container = document.getElementById('movies-container');
             container.innerHTML = '';
 
-            movies.logger = true;
             movies.forEach(movie => {
                 const posterPath = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : 'https://via.placeholder.com/220x330?text=No+Image';
                 const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
@@ -347,8 +346,8 @@
                 document.getElementById('modalRating').textContent = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
                 document.getElementById('modalOverview').textContent = movie.overview || 'No description available.';
 
-                // يمكنك تخصيص رابط تليجرام هنا لكل فيلم أو جعله يوجه لقناتك العامة
-                // مثلاً: telegramBtn.href = `https://t.me/your_channel?start=${movieId}`;
+                // ربط الزر مباشرة ببوت تليجرام الخاص بك مع تمرير رقم الفيلم تلقائياً
+                telegramBtn.href = `https://t.me/Moviehawk_4k_bot?start=movie_${movieId}`;
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
