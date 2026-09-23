@@ -7,8 +7,8 @@
     <style>
         :root {
             --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.75);
-            --card-hover: rgba(30, 41, 59, 0.9);
+            --card-bg: rgba(22, 27, 34, 0.85);
+            --card-hover: rgba(30, 41, 59, 0.95);
             --accent-color: #e50914;
             --gold-color: #f59e0b;
             --text-primary: #f8fafc;
@@ -158,7 +158,7 @@
 
         /* المحتوى الرئيسي */
         main {
-            max-width: 1200px;
+            max-width: 1300px;
             width: 100%;
             padding: 40px 20px;
             display: flex;
@@ -188,7 +188,7 @@
             line-height: 1.6;
         }
 
-        /* شريط التصفية والفلتر السريع */
+        /* شريط التصفية السريع */
         .filter-bar {
             display: flex;
             justify-content: center;
@@ -218,53 +218,69 @@
             transform: translateY(-2px);
         }
 
-        /* شبكة الأقسام السينمائية والقوائم */
+        /* شبكة الأفلام الحقيقية (Grid) */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 25px;
             width: 100%;
         }
 
-        .card {
+        .movie-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 30px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 15px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.4s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .card:hover {
+        .movie-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(229, 9, 20, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 9, 20, 0.15);
-            background: var(--card-hover);
+            border-color: rgba(229, 9, 20, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
-        .card-icon {
-            font-size: 32px;
+        .movie-poster {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            background: #1e293b;
         }
 
-        .card h3 {
-            font-size: 20px;
+        .movie-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .movie-title {
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .card p {
-            font-size: 14px;
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
             color: var(--text-secondary);
-            line-height: 1.5;
         }
 
-        /* نافذة تفاصيل المحتوى المنبثقة (Details Modal) */
+        .movie-rating {
+            color: var(--gold-color);
+            font-weight: 700;
+        }
+
+        /* نافذة تفاصيل الفيلم المنبثقة ومشغل الفيديو */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -318,7 +334,6 @@
             color: var(--text-secondary);
             font-size: 24px;
             cursor: pointer;
-            transition: color 0.2s;
             z-index: 10;
         }
 
@@ -333,7 +348,7 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            display: none; /* يظهر فقط عند الضغط على زر التشغيل */
+            display: none;
             margin-bottom: 15px;
         }
 
@@ -347,14 +362,6 @@
             font-size: 26px;
             font-weight: 800;
             color: var(--text-primary);
-        }
-
-        .modal-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-            color: var(--gold-color);
-            font-weight: 600;
         }
 
         .modal-desc {
@@ -387,7 +394,6 @@
 
         .play-btn:hover {
             background: #b91c1c;
-            box-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
         }
 
         .watchlist-btn {
@@ -413,7 +419,6 @@
 </head>
 <body>
 
-    <!-- شريط الاشتراك العائم VIP 4K -->
     <div class="vip-banner">
         <span id="vipText">⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!</span>
         <button class="vip-btn" id="vipBtn" onclick="alert('Subscription feature coming soon!')">Subscribe Now</button>
@@ -422,10 +427,10 @@
     <header>
         <div class="logo">M.hawk</div>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search movies, series, anime..." onkeyup="searchCards()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search movies, series..." onkeyup="searchMovies()">
         </div>
         <div class="header-actions">
-            <button class="watchlist-nav-btn" id="watchlistNav" onclick="showWatchlist()">⭐ Watchlist (<span id="watchlistCount">0</span>)</button>
+            <button class="watchlist-nav-btn" onclick="showWatchlist()">⭐ Watchlist (<span id="watchlistCount">0</span>)</button>
             <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
                 <option value="en" selected>English</option>
                 <option value="ar">العربية (Arabic)</option>
@@ -449,83 +454,41 @@
     <main>
         <section class="hero-section">
             <h1 id="heroTitle">M.hawk Cinematic Platform</h1>
-            <p id="heroDesc">Your premier destination for the latest movies, series, anime, exclusive sports matches, and UFC fights in supreme cinematic quality.</p>
+            <p id="heroDesc">Explore trending movies and series fetched live via TMDB API in supreme cinematic quality.</p>
         </section>
 
-        <!-- شريط التصفية السريع -->
+        <!-- شريط الفلترة السريع -->
         <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterCards('all', this)" id="filterAll">All</button>
-            <button class="filter-btn" onclick="filterCards('movies', this)" id="filterMovies">Movies</button>
-            <button class="filter-btn" onclick="filterCards('series', this)" id="filterSeries">Series</button>
-            <button class="filter-btn" onclick="filterCards('animation', this)" id="filterAnimation">Animation</button>
-            <button class="filter-btn" onclick="filterCards('anime', this)" id="filterAnime">Anime</button>
-            <button class="filter-btn" onclick="filterCards('documentaries', this)" id="filterDocs">Documentaries</button>
-            <button class="filter-btn" onclick="filterCards('football', this)" id="filterFootball">Football</button>
-            <button class="filter-btn" onclick="filterCards('ufc', this)" id="filterUfc">UFC</button>
+            <button class="filter-btn active" onclick="fetchMedia('trending', this)" id="filterTrending">Trending</button>
+            <button class="filter-btn" onclick="fetchMedia('movies', this)" id="filterMovies">Movies</button>
+            <button class="filter-btn" onclick="fetchMedia('series', this)" id="filterSeries">Series</button>
+            <button class="filter-btn" onclick="fetchMedia('animation', this)" id="filterAnimation">Animation</button>
         </div>
 
-        <!-- شبكة الأقسام -->
-        <div class="grid-container" id="cardsGrid">
-            <div class="card" data-category="movies" onclick="openDetails('movies')">
-                <div class="card-icon">🎬</div>
-                <h3 id="card1Title">Movies</h3>
-                <p id="card1Desc">Latest global blockbuster releases, drama, and thrillers in 4K quality.</p>
-            </div>
-            <div class="card" data-category="series" onclick="openDetails('series')">
-                <div class="card-icon">📺</div>
-                <h3 id="card2Title">Series</h3>
-                <p id="card2Desc">Complete seasons and exclusive first-run series in highest definition.</p>
-            </div>
-            <div class="card" data-category="animation" onclick="openDetails('animation')">
-                <div class="card-icon">🎨</div>
-                <h3 id="card3Title">Animation</h3>
-                <p id="card3Desc">A magical world of family-friendly cartoons and animation masterpieces.</p>
-            </div>
-            <div class="card" data-category="anime" onclick="openDetails('anime')">
-                <div class="card-icon">⛩️</div>
-                <h3 id="card4Title">Anime</h3>
-                <p id="card4Desc">Catch exclusive episodes of top legendary and action-packed anime series.</p>
-            </div>
-            <div class="card" data-category="documentaries" onclick="openDetails('documentaries')">
-                <div class="card-icon">🌍</div>
-                <h3 id="card5Title">Documentaries</h3>
-                <p id="card5Desc">Explore the mysteries of nature, universe, and history through breathtaking docs.</p>
-            </div>
-            <div class="card" data-category="football" onclick="openDetails('football')">
-                <div class="card-icon">⚽</div>
-                <h3 id="card6Title">Live - Football</h3>
-                <p id="card6Desc">Don't miss any moment of Champions League and major European football matches.</p>
-            </div>
-            <div class="card" data-category="ufc" onclick="openDetails('ufc')">
-                <div class="card-icon">🥊</div>
-                <h3 id="card7Title">Live - UFC</h3>
-                <p id="card7Desc">The fiercest mixed martial arts showdowns and live broadcasts of major UFC events.</p>
-            </div>
+        <!-- شبكة عرض الأفلام الحقيقية -->
+        <div class="grid-container" id="moviesGrid">
+            <!-- يتم جلب الأفلام هنا ديناميكياً عبر JavaScript -->
         </div>
     </main>
 
-    <!-- نافذة تفاصيل المحتوى ومشغل الفيديو -->
+    <!-- نافذة التفاصيل والمشغل -->
     <div id="mediaModal" class="modal-overlay" onclick="closeModalOutside(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">&times;</button>
             
             <div id="videoContainer" class="video-container">
                 <video id="modalVideo" controls>
-                    <source id="videoSource" src="" type="video/mp4">
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
 
             <h2 id="modalTitle" class="modal-title">Title</h2>
-            <div class="modal-meta">
-                <span id="modalRating">⭐ 4.9 / 5.0 (VIP 4K)</span>
-                <span id="modalGenre">Genre: Cinematic</span>
-            </div>
-            <p id="modalDesc" class="modal-desc">Detailed overview and story description will appear here...</p>
+            <p id="modalDesc" class="modal-desc">Overview...</p>
             
             <div class="modal-actions">
-                <button class="action-btn play-btn" id="playBtnText" onclick="playVideo()">▶ Play Now</button>
-                <button class="action-btn watchlist-btn" id="watchlistBtnText" onclick="toggleWatchlist()">⭐ Add to Watchlist</button>
+                <button class="action-btn play-btn" onclick="playVideo()">▶ Play Now</button>
+                <button class="action-btn watchlist-btn" id="modalWatchlistBtn" onclick="toggleWatchlist()">⭐ Add to Watchlist</button>
             </div>
         </div>
     </div>
@@ -535,87 +498,9 @@
     </footer>
 
     <script>
-        const translations = {
-            en: {
-                searchPlaceholder: "Search movies, series, anime...",
-                vipText: "⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!",
-                vipBtn: "Subscribe Now",
-                heroTitle: "M.hawk Cinematic Platform",
-                heroDesc: "Your premier destination for the latest movies, series, anime, exclusive sports matches, and UFC fights in supreme cinematic quality.",
-                filterAll: "All", filterMovies: "Movies", filterSeries: "Series", filterAnimation: "Animation", filterAnime: "Anime", filterDocs: "Documentaries", filterFootball: "Football", filterUfc: "UFC",
-                card1Title: "Movies", card1Desc: "Latest global blockbuster releases, drama, and thrillers in 4K quality.",
-                card2Title: "Series", card2Desc: "Complete seasons and exclusive first-run series in highest definition.",
-                card3Title: "Animation", card3Desc: "A magical world of family-friendly cartoons and animation masterpieces.",
-                card4Title: "Anime", card4Desc: "Catch exclusive episodes of top legendary and action-packed anime series.",
-                card5Title: "Documentaries", card5Desc: "Explore the mysteries of nature, universe, and history through breathtaking docs.",
-                card6Title: "Live - Football", card6Desc: "Don't miss any moment of Champions League and major European football matches.",
-                card7Title: "Live - UFC", card7Desc: "The fiercest mixed martial arts showdowns and live broadcasts of major UFC events.",
-                playBtn: "▶ Play Now",
-                addWatchlist: "⭐ Add to Watchlist",
-                removeWatchlist: "❌ Remove from Watchlist",
-                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
-            },
-            ar: {
-                searchPlaceholder: "ابحث عن فيلم، مسلسل، أنمي...",
-                vipText: "⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!",
-                vipBtn: "اشترك الآن",
-                heroTitle: "منصة M.hawk السينمائية",
-                heroDesc: "وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.",
-                filterAll: "الكل", filterMovies: "أفلام", filterSeries: "مسلسلات", filterAnimation: "رسوم متحركة", filterAnime: "أنمي", filterDocs: "وثائقية", filterFootball: "كرة القدم", filterUfc: "UFC",
-                card1Title: "قائمة الأفلام", card1Desc: "أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.",
-                card2Title: "قائمة المسلسلات", card2Desc: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.",
-                card3Title: "قائمة الرسوم المتحركة", card3Desc: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.",
-                card4Title: "قائمة الأنمي", card4Desc: "تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.",
-                card5Title: "قائمة الأفلام الوثائقية", card5Desc: "اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.",
-                card6Title: "بث مباشر - كرة القدم", card6Desc: "لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.",
-                card7Title: "بث مباشر - UFC", card7Desc: "أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.",
-                playBtn: "▶ تشغيل الآن",
-                addWatchlist: "⭐ إضافة إلى المفضلة",
-                removeWatchlist: "❌ إزالة من المفضلة",
-                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
-            }
-        };
-
-        const mediaData = {
-            movies: {
-                title: { en: "Movies List", ar: "قائمة الأفلام" },
-                desc: { en: "Renewed library of latest Hollywood and world movies in high quality with 4K resolution support and immersive surround sound.", ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية مع دعم دقة 4K وصوت محيطي مذهل." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-            },
-            series: {
-                title: { en: "Series List", ar: "قائمة المسلسلات" },
-                desc: { en: "Complete seasons and exclusive first-run series in highest definition with multi-language subtitles.", ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة بأعلى دقة مع ترجمة متعددة اللغات." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
-            },
-            animation: {
-                title: { en: "Animation List", ar: "قائمة الرسوم المتحركة" },
-                desc: { en: "A magical world of family-friendly cartoons and animation masterpieces for all ages.", ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة وروائع الرسوم المتحركة." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            },
-            anime: {
-                title: { en: "Anime List", ar: "قائمة الأنمي" },
-                desc: { en: "Catch exclusive episodes of top legendary and action-packed anime series updated instantly.", ar: "تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي محدثة فورياً." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
-            },
-            documentaries: {
-                title: { en: "Documentaries List", ar: "قائمة الأفلام الوثائقية" },
-                desc: { en: "Explore the mysteries of nature, universe, and history through breathtaking cinematic documentaries.", ar: "اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية سينمائية مبهرة." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4"
-            },
-            football: {
-                title: { en: "Football Live", ar: "بث مباشر - كرة القدم" },
-                desc: { en: "Champions League, major leagues, and passionate live commentary in HD quality.", ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر بجودة عالية." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-            },
-            ufc: {
-                title: { en: "UFC Live", ar: "بث مباشر - UFC" },
-                desc: { en: "The fiercest global bouts, main cards, and exclusive live streaming without interruptions.", ar: "أشرس نزالات فنون القتال المختلطة، البطاقات الرئيسة، وبث مباشر حصري بدون تقطيع." },
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
-            }
-        };
-
-        let currentLang = 'en';
-        let currentCategory = '';
+        const API_KEY = 'c44336c1e57c6b5478ebbc61d3106d88'; // مفتاح تجريبي عام لـ TMDB API
+        let currentMovies = [];
+        let selectedMovie = null;
         let watchlist = JSON.parse(localStorage.getItem('m_hawk_watchlist')) || [];
 
         function updateWatchlistCount() {
@@ -623,155 +508,121 @@
         }
         updateWatchlistCount();
 
-        function changeLanguage(lang) {
-            currentLang = translations[lang] ? lang : 'en';
-            const t = translations[currentLang] || translations['en'];
+        async function fetchMedia(type, btnElement) {
+            if(btnElement) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
 
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+            let url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`;
+            if(type === 'movies') url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
+            if(type === 'series') url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`;
+            if(type === 'animation') url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_animation=16`;
 
-            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            document.getElementById('vipText').innerHTML = t.vipText;
-            document.getElementById('vipBtn').innerText = t.vipBtn;
-            document.getElementById('heroTitle').innerText = t.heroTitle;
-            document.getElementById('heroDesc').innerText = t.heroDesc;
-
-            document.getElementById('filterAll').innerText = t.filterAll;
-            document.getElementById('filterMovies').innerText = t.filterMovies;
-            document.getElementById('filterSeries').innerText = t.filterSeries;
-            document.getElementById('filterAnimation').innerText = t.filterAnimation;
-            document.getElementById('filterAnime').innerText = t.filterAnime;
-            document.getElementById('filterDocs').innerText = t.filterDocs;
-            document.getElementById('filterFootball').innerText = t.filterFootball;
-            document.getElementById('filterUfc').innerText = t.filterUfc;
-
-            document.getElementById('card1Title').innerText = t.card1Title;
-            document.getElementById('card1Desc').innerText = t.card1Desc;
-            document.getElementById('card2Title').innerText = t.card2Title;
-            document.getElementById('card2Desc').innerText = t.card2Desc;
-            document.getElementById('card3Title').innerText = t.card3Title;
-            document.getElementById('card3Desc').innerText = t.card3Desc;
-            document.getElementById('card4Title').innerText = t.card4Title;
-            document.getElementById('card4Desc').innerText = t.card4Desc;
-            document.getElementById('card5Title').innerText = t.card5Title;
-            document.getElementById('card5Desc').innerText = t.card5Desc;
-            document.getElementById('card6Title').innerText = t.card6Title;
-            document.getElementById('card6Desc').innerText = t.card6Desc;
-            document.getElementById('card7Title').innerText = t.card7Title;
-            document.getElementById('card7Desc').innerText = t.card7Desc;
-            document.getElementById('footerText').innerHTML = t.footerText;
-            
-            updateWatchlistButtonState();
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                currentMovies = data.results;
+                displayMovies(currentMovies);
+            } catch (err) {
+                console.error("Error fetching media:", err);
+            }
         }
 
-        function openDetails(categoryKey) {
-            currentCategory = categoryKey;
-            const item = mediaData[categoryKey];
-            if (!item) return;
+        function displayMovies(movies) {
+            const grid = document.getElementById('moviesGrid');
+            grid.innerHTML = '';
 
-            const lang = currentLang;
-            document.getElementById('modalTitle').innerText = item.title[lang] || item.title['en'];
-            document.getElementById('modalDesc').innerText = item.desc[lang] || item.desc['en'];
-            
-            // إخفاء الفيديو وعرض التفاصيل أولاً (صفحة التفاصيل)
+            movies.forEach(movie => {
+                const title = movie.title || movie.name || 'Unknown Title';
+                const date = movie.release_date || movie.first_air_date || '2026';
+                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+                const poster = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Image';
+
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.onclick = () => openDetails(movie);
+                card.innerHTML = `
+                    <img class="movie-poster" src="${poster}" alt="${title}">
+                    <div class="movie-info">
+                        <div class="movie-title">${title}</div>
+                        <div class="movie-meta">
+                            <span>${date.substring(0,4)}</span>
+                            <span class="movie-rating">⭐ ${rating}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openDetails(movie) {
+            selectedMovie = movie;
+            document.getElementById('modalTitle').innerText = movie.title || movie.name;
+            document.getElementById('modalDesc').innerText = movie.overview || 'No description available.';
             document.getElementById('videoContainer').style.display = 'none';
             document.getElementById('modalVideo').pause();
 
-            updateWatchlistButtonState();
+            updateModalWatchlistButton();
             document.getElementById('mediaModal').classList.add('active');
         }
 
         function playVideo() {
-            const item = mediaData[currentCategory];
-            if (!item) return;
-
-            const videoContainer = document.getElementById('videoContainer');
-            const videoElement = document.getElementById('modalVideo');
-            const sourceElement = document.getElementById('videoSource');
-
-            sourceElement.src = item.url;
-            videoContainer.style.display = 'block';
-            videoElement.load();
-            videoElement.play();
+            document.getElementById('videoContainer').style.display = 'block';
+            document.getElementById('modalVideo').play();
         }
 
         function toggleWatchlist() {
-            const index = watchlist.indexOf(currentCategory);
-            if (index > -1) {
+            if(!selectedMovie) return;
+            const id = selectedMovie.id;
+            const index = watchlist.findIndex(m => m.id === id);
+            
+            if(index > -1) {
                 watchlist.splice(index, 1);
             } else {
-                watchlist.push(currentCategory);
+                watchlist.push(selectedMovie);
             }
             localStorage.setItem('m_hawk_watchlist', JSON.stringify(watchlist));
             updateWatchlistCount();
-            updateWatchlistButtonState();
+            updateModalWatchlistButton();
         }
 
-        function updateWatchlistButtonState() {
-            const t = translations[currentLang] || translations['en'];
-            const btn = document.getElementById('watchlistBtnText');
-            if (watchlist.includes(currentCategory)) {
-                btn.innerText = t.removeWatchlist;
-            } else {
-                btn.innerText = t.addWatchlist;
-            }
+        function updateModalWatchlistButton() {
+            if(!selectedMovie) return;
+            const btn = document.getElementById('modalWatchlistBtn');
+            const exists = watchlist.some(m => m.id === selectedMovie.id);
+            btn.innerText = exists ? "❌ Remove from Watchlist" : "⭐ Add to Watchlist";
         }
 
         function showWatchlist() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const cat = card.getAttribute('data-category');
-                if (watchlist.includes(cat)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            window.scrollTo({ top: 400, behavior: 'smooth' });
+            displayMovies(watchlist);
         }
 
-        function filterCards(category, btnElement) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
-
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+        function searchMovies() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = currentMovies.filter(m => {
+                const title = (m.title || m.name || '').toLowerCase();
+                return title.includes(query);
             });
-        }
-
-        function searchCards() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.card');
-
-            cards.forEach(card => {
-                const titleText = card.querySelector('h3').innerText.toLowerCase();
-                const descText = card.querySelector('p').innerText.toLowerCase();
-
-                if (titleText.includes(query) || descText.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            displayMovies(filtered);
         }
 
         function closeModal() {
-            const videoElement = document.getElementById('modalVideo');
-            videoElement.pause();
+            document.getElementById('modalVideo').pause();
             document.getElementById('mediaModal').classList.remove('active');
         }
 
         function closeModalOutside(event) {
-            if (event.target.id === 'mediaModal') {
-                closeModal();
-            }
+            if (event.target.id === 'mediaModal') closeModal();
         }
+
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        }
+
+        // جلب الأفلام تلقائياً عند فتح الموقع
+        fetchMedia('trending');
     </script>
 </body>
 </html>
