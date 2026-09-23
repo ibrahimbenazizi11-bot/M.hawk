@@ -10,6 +10,7 @@
             --card-bg: rgba(22, 27, 34, 0.75);
             --card-hover: rgba(30, 41, 59, 0.9);
             --accent-color: #e50914;
+            --gold-color: #f59e0b;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.08);
@@ -31,6 +32,41 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+        }
+
+        /* شريط الاشتراك المميز VIP 4K */
+        .vip-banner {
+            width: 100%;
+            background: linear-gradient(90deg, #b91c1c, #e50914, #f59e0b);
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+            z-index: 1001;
+            flex-wrap: wrap;
+        }
+
+        .vip-btn {
+            background: #fff;
+            color: #e50914;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vip-btn:hover {
+            background: #f8fafc;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
 
         /* شريط التنقل العلوي */
@@ -107,7 +143,7 @@
             line-height: 1.6;
         }
 
-        /* شبكة الأقسام السينمائية */
+        /* شبكة الأقسام السينمائية والقوائم */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -275,6 +311,12 @@
 </head>
 <body>
 
+    <!-- شريط الاشتراك العائم VIP 4K -->
+    <div class="vip-banner">
+        <span>⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!</span>
+        <button class="vip-btn" onclick="alert('ميزة الدفع والاشتراك قيد التفعيل قريبًا!')">اشترك الآن</button>
+    </div>
+
     <header>
         <div class="logo">M.hawk</div>
         <select id="langSelect" class="lang-select" onchange="changeLanguage()">
@@ -297,27 +339,59 @@
 
     <main>
         <section class="hero-section">
-            <h1 id="heroTitle">منصة M.hawk السينمائية</h1>
-            <p id="heroDesc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، والبث الحي للمباريات الرياضية الكبرى بجودة سينمائية مذهلة.</p>
+            <h1>منصة M.hawk السينمائية</h1>
+            <p>وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.</p>
         </section>
 
+        <!-- شبكة القوائم والأقسام الكاملة -->
         <div class="grid-container">
-            <div class="card" onclick="openModal('بث حي رياضي', 'دوري أبطال أوروبا، الدوري الإنجليزي الممتاز، ونزالات UFC المباشرة بأعلى جودة وبدون تقطيع.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')">
-                <div class="card-icon">⚽</div>
-                <h3 id="card1Title">بث حي رياضي</h3>
-                <p id="card1Desc">دوري أبطال أوروبا، الدوري الإنجليزي الممتاز، ونزالات UFC المباشرة بأعلى جودة وبدون تقطيع.</p>
-            </div>
-
-            <div class="card" onclick="openModal('أفلام ومسلسلات 4K', 'مكتبة ضخمة ومتجددة باستمرار لأحدث إصدارات هوليوود والإنتاجات العالمية الحصرية.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')">
+            <!-- قائمة الأفلام -->
+            <div class="card" onclick="openModal('قائمة الأفلام (Movies)', 'مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')">
                 <div class="card-icon">🎬</div>
-                <h3 id="card2Title">أفلام ومسلسلات 4K</h3>
-                <p id="card2Desc">مكتبة ضخمة ومتجددة باستمرار لأحدث إصدارات هوليوود والإنتاجات العالمية الحصرية.</p>
+                <h3>قائمة الأفلام</h3>
+                <p>أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.</p>
             </div>
 
-            <div class="card" onclick="openModal('أنمي ودراما عالمية', 'تابع أحدث الحلقات الحصرية للأنمي مترجمة فورياً بأعلى دقة، بالإضافة إلى الدراما الآسيوية.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
+            <!-- قائمة المسلسلات -->
+            <div class="card" onclick="openModal('قائمة المسلسلات (Series)', 'أشهر المسلسلات العالمية والموسمية الحصرية مترجمة.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
+                <div class="card-icon">📺</div>
+                <h3>قائمة المسلسلات</h3>
+                <p>مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.</p>
+            </div>
+
+            <!-- قائمة الرسوم المتحركة -->
+            <div class="card" onclick="openModal('قائمة الرسوم المتحركة (Animation)', 'أجمل أفلام ومسلسلات الكرتون العائلية وأعمال ديزني وبيكسار.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')">
+                <div class="card-icon">🎨</div>
+                <h3>قائمة الرسوم المتحركة</h3>
+                <p>عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.</p>
+            </div>
+
+            <!-- قائمة الأنمي -->
+            <div class="card" onclick="openModal('قائمة الأنمي (Anime)', 'أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4')">
                 <div class="card-icon">⛩️</div>
-                <h3 id="card3Title">أنمي ودراما عالمية</h3>
-                <p id="card3Desc">تابع أحدث الحلقات الحصرية للأنمي مترجمة فورياً بأعلى دقة، بالإضافة إلى الدراما الآسيوية.</p>
+                <h3>قائمة الأنمي</h3>
+                <p>تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.</p>
+            </div>
+
+            <!-- قائمة الأفلام الوثائقية -->
+            <div class="card" onclick="openModal('قائمة الأفلام الوثائقية (Documentaries)', 'رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4')">
+                <div class="card-icon">🌍</div>
+                <h3>قائمة الأفلام الوثائقية</h3>
+                <p>اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.</p>
+            </div>
+
+            <!-- قائمة بث مباشر لمباريات كرة القدم -->
+            <div class="card" onclick="openModal('بث مباشر لمباريات كرة القدم (Football Live)', 'دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4')">
+                <div class="card-icon">⚽</div>
+                <h3>بث مباشر - كرة القدم</h3>
+                <p>لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.</p>
+            </div>
+
+            <!-- قائمة خاصة ب بث مباشر UFC -->
+            <div class="card" onclick="openModal('بث مباشر نزالات UFC (UFC Live)', 'أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4')">
+                <div class="card-icon">🥊</div>
+                <h3>بث مباشر - UFC</h3>
+                <p>أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.</p>
             </div>
         </div>
     </main>
@@ -366,28 +440,6 @@
                 closeModal();
             }
         }
-
-        async function changeLanguage() {
-            const lang = document.getElementById('langSelect').value;
-            try {
-                const response = await fetch(`${lang}.json`);
-                if (!response.ok) return;
-                const data = await response.json();
-                
-                if(data.app) {
-                    if(document.getElementById('heroTitle')) document.getElementById('heroTitle').innerText = data.app.heroTitle || "";
-                    if(document.getElementById('heroDesc')) document.getElementById('heroDesc').innerText = data.app.heroDesc || "";
-                    if(document.getElementById('card1Title')) document.getElementById('card1Title').innerText = data.app.card1Title || "";
-                    if(document.getElementById('card1Desc')) document.getElementById('card1Desc').innerText = data.app.card1Desc || "";
-                    if(document.getElementById('card2Title')) document.getElementById('card2Title').innerText = data.app.card2Title || "";
-                    if(document.getElementById('card2Desc')) document.getElementById('card2Desc').innerText = data.app.card2Desc || "";
-                    if(document.getElementById('card3Title')) document.getElementById('card3Title').innerText = data.app.card3Title || "";
-                    if(document.getElementById('card3Desc')) document.getElementById('card3Desc').innerText = data.app.card3Desc || "";
-                }
-            } catch (error) {
-                console.log("Language file loading skipped locally.");
-            }
-        }
     </script>
 </body>
-</html>
+</html>s
