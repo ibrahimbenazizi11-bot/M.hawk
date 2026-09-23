@@ -118,7 +118,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 40px;
+            gap: 30px;
             flex: 1;
         }
 
@@ -143,6 +143,36 @@
             line-height: 1.6;
         }
 
+        /* شريط التصفية والفلترة السريع (Quick Filter Bar) */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .filter-btn {
+            background: rgba(22, 27, 34, 0.8);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+            transform: translateY(-2px);
+        }
+
         /* شبكة الأقسام السينمائية والقوائم */
         .grid-container {
             display: grid;
@@ -164,6 +194,10 @@
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
+        }
+
+        .card.hidden {
+            display: none;
         }
 
         .card::before {
@@ -313,13 +347,13 @@
 
     <!-- شريط الاشتراك العائم VIP 4K -->
     <div class="vip-banner">
-        <span>⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!</span>
-        <button class="vip-btn" onclick="alert('ميزة الدفع والاشتراك قيد التفعيل قريبًا!')">اشترك الآن</button>
+        <span id="vipText">⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!</span>
+        <button class="vip-btn" id="vipBtn" onclick="alert('ميزة الدفع والاشتراك قيد التفعيل قريبًا!')">اشترك الآن</button>
     </div>
 
     <header>
         <div class="logo">M.hawk</div>
-        <select id="langSelect" class="lang-select" onchange="changeLanguage()">
+        <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
             <option value="ar">العربية (Arabic)</option>
             <option value="en">English</option>
             <option value="fr">Français</option>
@@ -339,59 +373,71 @@
 
     <main>
         <section class="hero-section">
-            <h1>منصة M.hawk السينمائية</h1>
-            <p>وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.</p>
+            <h1 id="heroTitle">منصة M.hawk السينمائية</h1>
+            <p id="heroDesc">وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.</p>
         </section>
+
+        <!-- شريط الاختيار والفلتر السريع (Quick Filter Bar) -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterCards('all', this)" id="filterAll">الكل</button>
+            <button class="filter-btn" onclick="filterCards('movies', this)" id="filterMovies">أفلام</button>
+            <button class="filter-btn" onclick="filterCards('series', this)" id="filterSeries">مسلسلات</button>
+            <button class="filter-btn" onclick="filterCards('animation', this)" id="filterAnimation">رسوم متحركة</button>
+            <button class="filter-btn" onclick="filterCards('anime', this)" id="filterAnime">أنمي</button>
+            <button class="filter-btn" onclick="filterCards('documentaries', this)" id="filterDocs">وثائقية</button>
+            <button class="filter-btn" onclick="filterCards('football', this)" id="filterFootball">كرة القدم</button>
+            <button class="filter-btn" onclick="filterCards('ufc', this)" id="filterUfc">UFC</button>
+        </div>
 
         <!-- شبكة القوائم والأقسام الكاملة -->
         <div class="grid-container">
             <!-- قائمة الأفلام -->
-            <div class="card" onclick="openModal('قائمة الأفلام (Movies)', 'مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')">
+            <div class="card" data-category="movies" onclick="openModal('movies')">
                 <div class="card-icon">🎬</div>
-                <h3>قائمة الأفلام</h3>
-                <p>أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.</p>
+                <h3 id="card1Title">قائمة الأفلام</h3>
+                <p id="card1Desc">أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.</p>
             </div>
 
             <!-- قائمة المسلسلات -->
-            <div class="card" onclick="openModal('قائمة المسلسلات (Series)', 'أشهر المسلسلات العالمية والموسمية الحصرية مترجمة.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4')">
+            <div class="card" data-category="series" onclick="openModal('series')">
                 <div class="card-icon">📺</div>
-                <h3>قائمة المسلسلات</h3>
-                <p>مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.</p>
+                <h3 id="card2Title">قائمة المسلسلات</h3>
+                <p id="card2Desc">مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.</p>
             </div>
 
             <!-- قائمة الرسوم المتحركة -->
-            <div class="card" onclick="openModal('قائمة الرسوم المتحركة (Animation)', 'أجمل أفلام ومسلسلات الكرتون العائلية وأعمال ديزني وبيكسار.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')">
+            <div class="card" data-category="animation" onclick="openModal('animation')">
                 <div class="card-icon">🎨</div>
-                <h3>قائمة الرسوم المتحركة</h3>
-                <p>عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.</p>
+                <h3 id="card3Title">قائمة الرسوم المتحركة</h3>
+                <p id="card3Desc">عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.</p>
             </div>
 
             <!-- قائمة الأنمي -->
-            <div class="card" onclick="openModal('قائمة الأنمي (Anime)', 'أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4')">
+            <div class="card" data-category="anime" onclick="openModal('anime')">
                 <div class="card-icon">⛩️</div>
-                <h3>قائمة الأنمي</h3>
-                <p>تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.</p>
+                <h3 id="card4Title">قائمة الأنمي</h3>
+                <p id="card4Desc">تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.</p>
             </div>
 
             <!-- قائمة الأفلام الوثائقية -->
-            <div class="card" onclick="openModal('قائمة الأفلام الوثائقية (Documentaries)', 'رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4')">
+            <div class="card" data-category="documentaries" onclick="openModal('documentaries')">
                 <div class="card-icon">🌍</div>
-                <h3>قائمة الأفلام الوثائقية</h3>
-                <p>اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.</p>
+                <h3 id="card5Title">قائمة الأفلام الوثائقية</h3>
+                <p id="card5Desc">اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.</p>
             </div>
 
             <!-- قائمة بث مباشر لمباريات كرة القدم -->
-            <div class="card" onclick="openModal('بث مباشر لمباريات كرة القدم (Football Live)', 'دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4')">
+            <div class="card" data-category="football" onclick="openModal('football')">
                 <div class="card-icon">⚽</div>
-                <h3>بث مباشر - كرة القدم</h3>
-                <p>لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.</p>
+                <h3 id="card6Title">بث مباشر - كرة القدم</h3>
+                <p id="card6Desc">لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.</p>
             </div>
 
             <!-- قائمة خاصة ب بث مباشر UFC -->
-            <div class="card" onclick="openModal('بث مباشر نزالات UFC (UFC Live)', 'أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4')">
+            <div class="card" data-category="ufc" onclick="openModal('ufc')">
                 <div class="card-icon">🥊</div>
-                <h3>بث مباشر - UFC</h3>
-                <p>أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.</p>
+                <h3 id="card7Title">بث مباشر - UFC</h3>
+                <p id="card7Desc">أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.</p>
             </div>
         </div>
     </main>
@@ -412,18 +458,169 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 M.hawk Entertainment Hub. All rights reserved.</p>
+        <p id="footerText">&copy; 2026 M.hawk Entertainment Hub. All rights reserved.</p>
     </footer>
 
     <script>
-        function openModal(title, desc, videoUrl) {
+        const translations = {
+            ar: {
+                vipText: "⭐ ارتقِ بتجربتك الآن: احصل على جودة 4K حصرية وبدون إعلانات مقابل 5$ فقط شهرياً!",
+                vipBtn: "اشترك الآن",
+                heroTitle: "منصة M.hawk السينمائية",
+                heroDesc: "وجهتك الأولى لأحدث الأفلام، المسلسلات، الأنمي، المباريات الرياضية الحصرية ونزالات UFC بجودة سينمائية فائقة.",
+                filterAll: "الكل", filterMovies: "أفلام", filterSeries: "مسلسلات", filterAnimation: "رسوم متحركة", filterAnime: "أنمي", filterDocs: "وثائقية", filterFootball: "كرة القدم", filterUfc: "UFC",
+                card1Title: "قائمة الأفلام", card1Desc: "أحدث إصدارات الأفلام العالمية، الدراما، والتشويق بجودة 4K.",
+                card2Title: "قائمة المسلسلات", card2Desc: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.",
+                card3Title: "قائمة الرسوم المتحركة", card3Desc: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.",
+                card4Title: "قائمة الأنمي", card4Desc: "تابع الحلقات الحصرية لأبرز مسلسلات الأنمي والقتال الحماسي.",
+                card5Title: "قائمة الأفلام الوثائقية", card5Desc: "اكتشف أسرار الطبيعة، الكون، والتاريخ بأعمال وثائقية مبهرة.",
+                card6Title: "بث مباشر - كرة القدم", card6Desc: "لا تفوت أي لحظة من مباريات دوري الأبطال والدوريات الأوروبية الكبرى.",
+                card7Title: "بث مباشر - UFC", card7Desc: "أشرس نزالات فنون القتال المختلطة والبث الحي لعروض UFC الكبرى.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            en: {
+                vipText: "⭐ Upgrade your experience: Get exclusive 4K quality & ad-free streaming for only $5/month!",
+                vipBtn: "Subscribe Now",
+                heroTitle: "M.hawk Cinematic Platform",
+                heroDesc: "Your premier destination for the latest movies, series, anime, exclusive sports matches, and UFC fights in supreme cinematic quality.",
+                filterAll: "All", filterMovies: "Movies", filterSeries: "Series", filterAnimation: "Animation", filterAnime: "Anime", filterDocs: "Documentaries", filterFootball: "Football", filterUfc: "UFC",
+                card1Title: "Movies", card1Desc: "Latest global blockbuster releases, drama, and thrillers in 4K quality.",
+                card2Title: "Series", card2Desc: "Complete seasons and exclusive first-run series in highest definition.",
+                card3Title: "Animation", card3Desc: "A magical world of family-friendly cartoons and animation masterpieces.",
+                card4Title: "Anime", card4Desc: "Catch exclusive episodes of top legendary and action-packed anime series.",
+                card5Title: "Documentaries", card5Desc: "Explore the mysteries of nature, universe, and history through breathtaking docs.",
+                card6Title: "Live - Football", card6Desc: "Don't miss any moment of Champions League and major European football matches.",
+                card7Title: "Live - UFC", card7Desc: "The fiercest mixed martial arts showdowns and live broadcasts of major UFC events.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
+            },
+            fr: {
+                vipText: "⭐ Améliorez votre expérience : qualité 4K exclusive et sans publicité pour seulement 5$/mois !",
+                vipBtn: "S'abonner",
+                heroTitle: "Plateforme Cinématographique M.hawk",
+                heroDesc: "Votre destination de choix pour les derniers films, séries, animés, matchs sportifs exclusifs et combats UFC.",
+                filterAll: "Tout", filterMovies: "Films", filterSeries: "Séries", filterAnimation: "Animation", filterAnime: "Animés", filterDocs: "Documentaires", filterFootball: "Football", filterUfc: "UFC",
+                card1Title: "Films", card1Desc: "Dernières sorties mondiales, drames et thrillers en qualité 4K.",
+                card2Title: "Séries", card2Desc: "Saisons complètes et séries exclusives en haute définition.",
+                card3Title: "Animation", card3Desc: "Un monde magique de dessins animés adaptés à toute la famille.",
+                card4Title: "Animés", card4Desc: "Suivez les épisodes exclusifs de vos séries animées préférées.",
+                card5Title: "Documentaires", card5Desc: "Découvrez les mystères de la nature, de l'univers et de l'histoire.",
+                card6Title: "En direct - Football", card6Desc: "Ne manquez aucun moment des grands matchs de football européens.",
+                card7Title: "En direct - UFC", card7Desc: "Les combats d'arts martiaux mixtes les plus féroces en direct.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Tous droits réservés."
+            }
+        };
+
+        const mediaData = {
+            movies: {
+                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films" },
+                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+            },
+            series: {
+                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries" },
+                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+            },
+            animation: {
+                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation" },
+                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            },
+            anime: {
+                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés" },
+                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+            },
+            documentaries: {
+                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires" },
+                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4"
+            },
+            football: {
+                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct" },
+                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+            },
+            ufc: {
+                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct" },
+                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct." },
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function changeLanguage(lang) {
+            currentLang = translations[lang] ? lang : 'ar';
+            const t = translations[currentLang] || translations['ar'];
+
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+
+            document.getElementById('vipText').innerHTML = t.vipText;
+            document.getElementById('vipBtn').innerText = t.vipBtn;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroDesc').innerText = t.heroDesc;
+
+            document.getElementById('filterAll').innerText = t.filterAll;
+            document.getElementById('filterMovies').innerText = t.filterMovies;
+            document.getElementById('filterSeries').innerText = t.filterSeries;
+            document.getElementById('filterAnimation').innerText = t.filterAnimation;
+            document.getElementById('filterAnime').innerText = t.filterAnime;
+            document.getElementById('filterDocs').innerText = t.filterDocs;
+            document.getElementById('filterFootball').innerText = t.filterFootball;
+            document.getElementById('filterUfc').innerText = t.filterUfc;
+
+            document.getElementById('card1Title').innerText = t.card1Title;
+            document.getElementById('card1Desc').innerText = t.card1Desc;
+            document.getElementById('card2Title').innerText = t.card2Title;
+            document.getElementById('card2Desc').innerText = t.card2Desc;
+            document.getElementById('card3Title').innerText = t.card3Title;
+            document.getElementById('card3Desc').innerText = t.card3Desc;
+            document.getElementById('card4Title').innerText.t = t.card4Title; // handled below
+            document.getElementById('card4Title').innerText = t.card4Title;
+            document.getElementById('card4Desc').innerText = t.card4Desc;
+            document.getElementById('card5Title').innerText = t.card5Title;
+            document.getElementById('card5Desc').innerText = t.card5Desc;
+            document.getElementById('card6Title').innerText = t.card6Title;
+            document.getElementById('card6Desc').innerText = t.card6Desc;
+            document.getElementById('card7Title').innerText = t.card7Title;
+            document.getElementById('card7Desc').innerText = t.card7Desc;
+            document.getElementById('footerText').innerHTML = t.footerText;
+        }
+
+        function filterCards(category, btnElement) {
+            // إزالة الأنشطة عن كل الأزرار وإضافتها للزر الحالي
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // إظهار أو إخفاء البطاقات حسب التصنيف المختار
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function openModal(categoryKey) {
+            const item = mediaData[categoryKey];
+            if (!item) return;
+
+            const lang = currentLang;
+            const title = item.title[lang] || item.title['ar'];
+            const desc = item.desc[lang] || item.desc['ar'];
+
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
             
             const videoElement = document.getElementById('modalVideo');
             const sourceElement = document.getElementById('videoSource');
             
-            sourceElement.src = videoUrl;
+            sourceElement.src = item.url;
             videoElement.load();
             
             document.getElementById('mediaModal').classList.add('active');
