@@ -20,7 +20,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         }
 
         body {
@@ -95,7 +95,7 @@
             text-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
         }
 
-        /* شريط البحث الحقيقي الجديد */
+        /* شريط البحث الحقيقي */
         .search-container {
             flex: 1;
             max-width: 400px;
@@ -220,10 +220,6 @@
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
-        }
-
-        .card.hidden {
-            display: none;
         }
 
         .card::before {
@@ -393,6 +389,7 @@
             <option value="ja">日本語 (Japanese)</option>
             <option value="ko">한국어 (Korean)</option>
             <option value="zh">中文 (Chinese)</option>
+            <option value="id">Bahasa Indonesia</option>
             <option value="ru">Русский (Russian)</option>
             <option value="tr">Türkçe</option>
             <option value="pt">Português</option>
@@ -637,6 +634,22 @@
                 card7Title: "直播 - UFC", card7Desc: "最激烈的综合格斗对决与UFC重大赛事现场直播。",
                 footerText: "&copy; 2026 M.hawk Entertainment Hub. All rights reserved."
             },
+            id: {
+                searchPlaceholder: "Cari film, serial, anime...",
+                vipText: "⭐ Tingkatkan pengalaman Anda: Kualitas 4K eksklusif & bebas iklan hanya $5/bulan!",
+                vipBtn: "Berlangganan",
+                heroTitle: "Platform Sinematik M.hawk",
+                heroDesc: "Destinasi utama Anda untuk film, serial, anime, pertandingan olahraga eksklusif, dan pertarungan UFC terbaru.",
+                filterAll: "Semua", filterMovies: "Film", filterSeries: "Serial", filterAnimation: "Animasi", filterAnime: "Anime", filterDocs: "Dokumenter", filterFootball: "Sepak Bola", filterUfc: "UFC",
+                card1Title: "Film", card1Desc: "Rilisan film blockbuster global, drama, dan thriller terbaru dalam kualitas 4K.",
+                card2Title: "Serial", card2Desc: "Musim lengkap dan serial eksklusif tayangan perdana dalam resolusi tertinggi.",
+                card3Title: "Animasi", card3Desc: "Dunia ajaib kartun yang ramah keluarga dan mahakarya animasi.",
+                card4Title: "Anime", card4Desc: "Saksikan episode eksklusif dari serial anime legendaris dan penuh aksi.",
+                card5Title: "Dokumenter", card5Desc: "Jelajahi misteri alam, alam semesta, dan sejarah melalui dokumenter yang memukau.",
+                card6Title: "Langsung - Sepak Bola", card6Desc: "Jangan lewatkan momen apa pun dari Liga Champions dan pertandingan sepak bola Eropa utama.",
+                card7Title: "Langsung - UFC", card7Desc: "Pertarungan seni bela diri campuran paling sengit dan siaran langsung acara utama UFC.",
+                footerText: "&copy; 2026 M.hawk Entertainment Hub. Hak cipta dilindungi undang-undang."
+            },
             ru: {
                 searchPlaceholder: "Поиск фильмов, сериалов, аниме...",
                 vipText: "⭐ Эксклюзивное качество 4K и без рекламы всего за 5$ в месяц!",
@@ -721,38 +734,38 @@
 
         const mediaData = {
             movies: {
-                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films", es: "Lista de Películas", de: "Filmliste", it: "Lista Film", ja: "映画リスト", ko: "영화 목록", zh: "电影列表", ru: "Список фильмов", tr: "Film Listesi", pt: "Lista de Filmes", nl: "Movielijst", pl: "Lista filmów" },
-                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens.", es: "Biblioteca renovada de las últimas películas de Hollywood.", de: "Erneuerte Bibliothek der neuesten Hollywood-Filme.", it: "Libreria aggiornata degli ultimi film.", ja: "最新のハリウッド映画や世界の名作ライブラリ。", ko: "최신 할리우드 영화 라이브러리.", zh: "最新好莱坞及世界电影库。", ru: "Обновляемая библиотека голливудских фильмов.", tr: "En son Hollywood ve dünya filmleri kütüphanesi.", pt: "Biblioteca atualizada de filmes.", nl: "Bijgewerkte bibliotheek van films.", pl: "Zaktualizowana biblioteka filmów." },
+                title: { ar: "قائمة الأفلام", en: "Movies List", fr: "Liste des Films", es: "Lista de Películas", de: "Filmliste", it: "Lista Film", ja: "映画リスト", ko: "영화 목록", zh: "电影列表", id: "Daftar Film", ru: "Список фильмов", tr: "Film Listesi", pt: "Lista de Filmes", nl: "Movielijst", pl: "Lista filmów" },
+                desc: { ar: "مكتبة متجددة لأحدث أفلام هوليوود والعالم بجودة عالية.", en: "Renewed library of latest Hollywood and world movies in high quality.", fr: "Bibliothèque renouvelée des derniers films hollywoodiens.", es: "Biblioteca renovada de las últimas películas de Hollywood.", de: "Erneuerte Bibliothek der neuesten Hollywood-Filme.", it: "Libreria aggiornata degli ultimi film.", ja: "最新のハリウッド映画や世界の名作ライブラリ。", ko: "최신 할리우드 영화 라이브러리.", zh: "最新好莱坞及世界电影库。", id: "Perustakaan film Hollywood dan dunia terbaru.", ru: "Обновляемая библиотека голливудских фильмов.", tr: "En son Hollywood ve dünya filmleri kütüphanesi.", pt: "Biblioteca atualizada de filmes.", nl: "Bijgewerkte bibliotheek van films.", pl: "Zaktualizowana biblioteka filmów." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
             },
             series: {
-                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries", es: "Lista de Series", de: "Serienliste", it: "Lista Serie", ja: "シリーズリスト", ko: "시리즈 목록", zh: "剧集列表", ru: "Список сериалов", tr: "Dizi Listesi", pt: "Lista de Séries", nl: "Serieslijst", pl: "Lista seriali" },
-                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives.", es: "Temporadas completas y series exclusivas.", de: "Komplette Staffeln und exklusive Serien.", it: "Stagioni complete e serie esclusive.", ja: "最高画質の完全版シーズンと独占シリーズ。", ko: "완전한 시즌과 독점 시리즈.", zh: "完整季和独家首播剧集。", ru: "Полные сезоны и эксклюзивные сериалы.", tr: "Eksiksiz sezonlar ve özel diziler.", pt: "Temporadas completas e séries exclusivas.", nl: "Volledige seizoenen en exclusieve series.", pl: "Kompletne sezony i ekskluzywne seriale." },
+                title: { ar: "قائمة المسلسلات", en: "Series List", fr: "Liste des Séries", es: "Lista de Series", de: "Serienliste", it: "Lista Serie", ja: "シリーズリスト", ko: "시리즈 목록", zh: "剧集列表", id: "Daftar Serial", ru: "Список сериалов", tr: "Dizi Listesi", pt: "Lista de Séries", nl: "Serieslijst", pl: "Lista seriali" },
+                desc: { ar: "مواسم كاملة ومسلسلات حصرية تعرض لأول مرة وبأعلى دقة.", en: "Complete seasons and exclusive first-run series in highest definition.", fr: "Saisons complètes et séries exclusives.", es: "Temporadas completas y series exclusivas.", de: "Komplette Staffeln und exklusive Serien.", it: "Stagioni complete e serie esclusive.", ja: "最高画質の完全版シーズンと独占シリーズ。", ko: "완전한 시즌과 독점 시리즈.", zh: "完整季和独家首播剧集。", id: "Musim lengkap dan serial eksklusif.", ru: "Полные сезоны и эксклюзивные сериалы.", tr: "Eksiksiz sezonlar ve özel diziler.", pt: "Temporadas completas e séries exclusivas.", nl: "Volledige seizoenen en exclusieve series.", pl: "Kompletne sezony i ekskluzywne seriale." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
             },
             animation: {
-                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation", es: "Lista de Animación", de: "Animationsliste", it: "Lista Animazione", ja: "アニメーションリスト", ko: "애니메이션 목록", zh: "动画列表", ru: "Список анимации", tr: "Animasyon Listesi", pt: "Lista de Animação", nl: "Animatielijst", pl: "Lista animacji" },
-                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux.", es: "Un mundo mágico de dibujos animados familiares.", de: "Eine magische Welt familienfreundlicher Cartoons.", it: "Un mondo magico di cartoni animati.", ja: "家族みんなで楽しめる魔法の世界。", ko: "온 가족이 함께 즐기는 마법 같은 카툰.", zh: "合家欢卡通世界。", ru: "Волшебный мир семейных мультфильмов.", tr: "Çizgi filmlerin sihirli dünyası.", pt: "Mundo mágico de desenhos animados.", nl: "Magische wereld van tekenfilms.", pl: "Magiczny świat bajek." },
+                title: { ar: "قائمة الرسوم المتحركة", en: "Animation List", fr: "Liste d'Animation", es: "Lista de Animación", de: "Animationsliste", it: "Lista Animazione", ja: "アニメーションリスト", ko: "애니메이션 목록", zh: "动画列表", id: "Daftar Animasi", ru: "Список анимации", tr: "Animasyon Listesi", pt: "Lista de Animação", nl: "Animatielijst", pl: "Lista animacji" },
+                desc: { ar: "عالم السحر والبهجة لأفلام الكرتون المناسبة لجميع أفراد الأسرة.", en: "A magical world of family-friendly cartoons.", fr: "Un monde magique de dessins animés familiaux.", es: "Un mundo mágico de dibujos animados familiares.", de: "Eine magische Welt familienfreundlicher Cartoons.", it: "Un mondo magico di cartoni animati.", ja: "家族みんなで楽しめる魔法の世界。", ko: "온 가족이 함께 즐기는 마법 같은 카툰.", zh: "合家欢卡通世界。", id: "Dunia ajaib kartun ramah keluarga.", ru: "Волшебный мир семейных мультфильмов.", tr: "Çizgi filmlerin sihirli dünyası.", pt: "Mundo mágico de desenhos animados.", nl: "Magische wereld van tekenfilms.", pl: "Magiczny świat bajek." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             },
             anime: {
-                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés", es: "Lista de Anime", de: "Anime-Liste", it: "Lista Anime", ja: "アニメリスト", ko: "애니 목록", zh: "动漫列表", ru: "Список аниме", tr: "Anime Listesi", pt: "Lista de Anime", nl: "Animelijst", pl: "Lista anime" },
-                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires.", es: "Últimos episodios de anime legendarios.", de: "Neueste legendäre Anime-Episoden.", it: "Episodi esclusivi delle migliori serie anime.", ja: "大人気アニメのエピソード。", ko: "최신 애니메이션 에피소드.", zh: "热门动漫系列剧集。", ru: "Лучшие аниме-сериалы.", tr: "Popüler anime serileri.", pt: "Episódios de anime.", nl: "Populaire animeseries.", pl: "Najlepsze serie anime." },
+                title: { ar: "قائمة الأنمي", en: "Anime List", fr: "Liste d'Animés", es: "Lista de Anime", de: "Anime-Liste", it: "Lista Anime", ja: "アニメリスト", ko: "애니 목록", zh: "动漫列表", id: "Daftar Anime", ru: "Список аниме", tr: "Anime Listesi", pt: "Lista de Anime", nl: "Animelijst", pl: "Lista anime" },
+                desc: { ar: "أحدث حلقات الأنمي الأسطوري مترجمة فورياً وبدون تقطيع.", en: "Latest legendary anime episodes with instant subtitles.", fr: "Derniers épisodes d'animés légendaires.", es: "Últimos episodios de anime legendarios.", de: "Neueste legendäre Anime-Episoden.", it: "Episodi esclusivi delle migliori serie anime.", ja: "大人気アニメのエピソード。", ko: "최신 애니메이션 에피소드.", zh: "热门动漫系列剧集。", id: "Episode anime legendaris terbaru.", ru: "Лучшие аниме-сериалы.", tr: "Popüler anime serileri.", pt: "Episódios de anime.", nl: "Populaire animeseries.", pl: "Najlepsze serie anime." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
             },
             documentaries: {
-                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires", es: "Lista de Documentales", de: "Dokumentarfilmliste", it: "Lista Documentari", ja: "ドキュメンタリーリスト", ko: "다큐멘터리 목록", zh: "纪录片列表", ru: "Список документальных", tr: "Belgesel Listesi", pt: "Lista de Documentários", nl: "Documentairelijst", pl: "Lista dokumentów" },
-                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques.", es: "Viajes de exploración y documentales de historia.", de: "Erforschungsreisen und Dokumentationen.", it: "Esplora i misteri della natura e della storia.", ja: "自然、宇宙、歴史の謎を解き明かす。", ko: "자연, 우주, 역사의 신비 탐험.", zh: "探索自然、宇宙与历史。", ru: "Исследуйте тайны природы и космоса.", tr: "Doğanın ve tarihin gizemlerini keşfedin.", pt: "Explore os mistérios da natureza.", nl: "Ontdek mysteries van de natuur.", pl: "Odkryj tajemnice natury." },
+                title: { ar: "قائمة الأفلام الوثائقية", en: "Documentaries List", fr: "Liste des Documentaires", es: "Lista de Documentales", de: "Dokumentarfilmliste", it: "Lista Documentari", ja: "ドキュメンタリーリスト", ko: "다큐멘터리 목록", zh: "纪录片列表", id: "Daftar Dokumenter", ru: "Список документальных", tr: "Belgesel Listesi", pt: "Lista de Documentários", nl: "Documentairelijst", pl: "Lista dokumentów" },
+                desc: { ar: "رحلات استكشافية، وثائقيات التاريخ الطبيعي والفضاء والغموض.", en: "Exploration journeys, natural history, space, and mystery documentaries.", fr: "Voyages d'exploration et documentaires historiques.", es: "Viajes de exploración y documentales de historia.", de: "Erforschungsreisen und Dokumentationen.", it: "Esplora i misteri della natura e della storia.", ja: "自然、宇宙、歴史の謎を解き明かす。", ko: "자연, 우주, 역사의 신비 탐험.", zh: "探索自然、宇宙与历史。", id: "Perjalanan eksplorasi dan dokumenter sejarah alam.", ru: "Исследуйте тайны природы и космоса.", tr: "Doğanın ve tarihin gizemlerini keşfedin.", pt: "Explore os mistérios da natureza.", nl: "Ontdek mysteries van de natuur.", pl: "Odkryj tajemnice natury." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackSeeTheWorld.mp4"
             },
             football: {
-                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct", es: "Fútbol en Vivo", de: "Fußball Live", it: "Calcio Live", ja: "サッカー ライブ", ko: "축구 라이브", zh: "足球直播", ru: "Футбол прямой эфир", tr: "Futbol Canlı", pt: "Futebol Ao Vivo", nl: "Voetbal Live", pl: "Piłka nożna na żywo" },
-                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats.", es: "Liga de Campeones y grandes ligas.", de: "Champions League und Top-Ligen.", it: "Champions League e campionati maggiori.", ja: "チャンピオンズリーグや欧州主要リーグ。", ko: "챔피언스 리그 및 유럽 주요 리그.", zh: "欧冠及欧洲各大联赛直播。", ru: "Лига чемпионов и топ-лиги.", tr: "Şampiyonlar Ligi ve büyük ligler.", pt: "Liga dos Campeones e grandes ligas.", nl: "Champions League en topcompetities.", pl: "Liga Mistrzów i wielkie ligi." },
+                title: { ar: "بث مباشر - كرة القدم", en: "Football Live", fr: "Football en Direct", es: "Fútbol en Vivo", de: "Fußball Live", it: "Calcio Live", ja: "サッカー ライブ", ko: "축구 라이브", zh: "足球直播", id: "Sepak Bola Langsung", ru: "Футбол прямой эфир", tr: "Futbol Canlı", pt: "Futebol Ao Vivo", nl: "Voetbal Live", pl: "Piłka nożna na żywo" },
+                desc: { ar: "دوري أبطال أوروبا، الدوريات الكبرى، وتعليق حماسي مباشر.", en: "Champions League, major leagues, and passionate live commentary.", fr: "Ligue des champions et grands championnats.", es: "Liga de Campeones y grandes ligas.", de: "Champions League und Top-Ligen.", it: "Champions League e campionati maggiori.", ja: "チャンピオンズリーグや欧州主要リーグ。", ko: "챔피언스 리그 및 유럽 주요 리그.", zh: "欧冠及欧洲各大联赛直播。", id: "Liga Champions, liga utama, dan komentar langsung.", ru: "Лига чемпионов и топ-лиги.", tr: "Şampiyonlar Ligi ve büyük ligler.", pt: "Liga dos Campeones e grandes ligas.", nl: "Champions League en topcompetities.", pl: "Liga Mistrzów i wielkie ligi." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
             },
             ufc: {
-                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct", es: "UFC en Vivo", de: "UFC Live", it: "UFC Live", ja: "UFC ライブ", ko: "UFC 라이브", zh: "UFC直播", ru: "UFC прямой эфир", tr: "UFC Canlı", pt: "UFC Ao Vivo", nl: "UFC Live", pl: "UFC na żywo" },
-                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct.", es: "Los combates mundiales más feroces en directo.", de: "Die härtesten globalen Kämpfe und Live-Streams.", it: "I più feroci combattimenti in diretta.", ja: "迫力の総合格闘技マッチ。", ko: "가장 치열한 종합격투기 대결.", zh: "最激烈的综合格斗对决。", ru: "Самые жаркие бои ММА.", tr: "En şiddetli dövüşler ve canlı yayınlar.", pt: "Confrontos ferozes de artes marciais.", nl: "De felste gevechten live.", pl: "Najbardziej zacięte pojedynki." },
+                title: { ar: "بث مباشر - UFC", en: "UFC Live", fr: "UFC en Direct", es: "UFC en Vivo", de: "UFC Live", it: "UFC Live", ja: "UFC ライブ", ko: "UFC 라이브", zh: "UFC直播", id: "UFC Langsung", ru: "UFC прямой эфир", tr: "UFC Canlı", pt: "UFC Ao Vivo", nl: "UFC Live", pl: "UFC na żywo" },
+                desc: { ar: "أقوى النزالات العالمية، البطاقات الرئيسة، وبث مباشر حصري.", en: "The fiercest global bouts, main cards, and exclusive live streaming.", fr: "Les combats mondiaux les plus féroces en direct.", es: "Los combates mundiales más feroces en directo.", de: "Die härtesten globalen Kämpfe und Live-Streams.", it: "I più feroci combattimenti in diretta.", ja: "迫力の総合格闘技マッチ。", ko: "가장 치열한 종합격투기 대결.", zh: "最激烈的综合格斗对决。", id: "Pertarungan global paling sengit dan siaran langsung eksklusif.", ru: "Самые жаркие бои ММА.", tr: "En şiddetli dövüşler ve canlı yayınlar.", pt: "Confrontos ferozes de artes marciais.", nl: "De felste gevechten live.", pl: "Najbardziej zacięte pojedynki." },
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
             }
         };
