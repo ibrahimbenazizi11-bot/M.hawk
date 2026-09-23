@@ -1,27 +1,190 @@
-// روابط تجريبية أو حقيقية لكل جودة
-const qualitySources = {
-    720: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-    1080: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-    "4k": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-};
+<script>
+        const API_KEY = 'c44336c1e57c6b5478ebbc61d3106d88';
+        let currentCategoryData = [];
+        let selectedItem = null;
+        let watchlist = JSON.parse(localStorage.getItem('m_hawk_watchlist')) || [];
+        let currentLangCode = 'en';
 
-function changeVideoQuality(quality) {
-    const videoElement = document.getElementById('modalVideo');
-    const sourceElement = document.getElementById('videoSource');
-    
-    // التحقق إذا اختار المستخدم جودة الـ 4K المخصصة للـ VIP
-    if (quality === '4k') {
-        // يمكنك هنا وضع شرط للتحقق إذا كان المستخدم مشتركاً أم لا
-        const isVipUser = false; // اجعلها true إذا كان مشتركاً
-        if (!isVipUser) {
-            alert("⭐ 4K Ultra HD quality is exclusive to VIP members ($5/month)! Upgrade your experience.");
-            document.getElementById('videoQualitySelect').value = '1080'; // إرجاعه تلقائياً لـ 1080p
-            return;
+        const tmdbLangMap = {
+            en: 'en-US', ar: 'ar-SA', fr: 'fr-FR', es: 'es-ES', de: 'de-DE',
+            it: 'it-IT', ja: 'ja-JP', ko: 'ko-KR', zh: 'zh-CN', id: 'id-ID',
+            ru: 'ru-RU', tr: 'tr-TR', pt: 'pt-BR', nl: 'nl-NL', pl: 'pl-PL'
+        };
+
+        const qualitySources = {
+            720: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            1080: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+            "4k": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        };
+
+        let activeCategory = 'movies';
+
+        function updateWatchlistCount() {
+            document.getElementById('watchlistCount').innerText = watchlist.length;
         }
-    }
+        updateWatchlistCount();
 
-    // تغيير مصدر الفيديو بناءً على الجودة المختارة
-    sourceElement.src = qualitySources[quality] || qualitySources[1080];
-    videoElement.load();
-    videoElement.play();
-}
+        async function switchCategory(category, btnElement) {
+            activeCategory = category;
+            if(btnElement) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            if(category === 'football' || category === 'ufc') {
+                loadLiveSports(category);
+                return;
+            }
+
+            const langParam = tmdbLangMap[currentLangCode] || 'en-US';
+            let urls = [];
+            
+            if(category === 'movies') {
+                urls = [`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${langParam}&page=1`, `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${langParam}&page=2`];
+            } else if(category === 'series') {
+                urls = [`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${langParam}&page=1`, `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${langParam}&page=2`];
+            } else if(category === 'anime') {
+                urls = [`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=1`, `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=2`];
+            } else if(category === 'animation') {
+                urls = [`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=1`, `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16&language=${langParam}&page=2`];
+            } else if(category === 'documentaries') {
+                urls = [`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99&language=${langParam}&page=1`, `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99&language=${langParam}&page=2`];
+            }
+
+            try {
+                let combinedResults = [];
+                for(let u of urls) {
+                    const res = await fetch(u);
+                    const data = await res.json();
+                    if(data.results) combinedResults = combinedResults.concat(data.results);
+                }
+                if(combinedResults.length === 0) throw new Error("Empty");
+                currentCategoryData = combinedResults.map(item => ({...item, category: category}));
+                displayMedia(currentCategoryData);
+            } catch (err) {
+                currentCategoryData = [
+                    { id: 1, title: "M.hawk Epic 1", overview: "Blockbuster 4K movie.", vote_average: 9.5, release_date: "2026", poster_path: null }
+                ];
+                displayMedia(currentCategoryData);
+            }
+        }
+
+        function loadLiveSports(sport) {
+            currentCategoryData = sport === 'football' ? [
+                { id: 'f1', title: 'UEFA Champions League Live', overview: 'Live 4K European match.', vote_average: 9.9, category: 'football' }
+            ] : [
+                { id: 'u1', title: 'UFC Main Event Live', overview: 'Explosive MMA fights live.', vote_average: 9.8, category: 'ufc' }
+            ];
+            displayMedia(currentCategoryData);
+        }
+
+        function displayMedia(items) {
+            const grid = document.getElementById('mediaGrid');
+            grid.innerHTML = '';
+            items.forEach(item => {
+                const title = item.title || item.name || 'Title';
+                const date = item.release_date || item.first_air_date || '2026';
+                const rating = item.vote_average ? item.vote_average.toFixed(1) : '9.0';
+                const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60';
+
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.onclick = () => openDetails(item);
+                card.innerHTML = `
+                    <img class="media-poster" src="${poster}" alt="${title}">
+                    <div class="media-info">
+                        <div class="media-title">${title}</div>
+                        <div class="media-meta">
+                            <span>${date.substring(0,4)}</span>
+                            <span class="media-rating">⭐ ${rating}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openDetails(item) {
+            selectedItem = item;
+            document.getElementById('modalTitle').innerText = item.title || item.name;
+            document.getElementById('modalDesc').innerText = item.overview || 'Exclusive broadcast.';
+            document.getElementById('videoContainer').style.display = 'none';
+            document.getElementById('modalVideo').pause();
+            document.getElementById('videoQualitySelect').value = '1080';
+            updateModalWatchlistButton();
+            document.getElementById('mediaModal').classList.add('active');
+        }
+
+        function playVideo() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoElement = document.getElementById('modalVideo');
+            const sourceElement = document.getElementById('videoSource');
+            const quality = document.getElementById('videoQualitySelect').value;
+            
+            if (quality === '4k') {
+                const isVipUser = false; // اجعلها true إذا كان المستخدم مشتركاً
+                if (!isVipUser) {
+                    alert("⭐ 4K Ultra HD quality is exclusive to VIP members ($5/month)! Upgrade your experience.");
+                    document.getElementById('videoQualitySelect').value = '1080';
+                    sourceElement.src = qualitySources[1080];
+                } else {
+                    sourceElement.src = qualitySources['4k'];
+                }
+            } else {
+                sourceElement.src = qualitySources[quality] || qualitySources[1080];
+            }
+
+            videoContainer.style.display = 'block';
+            videoElement.load();
+            videoElement.play();
+        }
+
+        function changeVideoQuality(quality) {
+            if (document.getElementById('videoContainer').style.display === 'block') {
+                playVideo();
+            }
+        }
+
+        function toggleWatchlist() {
+            if(!selectedItem) return;
+            const index = watchlist.findIndex(m => m.id === selectedItem.id);
+            if(index > -1) watchlist.splice(index, 1);
+            else watchlist.push(selectedItem);
+            localStorage.setItem('m_hawk_watchlist', JSON.stringify(watchlist));
+            updateWatchlistCount();
+            updateModalWatchlistButton();
+        }
+
+        function updateModalWatchlistButton() {
+            if(!selectedItem) return;
+            const btn = document.getElementById('modalWatchlistBtn');
+            const exists = watchlist.some(m => m.id === selectedItem.id);
+            btn.innerText = exists ? "❌ Remove from Watchlist" : "⭐ Add to Watchlist";
+        }
+
+        function showWatchlist() { displayMedia(watchlist); }
+
+        function searchMedia() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = currentCategoryData.filter(m => (m.title || m.name || '').toLowerCase().includes(query));
+            displayMedia(filtered);
+        }
+
+        function closeModal() {
+            document.getElementById('modalVideo').pause();
+            document.getElementById('mediaModal').classList.remove('active');
+        }
+
+        function closeModalOutside(event) {
+            if (event.target.id === 'mediaModal') closeModal();
+        }
+
+        function changeLanguage(lang) {
+            currentLangCode = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            if(activeCategory !== 'football' && activeCategory !== 'ufc') switchCategory(activeCategory);
+        }
+
+        switchCategory('movies');
+    </script>s
