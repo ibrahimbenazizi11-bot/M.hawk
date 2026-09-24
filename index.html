@@ -177,7 +177,6 @@
 
         <h2 class="section-title">الأفلام الرائجة الآن (عبر TMDB)</h2>
         
-        <!-- شبكة الأفلام التي سيتم تعبئتها تلقائياً من API -->
         <div class="movies-grid" id="moviesGrid">
             <p style="color: var(--text-secondary);">جاري تحميل أحدث الأفلام...</p>
         </div>
@@ -188,50 +187,44 @@
     </footer>
 
     <script>
-        // ضع مفتاح TMDB API الخاص بك هنا (API Key)
-        const TMDB_API_KEY = 'ضع_مفتاحك_هنا'; 
+        const TMDB_API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
         const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=ar`;
 
-        if (TMDB_API_KEY === 'ضع_مفتاحك_هنا') {
-            document.getElementById('moviesGrid').innerHTML = '<p style="color: #e50914;">يرجى إضافة مفتاح TMDB API الخاص بك في الكود لجلب الأفلام.</p>';
-        } else {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const grid = document.getElementById('moviesGrid');
-                    grid.innerHTML = '';
-                    
-                    if(data.results && data.results.length > 0) {
-                        data.results.forEach(movie => {
-                            const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '';
-                            const movieTitle = movie.title || movie.name || 'فيلم حصري';
-                            const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
-                            
-                            const card = `
-                                <div class="movie-card">
-                                    <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
-                                    <div class="movie-info">
-                                        <div class="movie-title">${movieTitle}</div>
-                                        <div class="movie-meta">
-                                            <span>${releaseYear} • سينما</span>
-                                            <span class="badge">VIP</span>
-                                        </div>
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const grid = document.getElementById('moviesGrid');
+                grid.innerHTML = '';
+                
+                if(data.results && data.results.length > 0) {
+                    data.results.forEach(movie => {
+                        const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '';
+                        const movieTitle = movie.title || movie.name || 'فيلم حصري';
+                        const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
+                        
+                        const card = `
+                            <div class="movie-card">
+                                <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
+                                <div class="movie-info">
+                                    <div class="movie-title">${movieTitle}</div>
+                                    <div class="movie-meta">
+                                        <span>${releaseYear} • سينما</span>
+                                        <span class="badge">VIP</span>
                                     </div>
                                 </div>
-                            `;
-                            grid.innerHTML += card;
-                        });
-                    } else {
-                        grid.innerHTML = '<p style="color: var(--text-secondary);">لا توجد أفلام متاح حالياً.</p>';
-                    }
-                })
-                .catch(err => {
-                    console.error('Error fetching TMDB:', err);
-                    document.getElementById('moviesGrid').innerHTML = '<p style="color: #e50914;">حدث خطأ أثناء جلب الأفلام.</p>';
-                });
-        }
+                            </div>
+                        `;
+                        grid.innerHTML += card;
+                    });
+                } else {
+                    grid.innerHTML = '<p style="color: var(--text-secondary);">لا توجد أفلام متاحة حالياً.</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching TMDB:', err);
+                document.getElementById('moviesGrid').innerHTML = '<p style="color: #e50914;">حدث خطأ أثناء جلب الأفلام.</p>';
+            });
 
-        // تفعيل الـ Service Worker للـ PWA
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
             .then(() => console.log('تم تفعيل تطبيق PWA بنجاح'))
