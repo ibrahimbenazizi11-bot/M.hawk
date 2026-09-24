@@ -109,6 +109,7 @@
             border: 1px solid var(--border-color);
             transition: 0.3s;
             cursor: pointer;
+            position: relative;
         }
 
         .movie-card:hover {
@@ -152,6 +153,59 @@
             font-weight: bold;
         }
 
+        /* نافذة تنبيه الاشتراك VIP المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: var(--text-primary);
+        }
+
+        .modal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .modal-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -166,7 +220,7 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <a href="#vip" class="vip-btn">اشترك في VIP</a>
+        <a href="#vip" class="vip-btn" id="headerVipBtn">اشترك في VIP</a>
     </header>
 
     <div class="container">
@@ -175,10 +229,21 @@
             <p>استمتع بالمشاهدة بدون إعلانات وبجودة عالية 4K</p>
         </div>
 
-        <h2 class="section-title">الأفلام الرائجة الآن (عبر TMDB)</h2>
+        <h2 class="section-title" id="vip">الأفلام الرائجة الآن (عبر TMDB)</h2>
         
         <div class="movies-grid" id="moviesGrid">
             <p style="color: var(--text-secondary);">جاري تحميل أحدث الأفلام...</p>
+        </div>
+    </div>
+
+    <!-- نافذة الاشتراك المخصصة -->
+    <div class="modal" id="vipModal">
+        <div class="modal-content">
+            <h3>محتوى حصري لأعضاء VIP</h3>
+            <p>هذا الفيلم متاح حصرياً للمشتركين. اشترك الآن واستمتع بمشاهدة بلا حدود وبدون إعلانات!</p>
+            <a href="https://wa.me/" target="_blank" class="modal-btn" style="text-decoration: none; display: inline-block;">تواصل للاشتراك عبر واتساب</a>
+            <br>
+            <button class="modal-btn close-btn" id="closeModal">إغلاق</button>
         </div>
     </div>
 
@@ -189,6 +254,19 @@
     <script>
         const TMDB_API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
         const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=ar`;
+
+        const modal = document.getElementById('vipModal');
+        const closeModal = document.getElementById('closeModal');
+        const headerVipBtn = document.getElementById('headerVipBtn');
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        headerVipBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
 
         fetch(url)
             .then(response => response.json())
@@ -202,19 +280,25 @@
                         const movieTitle = movie.title || movie.name || 'فيلم حصري';
                         const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
                         
-                        const card = `
-                            <div class="movie-card">
-                                <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
-                                <div class="movie-info">
-                                    <div class="movie-title">${movieTitle}</div>
-                                    <div class="movie-meta">
-                                        <span>${releaseYear} • سينما</span>
-                                        <span class="badge">VIP</span>
-                                    </div>
+                        const card = document.createElement('div');
+                        card.className = 'movie-card';
+                        card.innerHTML = `
+                            <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
+                            <div class="movie-info">
+                                <div class="movie-title">${movieTitle}</div>
+                                <div class="movie-meta">
+                                    <span>${releaseYear} • سينما</span>
+                                    <span class="badge">VIP</span>
                                 </div>
                             </div>
                         `;
-                        grid.innerHTML += card;
+                        
+                        // عند النقر على أي فيلم يظهر تنبيه الاشتراك الحصري
+                        card.addEventListener('click', () => {
+                            modal.style.display = 'flex';
+                        });
+
+                        grid.appendChild(card);
                     });
                 } else {
                     grid.innerHTML = '<p style="color: var(--text-secondary);">لا توجد أفلام متاحة حالياً.</p>';
