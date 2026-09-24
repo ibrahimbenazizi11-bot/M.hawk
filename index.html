@@ -1,381 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M.hawk Platform - Ultimate Entertainment</title>
+    <!-- ربط ملف الـ PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
     <style>
         :root {
             --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.85);
+            --card-bg: rgba(22, 27, 34, 0.75);
+            --card-hover: rgba(30, 41, 59, 0.9);
             --accent-color: #e50914;
-            --telegram-color: #229ed9;
-            --gold-color: #f59e0b;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --modal-bg: rgba(11, 15, 25, 0.98);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
         }
+
         header {
             padding: 20px 40px;
-            background: rgba(11, 15, 25, 0.95);
-            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
         }
+
         .logo {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--accent-color);
-            letter-spacing: 1px;
-            text-transform: uppercase;
         }
-        main {
+
+        .container {
             flex: 1;
             padding: 40px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
-        h1 {
-            margin-bottom: 30px;
-            font-size: 32px;
-            color: var(--text-primary);
-            border-left: 4px solid var(--accent-color);
-            padding-left: 15px;
-        }
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
-        .movie-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            cursor: pointer;
-        }
-        .movie-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-color: rgba(229, 9, 20, 0.3);
-        }
-        .movie-card img {
-            width: 100%;
-            height: 330px;
-            object-fit: cover;
-            display: block;
-        }
-        .movie-info {
-            padding: 15px;
-        }
-        .movie-title {
-            font-size: 17px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .movie-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        .rating {
-            color: var(--gold-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .rating::before {
-            content: '★';
-            font-size: 16px;
-        }
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background: var(--modal-bg);
-            width: 90%;
-            max-width: 900px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border-color);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 36px;
-            color: var(--text-primary);
-            cursor: pointer;
-            z-index: 101;
-            line-height: 1;
-        }
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background: #000;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .modal-details {
-            padding: 25px;
-            overflow-y: auto;
-        }
-        .modal-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .modal-info-line {
-            display: flex;
-            gap: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-        .modal-overview {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-        .watch-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background-color: var(--telegram-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        .watch-btn:hover {
-            background-color: #1b8ac4;
-            transform: translateY(-2px);
-        }
-        footer {
+
+        .hero {
             text-align: center;
-            padding: 30px;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            margin-top: auto;
-            background: rgba(11, 15, 25, 0.95);
+            padding: 60px 20px;
         }
-        @media (max-width: 768px) {
-            header { padding: 15px 20px; }
-            main { padding: 20px; }
-            h1 { font-size: 24px; }
-            .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-            .movie-card img { height: 225px; }
-            .modal-title { font-size: 22px; }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">M.hawk</div>
-    </header>
-    <main>
-        <h1>Trending Movies & Shows</h1>
-        <div id="movies-container" class="movies-grid">
-            <p style="color: var(--text-secondary); grid-column: 1/-1; text-align: center; padding: 50px;">Loading content from TMDB...</p>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 M.hawk Entertainment Hub. All rights reserved.</p>
-    </footer>
 
-    <!-- Modal Structure -->
-    <div id="movieModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="video-container">
-                <iframe id="trailerFrame" src="" allowfullscreen></iframe>
-            </div>
-            <div class="modal-details">
-                <div id="modalTitle" class="modal-title"></div>
-                <div class="modal-info-line">
-                    <span id="modalRelease"></span>
-                    <span id="modalRating" class="rating"></span>
-                </div>
-                <div id="modalOverview" class="modal-overview"></div>
-                <!-- Telegram Full Movie Button -->
-                <a id="telegramBtn" href="#" target="_blank" class="watch-btn">
-                    شاهد الفيلم الكامل على تليجرام
-                </a>
-            </div>
+    <header>
+        <div class="logo">M.hawk VIP</div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>مرحباً بك في منصة الأفلام الحصرية</h1>
+            <p>استمتع بأقوى العروض وبجودة 4K فائقة الوضوح.</p>
         </div>
     </div>
 
+    <!-- تفعيل وتشغيل الـ Service Worker لتطبيق الـ PWA -->
     <script>
-        const API_KEY = '65fb47dac159884604660e91b9fbe2d3';
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original'; 
-        const YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/';
-
-        async function fetchTrendingMovies() {
-            try {
-                const response = await fetch(`${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=en-US`);
-                const data = await response.json();
-                if (data.results) {
-                    displayMovies(data.results);
-                }
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-                document.getElementById('movies-container').innerHTML = '<p style="color: var(--accent-color); grid-column: 1/-1; text-align: center;">Failed to load content.</p>';
-            }
-        }
-
-        function displayMovies(movies) {
-            const container = document.getElementById('movies-container');
-            container.innerHTML = '';
-
-            movies.forEach(movie => {
-                const posterPath = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : 'https://via.placeholder.com/220x330?text=No+Image';
-                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-                const year = movie.release_date ? movie.release_date.substring(0, 4) : 'N/A';
-
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.onclick = () => openMovieModal(movie.id);
-                card.innerHTML = `
-                    <img src="${posterPath}" alt="${movie.title || movie.name}" loading="lazy">
-                    <div class="movie-info">
-                        <div class="movie-title">${movie.title || movie.name}</div>
-                        <div class="movie-meta">
-                            <span>${year}</span>
-                            <div class="rating">${rating}</div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        const modal = document.getElementById('movieModal');
-        const closeBtn = document.querySelector('.close-modal');
-        const trailerFrame = document.getElementById('trailerFrame');
-        const telegramBtn = document.getElementById('telegramBtn');
-
-        async function openMovieModal(movieId) {
-            try {
-                const [detailsResponse, videosResponse] = await Promise.all([
-                    fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`),
-                    fetch(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`)
-                ]);
-
-                const movie = await detailsResponse.json();
-                const videosData = await videosResponse.json();
-
-                const trailer = videosData.results.find(vid => vid.site === 'YouTube' && (vid.type === 'Trailer' || vid.type === 'Teaser'));
-
-                if (trailer) {
-                    trailerFrame.src = `${YOUTUBE_EMBED_URL}${trailer.key}?autoplay=1&rel=0&modestbranding=1`;
-                } else {
-                    trailerFrame.src = '';
-                }
-
-                document.getElementById('modalTitle').textContent = movie.title || movie.name;
-                document.getElementById('modalRelease').textContent = `Released: ${movie.release_date || 'N/A'}`;
-                document.getElementById('modalRating').textContent = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-                document.getElementById('modalOverview').textContent = movie.overview || 'No description available.';
-
-                // ربط الزر مباشرة ببوت تليجرام الخاص بك مع تمرير رقم الفيلم تلقائياً
-                telegramBtn.href = `https://t.me/Moviehawk_4k_bot?start=movie_${movieId}`;
-
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-
-            } catch (error) {
-                console.error('Error fetching movie details:', error);
-            }
-        }
-
-        function closeMovieModal() {
-            modal.classList.remove('active');
-            trailerFrame.src = '';
-            document.body.style.overflow = '';
-        }
-
-        closeBtn.onclick = closeMovieModal;
-        window.onclick = (event) => {
-            if (event.target === modal) {
-                closeMovieModal();
-            }
-        };
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('active')) {
-                closeMovieModal();
-            }
-        });
-
-        fetchTrendingMovies();
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+          .then(() => console.log('تم تفعيل تطبيق PWA بنجاح'))
+          .catch((err) => console.log('فشل تفعيل الـ PWA', err));
+      }
     </script>
 </body>
 </html>
