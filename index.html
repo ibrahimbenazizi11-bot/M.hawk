@@ -51,13 +51,16 @@
         }
 
         .vip-btn {
-            background-color: var(--accent-color);
+            background-color: #25d366; /* لون واتساب المميز لزيادة التحويلات */
             color: white;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .vip-btn:hover {
@@ -75,8 +78,8 @@
 
         .hero {
             text-align: center;
-            padding: 40px 20px;
-            margin-bottom: 30px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
         }
 
         .hero h1 {
@@ -87,6 +90,58 @@
         .hero p {
             color: var(--text-secondary);
             font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        /* شريط البحث والتصنيفات الاحترافية */
+        .search-filter-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+        }
+
+        .categories-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
         }
 
         .section-title {
@@ -153,7 +208,7 @@
             font-weight: bold;
         }
 
-        /* نافذة مشغل الفيديو المنبثقة */
+        /* نافذة المشاهدة المباشرة */
         .modal {
             display: none;
             position: fixed;
@@ -182,7 +237,7 @@
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* نسبة 16:9 للعرض */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
             border-radius: 8px;
@@ -223,16 +278,29 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <a href="#vip" class="vip-btn" id="headerVipBtn">اشترك في VIP</a>
+        <!-- استبدل # رقم هاتفك بصيغة دولية مثلاً: https://wa.me/212600000000 -->
+        <a href="https://wa.me/" target="_blank" class="vip-btn" id="headerVipBtn">💬 اشترك عبر واتساب</a>
     </header>
 
     <div class="container">
         <div class="hero">
             <h1>أقوى الأفلام والمسلسلات الحصرية</h1>
             <p>استمتع بالمشاهدة بدون إعلانات وبجودة عالية 4K</p>
+            
+            <!-- شريط البحث والتصنيفات -->
+            <div class="search-filter-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن فيلمك المفضلة...">
+                <div class="categories-nav">
+                    <button class="cat-btn active" data-genre="trending">الرائجة الآن</button>
+                    <button class="cat-btn" data-genre="28">أكشن</button>
+                    <button class="cat-btn" data-genre="27">رعب</button>
+                    <button class="cat-btn" data-genre="878">خيال علمي</button>
+                    <button class="cat-btn" data-genre="35">كوميديا</button>
+                </div>
+            </div>
         </div>
 
-        <h2 class="section-title" id="vip">الأفلام الرائجة الآن (عبر TMDB)</h2>
+        <h2 class="section-title" id="sectionTitle">قائمة الأفلام</h2>
         
         <div class="movies-grid" id="moviesGrid">
             <p style="color: var(--text-secondary);">جاري تحميل أحدث الأفلام...</p>
@@ -256,88 +324,118 @@
 
     <script>
         const TMDB_API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
-        const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=ar`;
+        let allMovies = [];
+
+        // روابط الأفلام المخصصة للمشتركين (يمكنك إضافة روابطك الكاملة هنا)
+        const customMovieLinks = {
+            // "Avatar": "رابط_الفيلم_الكامل"
+        };
 
         const modal = document.getElementById('videoModal');
         const closeModal = document.getElementById('closeModal');
         const movieIframe = document.getElementById('movieIframe');
         const modalMovieTitle = document.getElementById('modalMovieTitle');
+        const moviesGrid = document.getElementById('moviesGrid');
+        const searchInput = document.getElementById('searchInput');
+        const catButtons = document.querySelectorAll('.cat-btn');
 
         closeModal.addEventListener('click', () => {
             modal.style.display = 'none';
-            movieIframe.src = ''; // إيقاف الفيديو عند الإغلاق
+            movieIframe.src = '';
         });
 
-        // زر الـ VIP في الأعلى يوجه لقسم الأفلام
-        document.getElementById('headerVipBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 400, behavior: 'smooth' });
-        });
+        // دالة لجلب الأفلام بناءً على التصنيف
+        function fetchMovies(endpointUrl) {
+            moviesGrid.innerHTML = '<p style="color: var(--text-secondary);">جاري تحميل الأفلام...</p>';
+            fetch(endpointUrl)
+                .then(res => res.json())
+                .then(data => {
+                    allMovies = data.results || [];
+                    displayMovies(allMovies);
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    moviesGrid.innerHTML = '<p style="color: #e50914;">حدث خطأ أثناء جلب الأفلام.</p>';
+                });
+        }
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const grid = document.getElementById('moviesGrid');
-                grid.innerHTML = '';
-                
-                if(data.results && data.results.length > 0) {
-                    data.results.forEach(movie => {
-                        const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '';
-                        const movieTitle = movie.title || movie.name || 'فيلم حصري';
-                        const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
-                        const movieId = movie.id;
-                        
-                        const card = document.createElement('div');
-                        card.className = 'movie-card';
-                        card.innerHTML = `
-                            <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
-                            <div class="movie-info">
-                                <div class="movie-title">${movieTitle}</div>
-                                <div class="movie-meta">
-                                    <span>${releaseYear} • سينما</span>
-                                    <span class="badge">VIP</span>
-                                </div>
+        // عرض الأفلام في الشبكة
+        function displayMovies(movies) {
+            moviesGrid.innerHTML = '';
+            if(movies.length > 0) {
+                movies.forEach(movie => {
+                    const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '';
+                    const movieTitle = movie.title || movie.name || 'فيلم حصري';
+                    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.innerHTML = `
+                        <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-title">${movieTitle}</div>
+                            <div class="movie-meta">
+                                <span>${releaseYear} • سينما</span>
+                                <span class="badge">VIP</span>
                             </div>
-                        `;
-                        
-                        // عند النقر على الفيلم، نقوم بجلب تفاصيل الفديو/الترايلر الخاص به وعرضه في المشغل
-                        card.addEventListener('click', () => {
-                            modalMovieTitle.textContent = movieTitle;
-                            // جلب فيديو الفيلم من TMDB
-                            fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${TMDB_API_KEY}&language=ar`)
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        modalMovieTitle.textContent = movieTitle;
+                        if (customMovieLinks[movieTitle]) {
+                            movieIframe.src = customMovieLinks[movieTitle] + '?autoplay=1';
+                            modal.style.display = 'flex';
+                        } else {
+                            fetch(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${TMDB_API_KEY}&language=ar`)
                                 .then(res => res.json())
                                 .then(videoData => {
                                     let videoKey = '';
                                     if(videoData.results && videoData.results.length > 0) {
-                                        // البحث عن فيديو يوتيوب رسمي
                                         const trailer = videoData.results.find(v => v.type === 'Trailer' || v.site === 'YouTube');
                                         videoKey = trailer ? trailer.key : videoData.results[0].key;
                                     }
-                                    
-                                    if(videoKey) {
-                                        movieIframe.src = `https://www.youtube.com/embed/${videoKey}?autoplay=1`;
-                                    } else {
-                                        // رابط بديل افتراضي في حال لم يتوفر فيديو مباشر
-                                        movieIframe.src = `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1`;
-                                    }
+                                    movieIframe.src = videoKey ? `https://www.youtube.com/embed/${videoKey}?autoplay=1` : `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1`;
                                     modal.style.display = 'flex';
                                 })
                                 .catch(() => {
                                     movieIframe.src = `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1`;
                                     modal.style.display = 'flex';
                                 });
-                        });
-
-                        grid.appendChild(card);
+                        }
                     });
+
+                    moviesGrid.appendChild(card);
+                });
+            } else {
+                moviesGrid.innerHTML = '<p style="color: var(--text-secondary);">لا توجد نتائج مطابقة.</p>';
+            }
+        }
+
+        // جلب الأفلام الرائجة افتراضياً
+        fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=ar`);
+
+        // تفعيل التصنيفات
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                catButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const genre = e.target.getAttribute('data-genre');
+                if(genre === 'trending') {
+                    fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&language=ar`);
                 } else {
-                    grid.innerHTML = '<p style="color: var(--text-secondary);">لا توجد أفلام متاحة حالياً.</p>';
+                    fetchMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genre}&language=ar`);
                 }
-            })
-            .catch(err => {
-                console.error('Error fetching TMDB:', err);
-                document.getElementById('moviesGrid').innerHTML = '<p style="color: #e50914;">حدث خطأ أثناء جلب الأفلام.</p>';
             });
+        });
+
+        // تفعيل شريط البحث الفوري
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allMovies.filter(m => (m.title || m.name || '').toLowerCase().includes(term));
+            displayMovies(filtered);
+        });
 
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
