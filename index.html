@@ -32,10 +32,30 @@
             z-index: 1000;
         }
         .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); }
-        .nav-links { display: flex; gap: 15px; align-items: center; }
-        .nav-link { color: var(--text-color); text-decoration: none; font-size: 14px; transition: 0.3s; cursor: pointer; }
-        .nav-link:hover { color: var(--accent-color); }
         
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* تنسيق شريط اختيار اللغات */
+        .language-select {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid #38bdf8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .language-select option {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
         .container { max-width: 1300px; margin: 0 auto; padding: 30px 20px; }
         
         /* قسم التنقل بين الأقسام */
@@ -91,19 +111,6 @@
         .media-info h4 { font-size: 15px; color: #fff; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .media-info p { font-size: 13px; color: var(--text-muted); }
 
-        /* شريط اللغات الـ 14 */
-        .languages-bar {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 30px 0;
-            text-align: center;
-            border: 1px solid #1e293b;
-        }
-        .languages-bar p { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
-        .lang-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .lang-tag { background: #0b0f19; color: var(--accent-color); padding: 4px 10px; border-radius: 4px; font-size: 12px; border: 1px solid #1e293b; }
-
         /* بطاقة VIP */
         .pricing-card {
             background: linear-gradient(135deg, #1e293b 0%, #0b0f19 100%);
@@ -137,43 +144,43 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <div class="nav-links">
-            <span class="nav-link">Free (720p/1080p)</span>
-            <span class="nav-link" style="color: var(--vip-gold);">VIP 4K</span>
+        <div class="header-controls">
+            <!-- شريط اختيار اللغات الـ 14 -->
+            <select class="language-select" id="languageSelector" onchange="changeLanguage(this.value)">
+                <option value="id">🇮🇩 Indonesian (Bahasa)</option>
+                <option value="hi">🇮🇳 Hindi (हिन्दी)</option>
+                <option value="en" selected>🇬🇧 English</option>
+                <option value="ar">🇸🇦 Arabic (العربية)</option>
+                <option value="es">🇪🇸 Spanish (Español)</option>
+                <option value="fr">🇫🇷 French (Français)</option>
+                <option value="de">🇩🇪 German (Deutsch)</option>
+                <option value="pt">🇵🇹 Portuguese (Português)</option>
+                <option value="ja">🇯🇵 Japanese (日本語)</option>
+                <option value="ko">🇰🇷 Korean (한국어)</option>
+                <option value="it">🇮🇹 Italian (Italiano)</option>
+                <option value="tr">🇹🇷 Turkish (Türkçe)</option>
+                <option value="ru">🇷🇺 Russian (Русский)</option>
+                <option value="zh">🇨🇳 Chinese (中文)</option>
+            </select>
         </div>
     </header>
 
     <div class="container">
         
-        <!-- الأقسام الرئيسية -->
+        <!-- الأقسام الثلاثة الرئيسية -->
         <div class="categories-bar">
-            <button class="cat-btn active" onclick="switchCategory('movie')">🎬 Movies (أفلام)</button>
-            <button class="cat-btn" onclick="switchCategory('tv')">📺 TV Series (مسلسلات)</button>
-            <button class="cat-btn" onclick="switchCategory('anime')">⛩️ Anime (أنمي)</button>
-        </div>
-
-        <!-- شريط اللغات الـ 14 مع التركيز على الهندية والإندونيسية -->
-        <div class="languages-bar">
-            <p>🌍 Available Subtitles & Audio (14 Languages Supported):</p>
-            <div class="lang-tags">
-                <span class="lang-tag" style="border-color: var(--vip-gold);">🇮🇩 Indonesian (Bahasa)</span>
-                <span class="lang-tag" style="border-color: var(--vip-gold);">🇮🇳 Hindi (हिन्दी)</span>
-                <span class="lang-tag">English</span> <span class="lang-tag">Arabic (العربية)</span>
-                <span class="lang-tag">Spanish</span> <span class="lang-tag">French</span>
-                <span class="lang-tag">German</span> <span class="lang-tag">Portuguese</span>
-                <span class="lang-tag">Japanese</span> <span class="lang-tag">Korean</span>
-                <span class="lang-tag">Italian</span> <span class="lang-tag">Turkish</span>
-                <span class="lang-tag">Russian</span> <span class="lang-tag">Chinese</span>
-            </div>
+            <button class="cat-btn active" onclick="switchCategory('movie', this)">🎬 Movies (أفلام)</button>
+            <button class="cat-btn" onclick="switchCategory('tv', this)">📺 TV Series (مسلسلات)</button>
+            <button class="cat-btn" onclick="switchCategory('anime', this)">⛩️ Anime (أنمي)</button>
         </div>
 
         <!-- منطقة عرض المحتوى (API) -->
         <div class="section-title" id="sectionTitle">Trending Movies</div>
         <div class="media-grid" id="mediaGrid">
-            <!-- سيتم تعبئة المحتوى ديناميكياً هنا عبر الـ API -->
+            <!-- سيتم جلب المحتوى وعرضه ديناميكياً هنا -->
         </div>
 
-        <!-- بطاقة اشتراك بايبال VIP -->
+        <!-- بطاقة اشتراك بايبال VIP ($3) -->
         <div class="pricing-card">
             <h3>VIP 4K Access</h3>
             <div class="price">$3 <span>/ month</span></div>
@@ -187,30 +194,38 @@
     </div>
 
     <script>
-        // مفتاح وربط TMDB API الديناميكي الخاص بك
-        const API_KEY = 'ضع_مفتاح_api_الخاص_بك_هنا'; // أو ضع رابط الجلب المعتاد لديك
-        
-        function switchCategory(type) {
-            const grid = document.getElementById('mediaGrid');
-            const title = document.getElementById('sectionTitle');
+        let currentCategory = 'movie';
+        let currentLang = 'en';
+
+        function switchCategory(type, btn) {
+            currentCategory = type;
             
-            // تغيير العنوان وتحديث المحتوى حسب القسم المختاره
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const title = document.getElementById('sectionTitle');
+            const grid = document.getElementById('mediaGrid');
+
             if(type === 'movie') {
                 title.innerText = 'Trending Movies';
-                grid.innerHTML = '<p style="color:#94a3b8;">Loading Movies...</p>';
             } else if(type === 'tv') {
                 title.innerText = 'Popular TV Series';
-                grid.innerHTML = '<p style="color:#94a3b8;">Loading TV Series...</p>';
             } else if(type === 'anime') {
                 title.innerText = 'Top Anime Hub';
-                grid.innerHTML = '<p style="color:#94a3b8;">Loading Anime...</p>';
             }
+
+            grid.innerHTML = `<p style="color:#94a3b8;">Loading ${type} in language: ${currentLang.toUpperCase()}...</p>`;
             
-            // يمكنك ربط دالة الجلب الأصلية الخاصة بك هنا لتعود الأفلام بالبوسترات الحقيقية
+            // هنا يمكنك ربط دالة جلب البيانات الخاصة بـ TMDB API وتمرير متغيرات (currentCategory و currentLang) معاً
         }
-        
-        // التشغيل التلقائي لجلب الأفلام عند فتح الصفحة
-        switchCategory('movie');
+
+        function changeLanguage(langCode) {
+            currentLang = langCode;
+            console.log("Language changed to: " + langCode);
+            // إعادة جلب المحتوى باللغة المختارة فوراً
+            switchCategory(currentCategory, document.querySelector('.cat-btn.active'));
+        }
     </script>
 </body>
 </html>
