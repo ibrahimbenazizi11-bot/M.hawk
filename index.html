@@ -3,62 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk VIP - Global Streaming</title>
+    <title>M.hawk VIP - Global Streaming Platform</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
             --accent-color: #38bdf8;
             --vip-gold: #f59e0b;
             --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
-            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            line-height: 1.6;
         }
+        /* الهيدر */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background-color: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid #334155;
+            padding: 20px 50px;
+            background-color: rgba(11, 15, 25, 0.95);
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .logo {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             color: var(--accent-color);
+            letter-spacing: 1px;
         }
+        .nav-badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        /* المحتوى الرئيسي */
         .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
         .hero {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(11, 15, 25, 0) 100%);
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        /* الأقسام والشبكات */
+        .section-title {
+            font-size: 24px;
+            color: #fff;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #1e293b;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        .card h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .tag {
+            display: inline-block;
+            background: #1e293b;
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        /* بطاقة VIP الاحترافية */
+        .pricing-section {
+            margin-top: 60px;
+            text-align: center;
         }
         .pricing-card {
-            background: var(--card-bg);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 2px solid var(--vip-gold);
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 400px;
-            margin: 30px auto;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--vip-gold);
+            color: #000;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 40px;
+            transform: rotate(45deg);
         }
         .pricing-card h3 {
             color: var(--vip-gold);
-            font-size: 28px;
+            font-size: 30px;
             margin-bottom: 10px;
         }
         .price {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: bold;
-            margin-bottom: 20px;
+            color: #fff;
+            margin-bottom: 25px;
+        }
+        .price span {
+            font-size: 16px;
+            color: var(--text-muted);
         }
         .features-list {
             list-style: none;
@@ -67,29 +171,34 @@
             text-align: left;
         }
         .features-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #334155;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+            color: var(--text-color);
+            font-size: 15px;
         }
         .btn-vip {
-            display: inline-block;
+            display: block;
             background-color: var(--vip-gold);
             color: #000;
-            padding: 12px 30px;
+            padding: 15px;
             font-size: 18px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
         .btn-vip:hover {
             background-color: #d97706;
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
-        .free-tier-notice {
+        .footer-note {
             text-align: center;
-            color: #94a3b8;
-            margin-top: 20px;
+            color: var(--text-muted);
+            margin-top: 40px;
             font-size: 14px;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -97,32 +206,64 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <div class="nav-links">
-            <span>Free Stream: 720p & 1080p Available</span>
-        </div>
+        <div class="nav-badge">Freemium Streaming</div>
     </header>
 
     <div class="container">
+        <!-- قسم الترحيب -->
         <div class="hero">
-            <h1>Welcome to M.hawk VIP Streaming</h1>
-            <p>Enjoy endless movies and series in high quality for free, or upgrade to ultimate cinematic 4K.</p>
+            <h1>Unlimited Cinematic Experience</h1>
+            <p>Stream thousands of movies, TV series, and anime titles in high definition for free, or unlock the ultimate cinematic power with 4K.</p>
         </div>
 
-        <div class="pricing-card">
-            <h3>VIP 4K Access</h3>
-            <div class="price">$3 <span style="font-size: 16px; color: #94a3b8;">/ month</span></div>
-            <ul class="features-list">
-                <li>✨ Unlimited 4K Ultra HD Streaming</li>
-                <li>🚀 Ad-Free Experience</li>
-                <li>🌍 Access to 14 Language Subtitles</li>
-                <li>⚡ Priority Server Speed</li>
-            </ul>
-            <!-- رابط بايبال الحقيقي الذي أنشأته -->
-            <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip" id="vipBtnText">Upgrade to VIP 4K</a>
+        <!-- الأقسام والمكتبات -->
+        <div class="section-title">🎬 Content Libraries</div>
+        <div class="grid">
+            <div class="card">
+                <h3>TV Series & Shows</h3>
+                <p>Binge-watch trending global series with multi-language subtitle synchronization.</p>
+                <div>
+                    <span class="tag">HD 1080p Free</span>
+                    <span class="tag">VIP 4K</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Anime Hub</h3>
+                <p>Explore top-rated Japanese anime series and movies updated directly.</p>
+                <div>
+                    <span class="tag">Subtitled</span>
+                    <span class="tag">Fast Streaming</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Global Subtitles (14+ Lang)</h3>
+                <p>Fully supported localized subtitles for international viewers.</p>
+                <div>
+                    <span class="tag">Hindi (हिन्दी)</span>
+                    <span class="tag">Indonesian (Bahasa)</span>
+                    <span class="tag">+12 More</span>
+                </div>
+            </div>
         </div>
 
-        <div class="free-tier-notice">
-            <p>💡 Note: Standard streaming (720p & 1080p) remains completely free for all users.</p>
+        <!-- بطاقة الاشتراك VIP -->
+        <div class="pricing-section">
+            <div class="pricing-card">
+                <h3>VIP 4K Access</h3>
+                <div class="price">$3 <span>/ month</span></div>
+                <ul class="features-list">
+                    <li>✨ Unlimited 4K Ultra HD Streaming</li>
+                    <li>🚀 Completely Ad-Free Experience</li>
+                    <li>🌍 Full Access to 14 Language Subtitles (Incl. Hindi & Indonesian)</li>
+                    <li>⚡ Priority High-Speed Servers</li>
+                </ul>
+                <!-- رابط بايبال الخاص بك -->
+                <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip">Upgrade to VIP 4K Now</a>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <p>💡 Standard streaming (720p & 1080p) across all categories remains completely free for everyone. Powered by M.hawk VIP.</p>
         </div>
     </div>
 
