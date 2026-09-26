@@ -239,8 +239,8 @@
     </div>
 
     <script>
-        // ضع مفتاح TMDB API الخاص بك هنا
-        const API_KEY = 'YOUR_TMDB_API_KEY'; 
+        // مفتاح TMDB API الخاص بك
+        const API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
         let currentType = 'movie';
         let currentLang = 'en';
 
@@ -259,7 +259,6 @@
                 url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${currentLang}`;
             } else if (currentType === 'anime') {
                 titleEl.innerText = 'Top Anime Hub';
-                // استخدام بحث عن الأنمي عبر TMDB
                 url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${currentLang}`;
             }
 
@@ -307,7 +306,7 @@
             fetchMedia();
         }
 
-        // التشغيل الأولي عند فتح الصفحة
+        // جلب البيانات تلقائياً عند فتح الصفحة
         fetchMedia();
     </script>
 </body>
