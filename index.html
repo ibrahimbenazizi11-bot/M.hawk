@@ -1,295 +1,95 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk VIP - Global Streaming Platform</title>
-    <link rel="manifest" href="/manifest.json">
+    <title>M.hawk VIP - Global Streaming</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.85);
-            --card-hover: rgba(30, 41, 59, 0.95);
-            --accent-color: #e50914;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --vip-gold: #f59e0b;
+            --text-color: #f8fafc;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            color: var(--text-color);
         }
-
         header {
-            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(11, 15, 25, 0.95);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            gap: 15px;
-            flex-wrap: wrap;
+            padding: 20px 40px;
+            background-color: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid #334155;
         }
-
         .logo {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--accent-color);
-            letter-spacing: 1px;
         }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* قائمة اللغات الـ 14 */
-        .lang-select {
-            background: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 8px;
-            outline: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .vip-btn {
-            background-color: #0070ba; /* لون PayPal الرسمي للاشتراكات العالمية */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-
-        .vip-btn:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
         .container {
-            flex: 1;
-            padding: 40px 20px;
             max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
         }
-
         .hero {
             text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 20px;
+            padding: 40px 20px;
         }
-
-        .hero h1 {
-            font-size: 36px;
+        .pricing-card {
+            background: var(--card-bg);
+            border: 2px solid var(--vip-gold);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 30px auto;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .pricing-card h3 {
+            color: var(--vip-gold);
+            font-size: 28px;
             margin-bottom: 10px;
         }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 25px;
-        }
-
-        .search-filter-box {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-            align-items: center;
-        }
-
-        .search-input {
-            width: 100%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            font-size: 16px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
-        }
-
-        .categories-nav {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .cat-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 14px;
-        }
-
-        .cat-btn:hover, .cat-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .section-title {
-            font-size: 22px;
+        .price {
+            font-size: 36px;
+            font-weight: bold;
             margin-bottom: 20px;
-            border-right: 4px solid var(--accent-color);
-            padding-right: 10px;
         }
-
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
         }
-
-        .movie-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #334155;
+        }
+        .btn-vip {
+            display: inline-block;
+            background-color: var(--vip-gold);
+            color: #000;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
             transition: 0.3s;
-            cursor: pointer;
-            position: relative;
         }
-
-        .movie-card:hover {
-            transform: translateY(-5px);
-            background-color: var(--card-hover);
-            border-color: var(--accent-color);
+        .btn-vip:hover {
+            background-color: #d97706;
+            transform: scale(1.05);
         }
-
-        .movie-poster {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-            background-color: #1a202c;
-        }
-
-        .movie-info {
-            padding: 15px;
-        }
-
-        .movie-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .movie-meta {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .badge {
-            background: rgba(229, 9, 20, 0.2);
-            color: var(--accent-color);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .modal-content {
-            background: #161b22;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 800px;
-            width: 90%;
+        .free-tier-notice {
             text-align: center;
-            border: 1px solid var(--accent-color);
-            position: relative;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .close-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            color: #94a3b8;
+            margin-top: 20px;
             font-size: 14px;
-            margin-top: auto;
         }
     </style>
 </head>
@@ -297,428 +97,34 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <div class="header-actions">
-            <!-- قائمة اختيار اللغات الـ 14 -->
-            <select id="langSelect" class="lang-select">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
-                <option value="de">Deutsch</option>
-                <option value="it">Italiano</option>
-                <option value="pt">Português</option>
-                <option value="ru">Русский</option>
-                <option value="tr">Türkçe</option>
-                <option value="ja">日本語</option>
-                <option value="ko">한국어</option>
-                <option value="zh">中文</option>
-                <option value="hi">हिन्दी</option>
-                <option value="nl">Nederlands</option>
-            </select>
-            <!-- رابط بايبال للاشتراك العالمي (استبدل رابط.me برابط حسابك على بايبال) -->
-            <a href="https://paypal.me/yourpaypal" target="_blank" class="vip-btn" id="vipBtnText">🌐 Subscribe VIP (PayPal)</a>
+        <div class="nav-links">
+            <span>Free Stream: 720p & 1080p Available</span>
         </div>
     </header>
 
     <div class="container">
         <div class="hero">
-            <h1 id="heroTitle">أقوى الأفلام والمسلسلات الحصرية</h1>
-            <p id="heroSub">استمتع بالمشاهدة بدون إعلانات وبجودة عالية 4K</p>
-            
-            <div class="search-filter-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن فيلمك المفضلة...">
-                <div class="categories-nav">
-                    <button class="cat-btn active" data-genre="trending" id="catTrending">الرائجة الآن</button>
-                    <button class="cat-btn" data-genre="28" id="catAction">أكشن</button>
-                    <button class="cat-btn" data-genre="27" id="catHorror">رعب</button>
-                    <button class="cat-btn" data-genre="878" id="catSciFi">خيال علمي</button>
-                    <button class="cat-btn" data-genre="35" id="catComedy">كوميديا</button>
-                </div>
-            </div>
+            <h1>Welcome to M.hawk VIP Streaming</h1>
+            <p>Enjoy endless movies and series in high quality for free, or upgrade to ultimate cinematic 4K.</p>
         </div>
 
-        <h2 class="section-title" id="sectionTitle">قائمة الأفلام</h2>
-        
-        <div class="movies-grid" id="moviesGrid">
-            <p style="color: var(--text-secondary);" id="loadingText">جاري تحميل أحدث الأفلام...</p>
+        <div class="pricing-card">
+            <h3>VIP 4K Access</h3>
+            <div class="price">$3 <span style="font-size: 16px; color: #94a3b8;">/ month</span></div>
+            <ul class="features-list">
+                <li>✨ Unlimited 4K Ultra HD Streaming</li>
+                <li>🚀 Ad-Free Experience</li>
+                <li>🌍 Access to 14 Language Subtitles</li>
+                <li>⚡ Priority Server Speed</li>
+            </ul>
+            <!-- رابط بايبال الحقيقي الذي أنشأته -->
+            <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip" id="vipBtnText">Upgrade to VIP 4K</a>
         </div>
-    </div>
 
-    <div class="modal" id="videoModal">
-        <div class="modal-content">
-            <h3 id="modalMovieTitle" style="margin-bottom: 15px; color: #fff;">تشغيل الفيلم</h3>
-            <div class="video-container">
-                <iframe id="movieIframe" src="" allowfullscreen></iframe>
-            </div>
-            <button class="close-btn" id="closeModal">إغلاق المشغل</button>
+        <div class="free-tier-notice">
+            <p>💡 Note: Standard streaming (720p & 1080p) remains completely free for all users.</p>
         </div>
     </div>
 
-    <footer>
-        <p id="footerText">جميع الحقوق محفوظة © M.hawk Platform 2026</p>
-    </footer>
-
-    <script>
-        const TMDB_API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
-        let allMovies = [];
-        let currentLang = 'ar';
-
-        const customMovieLinks = {};
-
-        // قاموس الترجمات للغات الـ 14 المدعومة في واجهة الموقع
-        const translations = {
-            ar: {
-                heroTitle: "أقوى الأفلام والمسلسلات الحصرية",
-                heroSub: "استمتع بالمشاهدة بدون إعلانات وبجودة عالية 4K",
-                searchPlaceholder: "ابحث عن فيلمك المفضلة...",
-                catTrending: "الرائجة الآن",
-                catAction: "أكشن",
-                catHorror: "رعب",
-                catSciFi: "خيال علمي",
-                catComedy: "كوميديا",
-                sectionTitle: "قائمة الأفلام",
-                loadingText: "جاري تحميل أحدث الأفلام...",
-                vipBtn: "🌐 اشترك VIP (PayPal)",
-                closeBtn: "إغلاق المشغل",
-                footer: "جميع الحقوق محفوظة © M.hawk Platform 2026"
-            },
-            en: {
-                heroTitle: "Exclusive Blockbusters & Series",
-                heroSub: "Enjoy ad-free streaming in stunning 4K quality",
-                searchPlaceholder: "Search your favorite movie...",
-                catTrending: "Trending Now",
-                catAction: "Action",
-                catHorror: "Horror",
-                catSciFi: "Sci-Fi",
-                catComedy: "Comedy",
-                sectionTitle: "Movie List",
-                loadingText: "Loading latest movies...",
-                vipBtn: "🌐 Subscribe VIP (PayPal)",
-                closeBtn: "Close Player",
-                footer: "All Rights Reserved © M.hawk Platform 2026"
-            },
-            fr: {
-                heroTitle: "Films et Séries Exclusifs",
-                heroSub: "Profitez d'un streaming sans pub en qualité 4K",
-                searchPlaceholder: "Recherchez votre film...",
-                catTrending: "Tendances",
-                catAction: "Action",
-                catHorror: "Horreur",
-                catSciFi: "Sci-Fi",
-                catComedy: "Comédie",
-                sectionTitle: "Liste des films",
-                loadingText: "Chargement des films...",
-                vipBtn: "🌐 S'abonner VIP (PayPal)",
-                closeBtn: "Fermer le lecteur",
-                footer: "Tous droits réservés © M.hawk Platform 2026"
-            },
-            es: {
-                heroTitle: "Películas y Series Exclusivas",
-                heroSub: "Disfruta de streaming sin anuncios en calidad 4K",
-                searchPlaceholder: "Busca tu película favorita...",
-                catTrending: "Tendencias",
-                catAction: "Acción",
-                catHorror: "Terror",
-                catSciFi: "Ciencia Ficción",
-                catComedy: "Comedia",
-                sectionTitle: "Lista de películas",
-                loadingText: "Cargando películas...",
-                vipBtn: "🌐 Suscribirse VIP (PayPal)",
-                closeBtn: "Cerrar reproductor",
-                footer: "Todos los derechos reservados © M.hawk Platform 2026"
-            },
-            de: {
-                heroTitle: "Exklusive Blockbuster & Serien",
-                heroSub: "Genießen Sie werbefreies Streaming in 4K",
-                searchPlaceholder: "Suche nach deinem Lieblingsfilm...",
-                catTrending: "Im Trend",
-                catAction: "Action",
-                catHorror: "Horror",
-                catSciFi: "Sci-Fi",
-                catComedy: "Komödie",
-                sectionTitle: "Filmliste",
-                loadingText: "Lade aktuelle Filme...",
-                vipBtn: "🌐 VIP abonnieren (PayPal)",
-                closeBtn: "Player schließen",
-                footer: "Alle Rechte vorbehalten © M.hawk Platform 2026"
-            },
-            it: {
-                heroTitle: "Film e Serie TV Esclusive",
-                heroSub: "Streaming senza pubblicità in qualità 4K",
-                searchPlaceholder: "Cerca il tuo film preferito...",
-                catTrending: "Tendenze",
-                catAction: "Azione",
-                catHorror: "Horror",
-                catSciFi: "Fantascienza",
-                catComedy: "Commedia",
-                sectionTitle: "Lista Film",
-                loadingText: "Caricamento film...",
-                vipBtn: "🌐 Abbonati VIP (PayPal)",
-                closeBtn: "Chiudi lettore",
-                footer: "Tutti i diritti riservati © M.hawk Platform 2026"
-            },
-            pt: {
-                heroTitle: "Filmes e Séries Exclusivos",
-                heroSub: "Aproveite streaming sem anúncios em qualidade 4K",
-                searchPlaceholder: "Pesquise seu filme favorito...",
-                catTrending: "Em Alta",
-                catAction: "Ação",
-                catHorror: "Terror",
-                catSciFi: "Ficção Científica",
-                catComedy: "Comédia",
-                sectionTitle: "Lista de Filmes",
-                loadingText: "Carregando filmes...",
-                vipBtn: "🌐 Assinar VIP (PayPal)",
-                closeBtn: "Fechar Reprodutor",
-                footer: "Todos os direitos reservados © M.hawk Platform 2026"
-            },
-            ru: {
-                heroTitle: "Эксклюзивные фильмы и сериалы",
-                heroSub: "Наслаждайтесь просмотром без рекламы в 4K",
-                searchPlaceholder: "Поиск любимого фильма...",
-                catTrending: "В тренде",
-                catAction: "Боевик",
-                catHorror: "Ужасы",
-                catSciFi: "Фантастика",
-                catComedy: "Комедия",
-                sectionTitle: "Список фильмов",
-                loadingText: "Загрузка фильмов...",
-                vipBtn: "🌐 VIP Подписка (PayPal)",
-                closeBtn: "Закрыть плеер",
-                footer: "Все права защищены © M.hawk Platform 2026"
-            },
-            tr: {
-                heroTitle: "Özel Filmler ve Diziler",
-                heroSub: "4K kalitesinde reklamsız akışın keyfini çıkarın",
-                searchPlaceholder: "Film ara...",
-                catTrending: "Trendler",
-                catAction: "Aksiyon",
-                catHorror: "Korku",
-                catSciFi: "Bilimkurgu",
-                catComedy: "Komedi",
-                sectionTitle: "Film Listesi",
-                loadingText: "Filmler yükleniyor...",
-                vipBtn: "🌐 VIP Abone Ol (PayPal)",
-                closeBtn: "Oynatıcıyı Kapat",
-                footer: "Tüm Hakları Saklıdır © M.hawk Platform 2026"
-            },
-            ja: {
-                heroTitle: "独占配信の映画とシリーズ",
-                heroSub: "4Kの高画質で広告なしのストリーミングを楽しむ",
-                searchPlaceholder: "映画を検索...",
-                catTrending: "トレンド",
-                catAction: "アクション",
-                catHorror: "ホラー",
-                catSciFi: "SF",
-                catComedy: "コメディ",
-                sectionTitle: "映画リスト",
-                loadingText: "映画を読み込み中...",
-                vipBtn: "🌐 VIP登録 (PayPal)",
-                closeBtn: "プレイヤーを閉じる",
-                footer: "All Rights Reserved © M.hawk Platform 2026"
-            },
-            ko: {
-                heroTitle: "독점 영화 및 시리즈",
-                heroSub: "4K 화질로 광고 없는 스트리밍을 즐기세요",
-                searchPlaceholder: "영화 검색...",
-                catTrending: "인기 콘텐츠",
-                catAction: "액션",
-                catHorror: "공포",
-                catSciFi: "공상과학",
-                catComedy: "코미디",
-                sectionTitle: "영화 목록",
-                loadingText: "영화 로딩 중...",
-                vipBtn: "🌐 VIP 구독 (PayPal)",
-                closeBtn: "플레이어 닫기",
-                footer: "All Rights Reserved © M.hawk Platform 2026"
-            },
-            zh: {
-                heroTitle: "独家热门电影与剧集",
-                heroSub: "享受4K高清无广告流畅播放",
-                searchPlaceholder: "搜索您喜欢的电影...",
-                catTrending: "当前热门",
-                catAction: "动作",
-                catHorror: "恐怖",
-                catSciFi: "科幻",
-                catComedy: "喜剧",
-                sectionTitle: "电影列表",
-                loadingText: "正在加载电影...",
-                vipBtn: "🌐 订阅 VIP (PayPal)",
-                closeBtn: "关闭播放器",
-                footer: "All Rights Reserved © M.hawk Platform 2026"
-            },
-            hi: {
-                heroTitle: "विशेष फिल्में और श्रृंखला",
-                heroSub: "4K गुणवत्ता में विज्ञापन-मुक्त स्ट्रीमिंग का आनंद लें",
-                searchPlaceholder: "अपनी पसंदीदा फिल्म खोजें...",
-                catTrending: "ट्रेंडिंग",
-                catAction: "एक्शन",
-                catHorror: "डरावनी",
-                catSciFi: "साइंस फिक्शन",
-                catComedy: "कॉमेडी",
-                sectionTitle: "फिल्म सूची",
-                loadingText: "फिल्में लोड हो रही हैं...",
-                vipBtn: "🌐 VIP सदस्यता लें (PayPal)",
-                closeBtn: "плеер બંધ करें",
-                footer: "All Rights Reserved © M.hawk Platform 2026"
-            },
-            nl: {
-                heroTitle: "Exclusieve Films en Series",
-                heroSub: "Geniet van ad-v Looze streaming in 4K kwaliteit",
-                searchPlaceholder: "Zoek je favoriete film...",
-                catTrending: "Trending",
-                catAction: "Actie",
-                catHorror: "Horror",
-                catSciFi: "Sci-Fi",
-                catComedy: "Komedie",
-                sectionTitle: "Filmlijst",
-                loadingText: "Films laden...",
-                vipBtn: "🌐 VIP Abonnement (PayPal)",
-                closeBtn: "Speler sluiten",
-                footer: "Alle rechten voorbehouden © M.hawk Platform 2026"
-            }
-        };
-
-        const modal = document.getElementById('videoModal');
-        const closeModal = document.getElementById('closeModal');
-        const movieIframe = document.getElementById('movieIframe');
-        const modalMovieTitle = document.getElementById('modalMovieTitle');
-        const moviesGrid = document.getElementById('moviesGrid');
-        const searchInput = document.getElementById('searchInput');
-        const catButtons = document.querySelectorAll('.cat-btn');
-        const langSelect = document.getElementById('langSelect');
-
-        // تطبيق تغيير اللغات واجهة الموقع وتغيير اتجاه الصفحة إن كانت عربية
-        function updateTexts(lang) {
-            currentLang = lang;
-            const t = translations[lang] || translations['en'];
-            
-            document.documentElement.lang = lang;
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-            document.getElementById('heroTitle').textContent = t.heroTitle;
-            document.getElementById('heroSub').textContent = t.heroSub;
-            searchInput.placeholder = t.searchPlaceholder;
-            document.getElementById('catTrending').textContent = t.catTrending;
-            document.getElementById('catAction').textContent = t.catAction;
-            document.getElementById('catHorror').textContent = t.catHorror;
-            document.getElementById('catSciFi').textContent = t.catSciFi;
-            document.getElementById('catComedy').textContent = t.catComedy;
-            document.getElementById('sectionTitle').textContent = t.sectionTitle;
-            document.getElementById('vipBtnText').textContent = t.vipBtn;
-            closeModal.textContent = t.closeBtn;
-            document.getElementById('footerText').textContent = t.footer;
-        }
-
-        langSelect.addEventListener('change', (e) => {
-            updateTexts(e.target.value);
-        });
-
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-            movieIframe.src = '';
-        });
-
-        function fetchMovies(endpointUrl) {
-            const t = translations[currentLang] || translations['en'];
-            moviesGrid.innerHTML = `<p style="color: var(--text-secondary);">${t.loadingText}</p>`;
-            
-            // إضافة لغة البحث لطلب TMDB لكي تأتي بيانات الأفلام باللغة المختارة
-            let separator = endpointUrl.includes('?') ? '&' : '?';
-            let localizedUrl = `${endpointUrl}${separator}language=${currentLang}`;
-
-            fetch(localizedUrl)
-                .then(res => res.json())
-                .then(data => {
-                    allMovies = data.results || [];
-                    displayMovies(allMovies);
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                    moviesGrid.innerHTML = '<p style="color: #e50914;">Error loading movies.</p>';
-                });
-        }
-
-        function displayMovies(movies) {
-            moviesGrid.innerHTML = '';
-            if(movies.length > 0) {
-                movies.forEach(movie => {
-                    const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '';
-                    const movieTitle = movie.title || movie.name || 'Exclusive Movie';
-                    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
-                    
-                    const card = document.createElement('div');
-                    card.className = 'movie-card';
-                    card.innerHTML = `
-                        <img src="${posterUrl}" alt="${movieTitle}" class="movie-poster">
-                        <div class="movie-info">
-                            <div class="movie-title">${movieTitle}</div>
-                            <div class="movie-meta">
-                                <span>${releaseYear} • Cinema</span>
-                                <span class="badge">VIP</span>
-                            </div>
-                        </div>
-                    `;
-                    
-                    card.addEventListener('click', () => {
-                        modalMovieTitle.textContent = movieTitle;
-                        if (customMovieLinks[movieTitle]) {
-                            movieIframe.src = customMovieLinks[movieTitle] + '?autoplay=1';
-                            modal.style.display = 'flex';
-                        } else {
-                            fetch(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${TMDB_API_KEY}&language=${currentLang}`)
-                                .then(res => res.json())
-                                .then(videoData => {
-                                    let videoKey = '';
-                                    if(videoData.results && videoData.results.length > 0) {
-                                        const trailer = videoData.results.find(v => v.type === 'Trailer' || v.site === 'YouTube');
-                                        videoKey = trailer ? trailer.key : videoData.results[0].key;
-                                    }
-                                    movieIframe.src = videoKey ? `https://www.youtube.com/embed/${videoKey}?autoplay=1` : `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1`;
-                                    modal.style.display = 'flex';
-                                })
-                                .catch(() => {
-                                    movieIframe.src = `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1`;
-                                    modal.style.display = 'flex';
-                                });
-                        }
-                    });
-
-                    moviesGrid.appendChild(card);
-                });
-            } else {
-                moviesGrid.innerHTML = '<p style="color: var(--text-secondary);">No results found.</p>';
-            }
-        }
-
-        // جلب الأفلام الأوليّة
-        fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}`);
-
-        catButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                catButtons.forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                const genre = e.target.getAttribute('data-genre');
-                if(genre === 'trending') {
-                    fetchMovies(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}`);
-                } else {
-                    fetchMovies(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genre}`);
-                }
-            });
-        });
-
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = allMovies.filter(m => (m.title || m.name || '').toLowerCase().includes(term));
-            displayMovies(filtered);
-        });
-
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log('PWA Registered'))
-            .catch((err) => console.log('PWA Error', err));
-        }
-    </script>
 </body>
 </html>
