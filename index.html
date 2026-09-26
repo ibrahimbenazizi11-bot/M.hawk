@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk VIP - Global Streaming Platform</title>
+    <title>M.hawk VIP - Red Edition</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161e2e;
-            --accent-color: #38bdf8;
+            --bg-color: #0b0f13;
+            --card-bg: #141923;
+            --accent-red: #E50914;
+            --accent-red-hover: #b20710;
             --vip-gold: #f59e0b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-color: #ffffff;
+            --text-muted: #9ca3af;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -25,17 +26,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 50px;
-            background-color: rgba(11, 15, 25, 0.98);
-            border-bottom: 1px solid #1e293b;
+            background-color: rgba(11, 15, 19, 0.95);
+            border-bottom: 1px solid #1f2937;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
+        .logo { font-size: 26px; font-weight: bold; color: var(--accent-red); letter-spacing: 1px; }
         
         .main-container { max-width: 1300px; margin: 0 auto; padding: 30px 20px; }
         
-        /* شريط التوب بار والأقسام */
+        /* شريط التحكم العلوي: الأقسام واختيار اللغات */
         .top-nav-section {
             display: flex;
             justify-content: space-between;
@@ -46,16 +47,16 @@
             background: var(--card-bg);
             padding: 20px;
             border-radius: 12px;
-            border: 1px solid #1e293b;
+            border: 1px solid #1f2937;
         }
         .categories-bar {
             display: flex;
             gap: 10px;
         }
         .cat-btn {
-            background: #0b0f19;
+            background: #0b0f13;
             color: var(--text-color);
-            border: 1px solid #1e293b;
+            border: 1px solid #1f2937;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
@@ -63,9 +64,9 @@
             transition: 0.3s;
         }
         .cat-btn.active, .cat-btn:hover {
-            background: var(--accent-color);
-            color: #0b0f19;
-            border-color: var(--accent-color);
+            background: var(--accent-red);
+            color: #fff;
+            border-color: var(--accent-red);
         }
 
         /* شريط اختيار اللغات */
@@ -75,14 +76,18 @@
             gap: 10px;
         }
         .language-select {
-            background-color: #0b0f19;
+            background-color: #0b0f13;
             color: var(--text-color);
-            border: 1px solid var(--accent-color);
+            border: 1px solid var(--accent-red);
             padding: 10px 15px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
             outline: none;
+        }
+        .language-select option {
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
         /* قسم عرض المحتوى */
@@ -93,29 +98,52 @@
             font-size: 22px;
             color: #fff;
             margin-bottom: 20px;
-            border-left: 4px solid var(--accent-color);
+            border-left: 4px solid var(--accent-red);
             padding-left: 10px;
         }
+        
+        /* شبكة عرض الأفلام والمسلسلات الحقيقية من TMDB */
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
         }
         .media-card {
             background: var(--card-bg);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #1e293b;
-            padding: 15px;
-            text-align: center;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            border: 1px solid #1f2937;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.2);
+        }
+        .media-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        .media-info {
+            padding: 12px;
+        }
+        .media-info h4 {
+            font-size: 15px;
+            color: #fff;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .media-info p {
+            font-size: 13px;
             color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* بطاقة بايبال VIP بشكل منظم أسفل الصفحة */
+        /* بطاقة بايبال VIP الاحترافية */
         .pricing-section {
             display: flex;
             justify-content: center;
@@ -123,7 +151,7 @@
             margin-bottom: 40px;
         }
         .pricing-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0b0f19 100%);
+            background: linear-gradient(135deg, #1f2937 0%, #0b0f13 100%);
             border: 2px solid var(--vip-gold);
             border-radius: 16px;
             padding: 40px;
@@ -154,7 +182,7 @@
 
     <header>
         <div class="logo">M.hawk VIP</div>
-        <div style="color: var(--text-muted); font-size: 14px;">Free Stream (720p/1080p) & VIP 4K</div>
+        <div style="color: var(--text-muted); font-size: 14px;">Streaming Platform</div>
     </header>
 
     <div class="main-container">
@@ -168,7 +196,7 @@
             </div>
 
             <div class="language-selector-box">
-                <label style="font-size: 14px; color: var(--text-muted);">Language (14):</label>
+                <label style="font-size: 14px; color: var(--text-muted);">Language:</label>
                 <select class="language-select" id="languageSelector" onchange="changeLanguage(this.value)">
                     <option value="id">🇮🇩 Indonesian (Bahasa)</option>
                     <option value="hi">🇮🇳 Hindi (हिन्दी)</option>
@@ -188,18 +216,15 @@
             </div>
         </div>
 
-        <!-- قسم عرض محتوى الأفلام والمسلسلات والأنمي -->
+        <!-- قسم عرض المحتوى القادم من TMDB API -->
         <div class="content-section">
             <div class="section-title" id="sectionTitle">Trending Movies</div>
             <div class="media-grid" id="mediaGrid">
-                <div class="media-card">Loading content...</div>
-                <div class="media-card">Loading content...</div>
-                <div class="media-card">Loading content...</div>
-                <div class="media-card">Loading content...</div>
+                <!-- سيتم جلب وعرض الأفلام والمسلسلات هنا ديناميكياً -->
             </div>
         </div>
 
-        <!-- بطاقة بايبال VIP الاحترافية في الأسفل -->
+        <!-- بطاقة بايبال VIP ($3) -->
         <div class="pricing-section">
             <div class="pricing-card">
                 <h3>VIP 4K Access</h3>
@@ -207,7 +232,6 @@
                 <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">
                     Unlock ultimate 4K streaming, zero ads, and 14 language subtitles support.
                 </p>
-                <!-- رابط بايبال الخاص بك -->
                 <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip">Upgrade to VIP 4K</a>
             </div>
         </div>
@@ -215,28 +239,76 @@
     </div>
 
     <script>
-        let currentCategory = 'movie';
+        // ضع مفتاح TMDB API الخاص بك هنا
+        const API_KEY = 'YOUR_TMDB_API_KEY'; 
+        let currentType = 'movie';
         let currentLang = 'en';
 
+        async function fetchMedia() {
+            const grid = document.getElementById('mediaGrid');
+            const titleEl = document.getElementById('sectionTitle');
+            
+            grid.innerHTML = '<p style="color:#9ca3af; grid-column: 1/-1; text-align:center;">Loading content from TMDB...</p>';
+
+            let url = '';
+            if (currentType === 'movie') {
+                titleEl.innerText = 'Trending Movies';
+                url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=${currentLang}`;
+            } else if (currentType === 'tv') {
+                titleEl.innerText = 'Popular TV Series';
+                url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=${currentLang}`;
+            } else if (currentType === 'anime') {
+                titleEl.innerText = 'Top Anime Hub';
+                // استخدام بحث عن الأنمي عبر TMDB
+                url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=${currentLang}`;
+            }
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    grid.innerHTML = '';
+                    data.results.forEach(item => {
+                        const title = item.title || item.name || 'Untitled';
+                        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://via.placeholder.com/200x280?text=No+Image';
+                        const vote = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+                        const date = (item.release_date || item.first_air_date || '').substring(0, 4);
+
+                        const card = document.createElement('div');
+                        card.className = 'media-card';
+                        card.innerHTML = `
+                            <img src="${poster}" alt="${title}">
+                            <div class="media-info">
+                                <h4>${title}</h4>
+                                <p><span>${date}</span> <span style="color: #f59e0b;">★ ${vote}</span></p>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    grid.innerHTML = '<p style="color:#9ca3af; grid-column: 1/-1; text-align:center;">No results found.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching TMDB data:', error);
+                grid.innerHTML = '<p style="color:#E50914; grid-column: 1/-1; text-align:center;">Failed to load data. Please check your API Key.</p>';
+            }
+        }
+
         function switchCategory(type, btn) {
-            currentCategory = type;
+            currentType = type;
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             if(btn) btn.classList.add('active');
-
-            const title = document.getElementById('sectionTitle');
-            const grid = document.getElementById('mediaGrid');
-
-            if(type === 'movie') title.innerText = 'Trending Movies';
-            else if(type === 'tv') title.innerText = 'Popular TV Series';
-            else if(type === 'anime') title.innerText = 'Top Anime Hub';
-
-            grid.innerHTML = `<div class="media-card">Loading ${type} (${currentLang.toUpperCase()})...</div>`.repeat(4);
+            fetchMedia();
         }
 
         function changeLanguage(langCode) {
             currentLang = langCode;
-            switchCategory(currentCategory, document.querySelector('.cat-btn.active'));
+            fetchMedia();
         }
+
+        // التشغيل الأولي عند فتح الصفحة
+        fetchMedia();
     </script>
 </body>
 </html>
