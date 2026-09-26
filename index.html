@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.hawk VIP - 2026 Edition</title>
+    <title>M.hawk VIP - Netflix Edition</title>
     <style>
         :root {
-            --bg-color: #0b0f13;
-            --card-bg: #141923;
+            --bg-color: #141414;
+            --card-bg: #1f1f1f;
             --accent-red: #E50914;
             --accent-red-hover: #b20710;
             --vip-gold: #f59e0b;
             --text-color: #ffffff;
-            --text-muted: #9ca3af;
+            --text-muted: #b3b3b3;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -21,235 +21,271 @@
             color: var(--text-color);
             line-height: 1.6;
         }
+        /* الهيدر وشريط البحث */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            background-color: rgba(11, 15, 19, 0.95);
-            border-bottom: 1px solid #1f2937;
+            padding: 20px 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .logo { font-size: 26px; font-weight: bold; color: var(--accent-red); letter-spacing: 1px; }
+        .logo { font-size: 28px; font-weight: bold; color: var(--accent-red); letter-spacing: 2px; }
         
-        .main-container { max-width: 1300px; margin: 0 auto; padding: 30px 20px; }
-        
-        /* شريط التحكم العلوي: الأقسام واختيار اللغات */
-        .top-nav-section {
+        .search-box input {
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            width: 250px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-box input:focus { width: 300px; border-color: var(--accent-red); }
+
+        /* البانر الرئيسي الشبيه بـ نتفليكس */
+        .hero {
+            height: 70vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 100px;
+            background: linear-gradient(to top, var(--bg-color), transparent);
+        }
+        .hero-content {
+            max-width: 600px;
+            z-index: 10;
+        }
+        .hero-title { font-size: 48px; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .hero-desc { font-size: 16px; color: var(--text-muted); margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .hero-btns button {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .hero-btns button:hover { background-color: var(--accent-red-hover); }
+
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* شريط اختيار اللغات والأقسام */
+        .controls-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 30px;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #1f2937;
-        }
-        .categories-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .cat-btn {
-            background: #0b0f13;
-            color: var(--text-color);
-            border: 1px solid #1f2937;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border-radius: 8px;
+        }
+        .categories { display: flex; gap: 10px; flex-wrap: wrap; }
+        .cat-btn {
+            background: #2f2f2f;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
         }
-        .cat-btn.active, .cat-btn:hover {
-            background: var(--accent-red);
-            color: #fff;
-            border-color: var(--accent-red);
-        }
+        .cat-btn.active, .cat-btn:hover { background: var(--accent-red); }
 
-        /* شريط اختيار اللغات */
-        .language-selector-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
         .language-select {
-            background-color: #0b0f13;
-            color: var(--text-color);
-            border: 1px solid var(--accent-red);
-            padding: 10px 15px;
-            border-radius: 8px;
+            background-color: #2f2f2f;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 12px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
             outline: none;
         }
-        .language-select option {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-        }
 
-        /* قسم عرض المحتوى */
-        .content-section {
-            margin-bottom: 50px;
-        }
-        .section-title {
-            font-size: 22px;
-            color: #fff;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent-red);
-            padding-left: 10px;
-        }
-        
-        /* شبكة عرض الأفلام والمسلسلات */
+        /* صفوف الأفلام والمسلسلات */
+        .section-title { font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #fff; }
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
         }
         .media-card {
             background: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 6px;
             overflow: hidden;
-            border: 1px solid #1f2937;
-            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .media-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            z-index: 10;
         }
-        .media-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
+        .media-card img { width: 100%; height: 260px; object-fit: cover; }
+        .media-info { padding: 10px; }
+        .media-info h4 { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; }
+        .media-info p { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; }
+
+        /* نافذة التفاصيل المنبثقة (Modal) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
         }
-        .media-info {
-            padding: 12px;
-        }
-        .media-info h4 {
-            font-size: 15px;
-            color: #fff;
-            margin-bottom: 5px;
-            white-space: nowrap;
+        .modal-content {
+            background: #181818;
+            width: 90%; max-width: 700px;
+            border-radius: 10px;
             overflow: hidden;
-            text-overflow: ellipsis;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-        .media-info p {
-            font-size: 13px;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
+        .modal-header { height: 300px; background-size: cover; background-position: center; position: relative; }
+        .close-modal {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(0,0,0,0.6); color: #fff;
+            border: none; width: 35px; height: 35px; border-radius: 50%;
+            font-size: 18px; cursor: pointer;
         }
+        .modal-body { padding: 25px; }
+        .modal-title { font-size: 26px; margin-bottom: 10px; }
+        .modal-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+        .btn-play-now {
+            background: var(--accent-red); color: white; border: none;
+            padding: 12px 30px; font-size: 16px; font-weight: bold;
+            border-radius: 4px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-play-now:hover { background: var(--accent-red-hover); }
 
         /* بطاقة بايبال VIP ($3) */
-        .pricing-section {
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-            margin-bottom: 40px;
-        }
+        .pricing-section { display: flex; justify-content: center; margin: 50px 0; }
         .pricing-card {
-            background: linear-gradient(135deg, #1f2937 0%, #0b0f13 100%);
+            background: linear-gradient(135deg, #222 0%, #111 100%);
             border: 2px solid var(--vip-gold);
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%; max-width: 450px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
-        .pricing-card h3 { color: var(--vip-gold); font-size: 28px; margin-bottom: 10px; }
-        .price { font-size: 42px; font-weight: bold; color: #fff; margin-bottom: 15px; }
-        .price span { font-size: 14px; color: var(--text-muted); }
+        .pricing-card h3 { color: var(--vip-gold); font-size: 24px; margin-bottom: 10px; }
+        .price { font-size: 38px; font-weight: bold; color: #fff; margin-bottom: 10px; }
         .btn-vip {
-            display: block;
-            background-color: var(--vip-gold);
-            color: #000;
-            padding: 14px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: 0.3s;
-            margin-top: 25px;
+            display: block; background-color: var(--vip-gold); color: #000;
+            padding: 12px; font-size: 16px; font-weight: bold; border-radius: 6px;
+            text-decoration: none; margin-top: 20px; transition: 0.3s;
         }
-        .btn-vip:hover { background-color: #d97706; transform: scale(1.02); }
+        .btn-vip:hover { background-color: #d97706; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">M.hawk VIP</div>
-        <div style="color: var(--text-muted); font-size: 14px;">2026 Streaming Hub</div>
+        <div class="logo">M.HAWK VIP</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search movies, series..." oninput="searchMedia(this.value)">
+        </div>
     </header>
+
+    <!-- البانر الرئيسي -->
+    <div class="hero" id="heroBanner">
+        <div class="hero-content">
+            <h1 class="hero-title" id="heroTitle">Loading...</h1>
+            <p class="hero-desc" id="heroDesc">Please wait while we load featured content.</p>
+            <div class="hero-btns">
+                <button id="heroPlayBtn">▶ Play 4K</button>
+            </div>
+        </div>
+    </div>
 
     <div class="main-container">
         
-        <!-- شريط التحكم العلوي: الأقسام واختيار اللغات -->
-        <div class="top-nav-section">
-            <div class="categories-bar">
+        <!-- أدوات التحكم واللغات -->
+        <div class="controls-bar">
+            <div class="categories">
                 <button class="cat-btn active" onclick="switchCategory('2026', this)">✨ 2026 Releases</button>
                 <button class="cat-btn" onclick="switchCategory('movie', this)">🔥 Top Movies</button>
                 <button class="cat-btn" onclick="switchCategory('tv', this)">⭐ Top Series</button>
                 <button class="cat-btn" onclick="switchCategory('anime', this)">⛩️ Top Anime</button>
             </div>
 
-            <div class="language-selector-box">
-                <label style="font-size: 14px; color: var(--text-muted);">Language:</label>
-                <select class="language-select" id="languageSelector" onchange="changeLanguage(this.value)">
-                    <option value="id">🇮🇩 Indonesian (Bahasa)</option>
-                    <option value="hi">🇮🇳 Hindi (हिन्दी)</option>
-                    <option value="en" selected>🇬🇧 English</option>
-                    <option value="ar">🇸🇦 Arabic</option>
-                    <option value="es">🇪🇸 Spanish</option>
-                    <option value="fr">🇫🇷 French</option>
-                    <option value="de">🇩🇪 German</option>
-                    <option value="pt">🇵🇹 Portuguese</option>
-                    <option value="ja">🇯🇵 Japanese</option>
-                    <option value="ko">🇰🇷 Korean</option>
-                    <option value="it">🇮🇹 Italian</option>
-                    <option value="tr">🇹🇷 Turkish</option>
-                    <option value="ru">🇷🇺 Russian</option>
-                    <option value="zh">🇨🇳 Chinese</option>
-                </select>
-            </div>
+            <select class="language-select" id="languageSelector" onchange="changeLanguage(this.value)">
+                <option value="en" selected>🇬🇧 English</option>
+                <option value="ar">🇸🇦 Arabic</option>
+                <option value="fr">🇫🇷 French</option>
+                <option value="de">🇩🇪 German</option>
+                <option value="es">🇪🇸 Spanish</option>
+                <option value="id">🇮🇩 Indonesian</option>
+                <option value="hi">🇮🇳 Hindi</option>
+                <option value="ja">🇯🇵 Japanese</option>
+                <option value="ko">🇰🇷 Korean</option>
+                <option value="tr">🇹🇷 Turkish</option>
+            </select>
         </div>
 
-        <!-- قسم عرض المحتوى -->
+        <!-- شبكة عرض الأفلام -->
         <div class="content-section">
-            <div class="section-title" id="sectionTitle">2026 New Releases</div>
-            <div class="media-grid" id="mediaGrid">
-                <!-- سيتم جلب وعرض المحتوى ديناميكياً هنا -->
-            </div>
+            <div class="section-title" id="sectionTitle">Trending / New Releases</div>
+            <div class="media-grid" id="mediaGrid"></div>
         </div>
 
-        <!-- بطاقة بايبال VIP ($3) -->
+        <!-- اشتراك VIP بايبال -->
         <div class="pricing-section">
             <div class="pricing-card">
-                <h3>VIP 4K Access</h3>
+                <h3>VIP 4K Subscription</h3>
                 <div class="price">$3 <span>/ month</span></div>
-                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">
-                    Unlock ultimate 4K streaming, zero ads, and 14 language subtitles support.
-                </p>
-                <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip">Upgrade to VIP 4K</a>
+                <p style="color: var(--text-muted); font-size: 13px;">Unlock unlimited 4K streaming and multi-language subtitles.</p>
+                <a href="https://www.paypal.com/ncp/payment/6VTSA8XPY887S" target="_blank" class="btn-vip">Upgrade VIP 4K</a>
             </div>
         </div>
 
     </div>
 
+    <!-- نافذة التفاصيل المنبثقة -->
+    <div class="modal" id="mediaModal">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <button class="close-modal" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Title</h2>
+                <p class="modal-desc" id="modalDesc">Description goes here...</p>
+                <button class="btn-play-now" id="modalPlayBtn">▶ Stream Now (All Qualities)</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const API_KEY = '65fb47dac159884604660e91b9fbe2d3'; 
+        const API_KEY = '65fb47dac159884604660e91b9fbe2d3';
         let currentCategory = '2026';
         let currentLang = 'en';
+        let currentData = [];
 
         async function fetchMedia() {
             const grid = document.getElementById('mediaGrid');
             const titleEl = document.getElementById('sectionTitle');
-            
-            grid.innerHTML = '<p style="color:#9ca3af; grid-column: 1/-1; text-align:center;">Loading content...</p>';
+            grid.innerHTML = '<p style="color:#b3b3b3; grid-column: 1/-1; text-align:center;">Loading...</p>';
 
             let url = '';
             if (currentCategory === '2026') {
@@ -259,7 +295,7 @@
                 titleEl.innerText = 'Top Rated Global Movies';
                 url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=${currentLang}&page=1`;
             } else if (currentCategory === 'tv') {
-                titleEl.innerText = 'Top Rated Global TV Series';
+                titleEl.innerText = 'Top Rated Global Series';
                 url = `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&language=${currentLang}&page=1`;
             } else if (currentCategory === 'anime') {
                 titleEl.innerText = 'Top Rated Anime Masterpieces';
@@ -269,42 +305,80 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                
                 if (data.results && data.results.length > 0) {
-                    grid.innerHTML = '';
-                    data.results.forEach(item => {
-                        const title = item.title || item.name || 'Untitled';
-                        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://via.placeholder.com/200x280?text=No+Image';
-                        const vote = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                        const date = (item.release_date || item.first_air_date || '').substring(0, 4);
-
-                        const card = document.createElement('div');
-                        card.className = 'media-card';
-                        
-                        // النقر لفتح مشغل البث المباشر
-                        card.onclick = () => {
-                            const mediaId = item.id;
-                            const streamType = (currentCategory === 'tv' || currentCategory === 'anime') ? 'tv' : 'movie';
-                            const playerUrl = `https://vidsrc.xyz/embed/${streamType}?tmdb=${mediaId}`;
-                            window.open(playerUrl, '_blank');
-                        };
-
-                        card.innerHTML = `
-                            <img src="${poster}" alt="${title}">
-                            <div class="media-info">
-                                <h4>${title}</h4>
-                                <p><span>${date}</span> <span style="color: #f59e0b;">★ ${vote}</span></p>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    });
+                    currentData = data.results;
+                    renderGrid(currentData);
+                    setHero(data.results[0]);
                 } else {
-                    grid.innerHTML = '<p style="color:#9ca3af; grid-column: 1/-1; text-align:center;">No 2026 releases found yet.</p>';
+                    grid.innerHTML = '<p style="color:#b3b3b3; grid-column: 1/-1; text-align:center;">No results found.</p>';
                 }
             } catch (error) {
-                console.error('Error fetching TMDB data:', error);
-                grid.innerHTML = '<p style="color:#E50914; grid-column: 1/-1; text-align:center;">Failed to load data. Please check your API Key.</p>';
+                console.error(error);
+                grid.innerHTML = '<p style="color:#E50914; grid-column: 1/-1; text-align:center;">Failed to load data.</p>';
             }
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('mediaGrid');
+            grid.innerHTML = '';
+            items.forEach((item, index) => {
+                const title = item.title || item.name || 'Untitled';
+                const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://via.placeholder.com/200x280?text=No+Image';
+                const vote = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+                const date = (item.release_date || item.first_air_date || '').substring(0, 4);
+
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.onclick = () => openModal(item);
+                card.innerHTML = `
+                    <img src="${poster}" alt="${title}">
+                    <div class="media-info">
+                        <h4>${title}</h4>
+                        <p><span>${date}</span> <span style="color: #f59e0b;">★ ${vote}</span></p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function setHero(item) {
+            const backdrop = item.backdrop_path ? `https://image.tmdb.org/t/p/original${item.backdrop_path}` : '';
+            document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(to right, rgba(20,20,20,0.9), rgba(20,20,20,0.3)), url(${backdrop})`;
+            document.getElementById('heroTitle').innerText = item.title || item.name || 'Featured Movie';
+            document.getElementById('heroDesc').innerText = item.overview || 'No description available.';
+            document.getElementById('heroPlayBtn').onclick = () => openModal(item);
+        }
+
+        function openModal(item) {
+            const modal = document.getElementById('mediaModal');
+            const backdrop = item.backdrop_path ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}` : '';
+            document.getElementById('modalHeader').style.backgroundImage = `url(${backdrop})`;
+            document.getElementById('modalTitle').innerText = item.title || item.name;
+            document.getElementById('modalDesc').innerText = item.overview || 'No description available.';
+            
+            const mediaId = item.id;
+            const streamType = (currentCategory === 'tv' || currentCategory === 'anime') ? 'tv' : 'movie';
+            document.getElementById('modalPlayBtn').onclick = () => {
+                window.open(`https://vidsrc.xyz/embed/${streamType}?tmdb=${mediaId}`, '_blank');
+            };
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('mediaModal').style.display = 'none';
+        }
+
+        function searchMedia(query) {
+            if (!query) {
+                renderGrid(currentData);
+                return;
+            }
+            const filtered = currentData.filter(item => {
+                const title = (item.title || item.name || '').toLowerCase();
+                return title.includes(query.toLowerCase());
+            });
+            renderGrid(filtered);
         }
 
         function switchCategory(category, btn) {
@@ -319,7 +393,6 @@
             fetchMedia();
         }
 
-        // التشغيل الأولي عند فتح الصفحة
         fetchMedia();
     </script>
 </body>
